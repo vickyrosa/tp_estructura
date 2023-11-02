@@ -34,6 +34,7 @@ class Reserva:
                     break
                 case _:
                     print('Porfavor elija una de las opciones (a | b | c | d)')
+        ## ACA METER TRY EXCEPT PARA VER FORMATO DE FECHAS
         fec_checkin = datetime.date(input("Ingrese fecha de checkin en formato dd/mm/yyyy"))
         fec_checkout = datetime.date(input("Ingrese fecha de checkout en formato dd/mm/yyyy"))
         conbano = None
@@ -101,7 +102,7 @@ class Reserva:
                             if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
                                 i = 0
                                 for fecha in lista_reservas_actuales:
-                                    if fec_checkin > Lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
+                                    if fec_checkin > lista_Reservas_actuales[i] and fec_checkout < lista_Reservas_actuales[i+1]:
                                         Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
                                         break
                                     i += 2
@@ -117,7 +118,7 @@ class Reserva:
                         if conventana is not None:
                             i = 0
                             for fecha in lista_reservas_actuales:
-                                if fec_checkin > Lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
+                                if fec_checkin > lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
                                     Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
                                     break
                                 i += 2

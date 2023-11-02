@@ -6,7 +6,7 @@ class Hotel():
         
     def __str__(self):
         return f'{self.nombre}'
-    
+    hpla
     def porcentaje_ocupacion(self, por_tipo = False):
         # Voy a cambiar esto, porque lo hice al principio sin tener en cuenta cosas como el txt
         # Si el usuario no especifica nada simplemente nos va a dar el porcentaje de ocupacion

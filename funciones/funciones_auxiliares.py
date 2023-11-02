@@ -7,6 +7,9 @@ from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
 import funciones.checks as checks
 import datetime
+from hotel.lista_reservas import Lista_Reservas
+from hotel.habitacion import Habitacion
+from hotel.reservas import Reserva
 
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
@@ -179,3 +182,16 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
                if usuario == None:
                    print('El dni o contraseña ingresados no son correctos.')
     return usuario
+def lista_reservas_actuales(habitacion):
+##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
+    listareservas = []
+    return listareservas
+def disponibilidad(lista_reserva_actuales, fec_checkout, fec_checkin, habitacion):
+    listareservas = lista_reserva_actuales(habitacion)
+    
+    i = 2
+    for fecha in listareservas:
+        if fec_checkin > listareservas[i] and fec_checkout < lista_reserva_actuales[i+1]:
+            Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+            break
+            i += 2

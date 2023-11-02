@@ -1,4 +1,4 @@
-# hhACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)
+# hhACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)a
 from hotel.habitacion import Habitacion
 from usuario.cliente import Cliente
 from hotel.buffet import Buffet
