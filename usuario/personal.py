@@ -12,9 +12,11 @@ class Personal(Usuario):
         fichas_ingreso = open('tp_estructura/txt/fichas_ingreso.txt', 'a')
         fichas_ingreso.write(f'{self.dni},{datetime.datetime.now().strftime("%d/%m/%y %H:%M")}\n')
         fichas_ingreso.close()
+        print('Se registro su hora de llegada a las ',datetime.datetime.now().strftime("%d/%m/%y %H:%M"))  
 
     def fichar_egreso(self):
         fichas_egreso = open('tp_estructura/txt/fichas_egreso.txt', 'a')
         fichas_egreso.write(f'{self.dni},{datetime.datetime.now().strftime("%d/%m/%y %H:%M")}\n')
         fichas_egreso.close()
+        print('Se registro su hora de salida a las ',datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
     
