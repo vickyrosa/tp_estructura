@@ -2,6 +2,7 @@ import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
+import hotel.funciones_auxiliares as fa
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
@@ -100,36 +101,24 @@ class Reserva:
                     if conbano is not None:
                         if conventana is not None:
                             if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
-                                i = 0
-                                for fecha in lista_reservas_actuales:
-                                    if fec_checkin > lista_Reservas_actuales[i] and fec_checkout < lista_Reservas_actuales[i+1]:
-                                        Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                        break
-                                    i += 2
-                        else:
-                            i = 0
-                            for fecha in lista_reservas_actuales:
-                                if fec_checkin > Lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
+                                if fa.disponibilidad(fec_checkin,fec_checkout,hab):
                                     Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                    break
-                                i += 2
-                            break
+                                    return True
+                        else:
+                           if fa.disponibilidad(fec_checkin,fec_checkout,hab):
+                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                                return True
                     else:
                         if conventana is not None:
-                            i = 0
-                            for fecha in lista_reservas_actuales:
-                                if fec_checkin > lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
-                                    Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                    break
-                                i += 2
+                            if fa.disponibilidad(fec_checkin,fec_checkout,hab):
+                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                                return True
                         else:
-                            i = 0
-                            for fecha in lista_reservas_actuales:
-                                if fec_checkin > Lista_Reservas_actuales[i] and fec_checkout < Lista_Reservas_actuales[i+1]:
-                                    Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                    break
-                                i += 2
-        #Se instancia una reserva y se agrega a la lista (fecha baja hardcodeada CAMBIAR)
+                            if fa.disponibilidad(fec_checkin,fec_checkout,hab):
+                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                                return True
+        return False
+        ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
        
 
 

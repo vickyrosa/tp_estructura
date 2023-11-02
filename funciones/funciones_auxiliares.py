@@ -186,12 +186,26 @@ def lista_reservas_actuales(habitacion):
 ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
     listareservas = []
     return listareservas
-def disponibilidad(lista_reserva_actuales, fec_checkout, fec_checkin, habitacion):
-    listareservas = lista_reserva_actuales(habitacion)
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+def disponibilidad(fec_checkin, fec_checkout, habitacion):
+    lista_reservas_x_hab = lista_reservas_actuales(habitacion)
+    if fec_checkin < lista_reservas_x_hab[0] and fec_checkout < lista_reservas_x_hab[0]:
+        return True
     i = 2
-    for fecha in listareservas:
-        if fec_checkin > listareservas[i] and fec_checkout < lista_reserva_actuales[i+1]:
-            Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-            break
-            i += 2
+    while i < lista_reservas_x_hab.len():
+        if fec_checkin > lista_reservas_x_hab[i-1] and fec_checkout < lista_reservas_x_hab[i]:
+            return True
+        i += 2
+    return False
