@@ -50,7 +50,7 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
     def len_lista(self):
         return self.tamanio
     
-    #Guarda en un archivo txt las reservas que se efectuaron 
+    #Guarda en un archivo txt las reservas que se efectuaron hola
     def historico_general_reservas(self):
         fecha_actual = datetime.date.today()
         actual = self.cabeza
