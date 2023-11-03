@@ -15,14 +15,10 @@ from hotel.reservas import Reserva
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
 
 def load_hotel():
-    lista_habitaciones = list()
-    with open('txt/habitaciones.txt', 'r') as archivo_habitaciones:
-        lista_info_habitaciones = archivo_habitaciones.readlines()
-        for i in range(len(lista_info_habitaciones)):
-            numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
-            lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
+    lista_habitaciones = load_habitaciones()
+    lista_reservas_activas = load_reservas_activas()
     admin = Administrador('Administrador','1','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
-    hotel = Hotel(admin, lista_habitaciones)
+    hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
 
 def load_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
     lista_clientes = list()
@@ -67,6 +63,25 @@ def load_limpieza():    #Devuelve una lista con toda la informacion del personal
             lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_limpieza
 
+def load_habitaciones():
+    lista_habitaciones = list()
+    with open('txt/habitaciones.txt', 'r') as archivo_habitaciones:
+        lista_info_habitaciones = archivo_habitaciones.readlines()
+        for i in range(len(lista_info_habitaciones)):
+            numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
+            lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
+    return lista_habitaciones
+
+def load_reservas_activas():
+    lista_reservas = Lista_Reservas()
+    with open('txt/reservas_activas.txt', 'r') as archivo_reservas:
+        lista_info_reservas = archivo_reservas.readlines()
+        for i in range(len(lista_info_reservas)):
+            nroreserva, cliente, habitacion, fec_checkin, fec_checkout = lista_info_reservas[i].strip().split(',')
+            lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
+        return lista_reservas
+    
+    
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
 
 def pedir_dni():

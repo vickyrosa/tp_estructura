@@ -1,5 +1,5 @@
 # ACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)
-#prueba
+
 from hotel.habitacion import Habitacion
 from usuario.cliente import Cliente
 from hotel.buffet import Buffet
@@ -11,9 +11,9 @@ import funciones.menu_cliente as menu_cliente
 import datetime
 
 if __name__ == '__main__':
+    fa.load_hotel()
     lista_clientes = fa.load_clientes()
     lista_administrativo, lista_mantenimiento, lista_limpieza = fa.load_personal()
-    fa.load_hotel()
     
     while True:
         ingreso = input('''Elija una opcion:

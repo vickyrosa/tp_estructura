@@ -17,4 +17,6 @@ def menu_cliente(cliente):
             pass
         case 'c':
             print('Entro a cliente')
+        case _:
+            print('Porfavor elija una de las opciones (a | b | c)')
     

@@ -21,6 +21,7 @@ class Reserva:
             return True 
         else:
             return False
+        
     def reservar(self, usuario):
         while True:
             tipo = input(''' Elija un tipo de habitacion:
@@ -116,6 +117,8 @@ class Reserva:
                         if conventana is not None:
                             if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
                                 if fa.disponibilidad(fec_checkin,fec_checkout,hab):
+                                    # Esto es lo que digo juanchi, mepa que asi si arranca (accede al atributo lista enlazada de reservas)
+                                    # Hotel.lista_reservas_activas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
                                     Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
                                     return True
                         else:
