@@ -2,7 +2,7 @@ import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-import hotel.funciones_auxiliares as fa
+import funciones.funciones_auxiliares as fa
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
@@ -35,9 +35,23 @@ class Reserva:
                     break
                 case _:
                     print('Porfavor elija una de las opciones (a | b | c | d)')
-        ## ACA METER TRY EXCEPT PARA VER FORMATO DE FECHAS
-        fec_checkin = datetime.date(input("Ingrese fecha de checkin en formato dd/mm/yyyy"))
-        fec_checkout = datetime.date(input("Ingrese fecha de checkout en formato dd/mm/yyyy"))
+        while True:
+            try:
+                dia, mes, ano = map(int, input("Ingrese fecha de check in en formato dd/mm/yyyy: ").split('/'))
+                fec_checkin = datetime.date(ano, mes, dia).strftime('%d/%m/%Y')
+                break
+            except:
+                print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+                
+        while True:
+            try:
+                dia, mes, ano = map(int, input("Ingrese fecha de check out en formato dd/mm/yyyy: ").split('/'))
+                fec_checkout = datetime.date(ano, mes, dia).strftime('%d/%m/%Y')
+                break
+            except:
+                print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+        # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
+        # por ende solo filtramos por tipo y fechas
         conbano = None
         conventana = None
         while True:

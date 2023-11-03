@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-# hhACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)a
-=======
 # ACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)
 #prueba
->>>>>>> 465785386a25a25799a0f342fb2685c8b77d21f3
 from hotel.habitacion import Habitacion
 from usuario.cliente import Cliente
 from hotel.buffet import Buffet
