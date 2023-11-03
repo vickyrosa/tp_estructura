@@ -182,22 +182,11 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
                if usuario == None:
                    print('El dni o contraseña ingresados no son correctos.')
     return usuario
+
 def lista_reservas_actuales(habitacion):
 ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
     listareservas = []
     return listareservas
-
-
-
-
-
-
-
-
-
-
-
-
 
 def disponibilidad(fec_checkin, fec_checkout, habitacion):
     lista_reservas_x_hab = lista_reservas_actuales(habitacion)

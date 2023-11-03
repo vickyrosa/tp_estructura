@@ -18,5 +18,3 @@ def check_dni(lista_clientes, dni):
     # if dni in set_dni_clientes:
     #     return False
     # return True
-
-    set(lista)
