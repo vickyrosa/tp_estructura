@@ -8,6 +8,10 @@ from hotel.reservas import Reserva
 from hotel.lista_reservas import Lista_Reservas
 import funciones.funciones_auxiliares as fa
 import funciones.menu_cliente as menu_cliente
+import funciones.menu_administrativo as menu_administrativo
+import funciones.menu_limpieza as menu_limpieza
+import funciones.menu_mantenimiento as menu_mantenimiento
+import funciones.menu_administrador as menu_administrador
 import datetime
 
 if __name__ == '__main__':
@@ -80,6 +84,7 @@ if __name__ == '__main__':
                                     case _:
                                         print('Porfavor elija una de las opciones (a | b | c | d)')
                         case 'c':
+                            print('Aca falta hacer la carga de archivos (una funcion que actualice todos los txt)')
                             break
                         case _:
                             print('Porfavor elija una de las opciones (a | b | c)')

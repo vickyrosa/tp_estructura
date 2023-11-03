@@ -5,8 +5,10 @@ def menu_cliente(cliente):
     # Creo menu para cliente
     opcion = input(''' Elija una opcion:
                     a. Reservar una habitacion
-                    b. Ir al buffet
-                    c. BOTON PRUEBA
+                    b. Cancelar reserva
+                    c. Pedir del buffet
+                    d. Cambiar contraseña
+                    e. BOTON PRUEBA
                     
                     ''')
     match opcion:
@@ -16,6 +18,10 @@ def menu_cliente(cliente):
         case 'b':
             pass
         case 'c':
+            pass
+        case 'd':
+            cliente.cambiar_contra()
+        case 'e':
             print('Entro a cliente')
         case _:
             print('Porfavor elija una de las opciones (a | b | c)')

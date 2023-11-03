@@ -2,7 +2,8 @@ import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-import funciones.funciones_auxiliares as fa
+import funciones.checks as checks
+#import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
@@ -37,20 +38,33 @@ class Reserva:
                 case _:
                     print('Porfavor elija una de las opciones (a | b | c | d)')
         while True:
-            try:
-                dia, mes, ano = map(int, input("Ingrese fecha de check in en formato dd/mm/yyyy: ").split('/'))
-                fec_checkin = datetime.date(ano, mes, dia).strftime('%d/%m/%Y')
-                break
-            except:
-                print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
-                
-        while True:
-            try:
-                dia, mes, ano = map(int, input("Ingrese fecha de check out en formato dd/mm/yyyy: ").split('/'))
-                fec_checkout = datetime.date(ano, mes, dia).strftime('%d/%m/%Y')
-                break
-            except:
-                print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+            # Utilizamos dos While diferentes para cada fecha, asi el usuario en caso de ingresar una de las dos en un formato incorrecto
+            # no precisa volver a ingresar la anterior
+            while True:
+                try:
+                    dia, mes, ano = map(int, input("Ingrese fecha de check in en formato dd/mm/yyyy: ").split('/'))
+                    fec_checkin = datetime.date(ano, mes, dia)
+                    break
+                except:
+                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+                    
+            while True:
+                try:
+                    dia, mes, ano = map(int, input("Ingrese fecha de check out en formato dd/mm/yyyy: ").split('/'))
+                    fec_checkout = datetime.date(ano, mes, dia)
+                    break
+                except:
+                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+            if fec_checkin < fec_checkout:
+                if fec_checkin < datetime.date.today():
+                    fec_checkin = fec_checkin.strftime('%d/%m/%Y')
+                    fec_checkout = fec_checkout.strftime('%d/%m/%Y')
+                    break
+                else:
+                    print('Porfavor ingrese una fecha de check in posterior al dia de hoy')
+            else:
+                print('Porfavor ingrese una fecha de check in anterior a fecha de check out')
+                    
         # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
         # por ende solo filtramos por tipo y fechas
         conbano = None
@@ -136,6 +150,25 @@ class Reserva:
                                 return True
         return False
         ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
+    
+    
+    # CORRO ESTAS FUNCIONES ACA Y NO EN FA POR UN PROBLEMA DE MODULARIDAD CIRCULAR, NO NOS DEJA IMPORTAR RESERVAS EN FA Y EL MISMO TIEMPO
+    # FA EN RESERVAS
+    def lista_reservas_actuales(habitacion):
+        ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
+        listareservas = []
+        return listareservas
+
+    def disponibilidad(fec_checkin, fec_checkout, habitacion):
+        lista_reservas_x_hab = lista_reservas_actuales(habitacion)
+        if fec_checkin < lista_reservas_x_hab[0] and fec_checkout < lista_reservas_x_hab[0]:
+            return True
+        i = 2
+        while i < lista_reservas_x_hab.len():
+            if fec_checkin > lista_reservas_x_hab[i-1] and fec_checkout < lista_reservas_x_hab[i]:
+                return True
+            i += 2
+        return False
        
 
 
