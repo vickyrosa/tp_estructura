@@ -10,6 +10,7 @@ import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
+from usuario.usuario import Usuario
 
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
@@ -84,9 +85,24 @@ def load_reservas_activas():
     
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
 
+#Cambie la funcion de pedir dni para no usar check sino set, asi metemos esa estructura
+#el set esta guardado en la clase Usuario 
+
+#el check que hay para dni mas abajo no lo borre porque se puede usar para otra cosa
+
 def pedir_dni():
-    return input('Ingrese su DNI: ')
-        
+        while True:
+            try:
+                dni = input('Ingrese su DNI: ')
+                if not dni.isnumeric():
+                    raise ValueError("DNI debe tener caracteres numéricos.")
+                if dni in Usuario.set_dni:
+                    raise ValueError("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
+                Usuario.set_dni.add(dni)  # agrega dni ingresado al set
+                return dni  # Me devuelve el DNI validado
+            except ValueError as e:
+                print(e)
+
 def pedir_nombre():
     return input('Ingrese su nombre: ')
 
@@ -115,6 +131,8 @@ def pedir_sueldo():
     return input('Ingrese sueldo: ')
 
 # Le asignamos a variables la informacion del usuario mediante los metodos creados anteriormente.
+
+
 def pedir_datos_basicos_sing_in(lista):
     while True:
         dni = pedir_dni()
@@ -123,6 +141,8 @@ def pedir_datos_basicos_sing_in(lista):
         if checks.check_dni(lista, dni) == True:
             break
         print('El DNI ingresado ya existe en la base de datos, porfavor ingrese uno nuevo.')
+    nombre = pedir_nombre()
+    dni = pedir_dni()
     nombre = pedir_nombre()
     edad = pedir_edad()
     sexo = pedir_sexo()

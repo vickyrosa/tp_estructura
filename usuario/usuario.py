@@ -1,4 +1,7 @@
 class Usuario:
+    
+    set_dni = set()
+    
     def __init__(self, tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta):
             self.tipo_usuario = tipo_usuario
             self.dni= dni
