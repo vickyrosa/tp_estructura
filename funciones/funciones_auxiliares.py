@@ -20,9 +20,8 @@ from datetime import datetime
 def download_hotel():
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas()
-    admin = Administrador('Administrador','11222333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    admin = Administrador('Administrador','1122223333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
-    return hotel
 
 def download_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
     lista_clientes = list()
@@ -198,7 +197,12 @@ def sign_in_cliente(lista_clientes):
     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Cliente'
     lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta,0))
-
+    
+    # Nomina cliente legible para personal del hotel
+    nomina_cliente = open('txt/nomina_clientes.txt', 'a')
+    nomina_cliente.write(f'{nombre}  {dni}  {tel}  {mail}\n')
+    nomina_cliente.close()
+    
 def sign_in_administrativo(lista_administrativo):
     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Administrativo'
@@ -226,7 +230,7 @@ def buscar_usuario(lista, dni, contra):
             return persona
     return None
 
-def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel):
+def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza):
     dni = pedir_dni()
     contra = pedir_contra()
     usuario = buscar_usuario(lista_clientes, dni, contra)
@@ -237,10 +241,7 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
            if usuario == None:
                usuario = buscar_usuario(lista_limpieza, dni, contra)
                if usuario == None:
-                   if dni == hotel.admin.dni and contra == hotel.admin.contra:
-                        usuario = hotel.admin
-                   else:
-                        print('El dni o contraseña ingresados no son correctos.')
+                   print('El dni o contraseña ingresados no son correctos.')
     return usuario
 
 def load_hotel():
