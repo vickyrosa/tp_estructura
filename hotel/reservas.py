@@ -160,27 +160,37 @@ class Reserva:
     # La 2da forma es recorriendo el .txt que me parece menos practico porque tengo que abrir el archivo leerlo y recien ahi empezar a codear.
     def lista_reservas_actuales(habitacion):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
-        listareservasnum = []
-        fecinaux = 0
-        fecoutaux = 0
         #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
         # Puedo recorrer asi Lista_Reservas????
+        #-----------------------------------------
+        # Por si no anda aplicar sorted de una dejo esto de aca abajo
+        #listareservasnum = []
+        #fecinaux = 0
+        #fecoutaux = 0
+        # for res in Lista_Reservas:
+        #     if res.habitacion == habitacion:
+        #         fecinaux = int(res.fec_checkin.strftime("%Y%m%d%H%M%S"))
+        #         fecoutaux = int(res.fec_checkout.strftime("%Y%m%d%H%M%S"))
+        #         listareservasnum.append[fecinaux]
+        #         listareservasnum.append[fecoutaux]
+        # ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
+        # ## Como tengo las fechas en formato int lo hago con sorted.
+        # listareservasnum = sorted(listareservasnum)
+        # # Ahora recorro la lista y paso las fechas de formato int a formato fecha.
+        # listareservasfec = []
+        # for fecha in listareservasnum:
+        #     fecha = str(fecha)
+        #     fecha = datetime.strptime(fecha, "%Y%m%d%H%M%S")
+        #     listareservasfec.append(fecha)
+        #-----------------------------------------
+        listareservas = []
         for res in Lista_Reservas:
             if res.habitacion == habitacion:
-                fecinaux = int(res.fec_checkin.strftime("%Y%m%d%H%M%S"))
-                fecoutaux = int(res.fec_checkout.strftime("%Y%m%d%H%M%S"))
-                listareservasnum.append[fecinaux]
-                listareservasnum.append[fecoutaux]
+                listareservas.append[res.fec_checkin]
+                listareservas.append[res.fec_checkout]
         ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
-        ## Como tengo las fechas en formato int lo hago con sorted.
-        listareservasnum = sorted(listareservasnum)
-        # Ahora recorro la lista y paso las fechas de formato int a formato fecha.
-        listareservasfec = []
-        for fecha in listareservasnum:
-            fecha = str(fecha)
-            fecha = datetime.strptime(fecha, "%Y%m%d%H%M%S")
-            listareservasfec.append(fecha)
-        return listareservasfec
+        listareservas = sorted(listareservas)
+        return listareservas
     
     
     # HACER TRY EXCEPT PARA VER QUE FECHA CHECKOUT > FECHA CHECKIN
