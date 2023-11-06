@@ -198,17 +198,11 @@ def sign_in_cliente(lista_clientes):
     tipo_usuario = 'Cliente'
     lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta,0))
 
-# Dejo hecha la base queda hacerle el final nomas
-
 def sign_in_administrativo(lista_administrativo):
     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Administrativo'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
-    with open('txt/administrativo.txt', 'a') as archivo_administrativo:
-        archivo_administrativo.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo}\n')
-    print(f'El usuario del empleado administrativo {nombre} con DNI: {dni} fue creado satisfactoriamente.')
-    print('')
     lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
 def sign_in_mantenimiento(lista_mantenimiento):
@@ -216,10 +210,6 @@ def sign_in_mantenimiento(lista_mantenimiento):
     tipo_usuario = 'Mantenimiento'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
-    with open('txt/mantenimiento.txt', 'a') as archivo_mantenimiento:
-        archivo_mantenimiento.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
-    print(f'El usuario del empleado de mantenimiento {nombre} con DNI: {dni} fue creado satisfactoriamente.')
-    print('')
     lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
 def sign_in_limpieza(lista_limpieza):
@@ -227,10 +217,6 @@ def sign_in_limpieza(lista_limpieza):
     tipo_usuario = 'Limpieza'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
-    with open('txt/limpieza.txt', 'a') as archivo_limpieza:
-        archivo_limpieza.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
-    print(f'El usuario del empleado de limpieza {nombre} con DNI: {dni} fue creado satisfactoriamente.')
-    print('')
     lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
 
 def buscar_usuario(lista, dni, contra):
@@ -264,4 +250,24 @@ def load_clientes(lista_clientes):
     archivo_clientes.close()
 
 def load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza):
-    pass
+    load_administrativo(lista_administrativo)
+    load_limpieza(lista_mantenimiento)
+    load_mantenimiento(lista_limpieza)
+    
+def load_administrativo(lista_administrativo):
+    archivo_administrativo = open('txt/administrativo.txt', 'w')
+    for administrativo in lista_administrativo:
+        archivo_administrativo.write(f'{administrativo.tipo_usuario},{administrativo.dni},{administrativo.nombre},{administrativo.contra},{administrativo.fec_nac},{administrativo.genero},{administrativo.tel},{administrativo.mail},{administrativo.domicilio},{administrativo.fec_alta},{administrativo.fec_baja},{administrativo.cuil},{administrativo.sueldo}\n')
+    archivo_administrativo.close()
+
+def load_limpieza(lista_limpieza):
+    archivo_limpieza = open('txt/limpieza.txt', 'w')
+    for limpieza in lista_limpieza:
+        archivo_limpieza.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo},{limpieza.disponibilidad}\n')
+    archivo_limpieza.close()
+
+def load_mantenimiento(lista_mantenimiento):
+    archivo_mantenimiento = open('txt/mantenimiento.txt', 'w')
+    for mantenimiento in lista_mantenimiento:
+        archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad}\n')
+    archivo_mantenimiento.close()
