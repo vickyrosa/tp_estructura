@@ -64,11 +64,11 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
         print("El historial de reservas fue guardado con exito en 'historico_gral_reservas.txt' ")  
         
         
-    def historico_general_reservas2 (self):
+    def historico_general_reservas2(self):
         fecha_actual = datetime.date.today()
         actual = self.cabeza
-        pila_reservas = deque ()
-        historico_gral_reservas = open('tp_estructura/txt/historico_gral_reservas.txt', 'w')
+        pila_reservas = deque()
+        historico_gral_reservas = open('tp_estructura/txt/historico_gral_reservas2.txt', 'w')
         
         while actual:
             if actual.fec_checkout < fecha_actual:
