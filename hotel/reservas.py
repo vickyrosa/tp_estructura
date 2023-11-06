@@ -8,7 +8,7 @@ class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
         self.nroreserva = nroreserva
-        self.nombre= cliente.nombre
+        self.nombre= cliente
         self.habitacion=habitacion
         self.fec_checkin= fec_checkin
         self.fec_checkout= fec_checkout
@@ -23,7 +23,7 @@ class Reserva:
         else:
             return False
         
-    def reservar(self, usuario):
+    def reservar(self, usuario, hotel):
         while True:
             tipo = input(''' Elija un tipo de habitacion:
                 a. Simple
@@ -126,28 +126,28 @@ class Reserva:
         # En caso de que no se encuentre una habitacion disponible vamos a tener que decirle al usuario que no hay y ofrecerle dos opciones:
         # cerrar sesion o cambiar las condiciones de reserva (ya sea fechas, tipo cuarto o lo que quiera, osea volver a hcaer la reserva de 0)
         
-        for hab in Hotel.lista_habitaciones:
+        for hab in hotel.lista_habitaciones:
                 if hab.get_tipo() == tipo:
                     if conbano is not None:
                         if conventana is not None:
                             if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
-                                if fa.disponibilidad(fec_checkin,fec_checkout,hab):
+                                if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                     # Esto es lo que digo juanchi, mepa que asi si arranca (accede al atributo lista enlazada de reservas)
                                     # Hotel.lista_reservas_activas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                    Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                                    Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
                                     return True
                         else:
-                           if fa.disponibilidad(fec_checkin,fec_checkout,hab):
-                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                           if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
                                 return True
                     else:
                         if conventana is not None:
-                            if fa.disponibilidad(fec_checkin,fec_checkout,hab):
-                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
                                 return True
                         else:
-                            if fa.disponibilidad(fec_checkin,fec_checkout,hab):
-                                Lista_Reservas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
+                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
                                 return True
         return False
         ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
@@ -159,7 +159,7 @@ class Reserva:
     #Veo dos maneras de hacerlo: 1- Recorrer la lista enlazada preguntando en cada nodo por 
     # la habitacion y la fecha de reserva y ordenar de menor a mayor
     # La 2da forma es recorriendo el .txt que me parece menos practico porque tengo que abrir el archivo leerlo y recien ahi empezar a codear.
-    def lista_reservas_actuales(habitacion):
+    def lista_reservas_actuales(habitacion, hotel):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
         #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
         # Puedo recorrer asi Lista_Reservas????
@@ -185,7 +185,7 @@ class Reserva:
         #     listareservasfec.append(fecha)
         #-----------------------------------------
         listareservas = []
-        for res in Lista_Reservas:
+        for res in hotel.lista_reservas_activas:
             if res.habitacion == habitacion:
                 listareservas.append[res.fec_checkin]
                 listareservas.append[res.fec_checkout]
@@ -195,8 +195,8 @@ class Reserva:
     
     
     # HACER TRY EXCEPT PARA VER QUE FECHA CHECKOUT > FECHA CHECKIN
-    def disponibilidad(fec_checkin, fec_checkout, habitacion):
-        lista_reservas_x_hab = lista_reservas_actuales(habitacion)
+    def disponibilidad(fec_checkin, fec_checkout, habitacion, hotel):
+        lista_reservas_x_hab = Reserva.lista_reservas_actuales(habitacion, hotel)
         if fec_checkout < lista_reservas_x_hab[0]:
             return True
         i = 2

@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 if usuario != None:
                     match usuario.tipo_usuario:
                         case 'Cliente':
-                            menu_cliente.menu_cliente(usuario)
+                            menu_cliente.menu_cliente(usuario, hotel)
                         case 'Administrativo':
                             print('Entro a admin')
                         case 'Mantenimiento':

@@ -1,7 +1,7 @@
 import funciones.funciones_auxiliares as fa
 from hotel.reservas import Reserva
 
-def menu_cliente(cliente):
+def menu_cliente(cliente, hotel):
     # Creo menu para cliente
     opcion = input(''' Elija una opcion:
                     a. Reservar una habitacion
@@ -14,7 +14,7 @@ def menu_cliente(cliente):
     match opcion:
         case 'a':
             # Hacer try except para estos inputs
-            Reserva.reservar(cliente)
+            Reserva.reservar(cliente, hotel)
         case 'b':
             pass
         case 'c':
