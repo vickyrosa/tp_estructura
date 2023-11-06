@@ -98,8 +98,6 @@ def pedir_dni ():
         try:
             if not dni.isnumeric():
                 raise ValueError("DNI debe tener caracteres numéricos.")
-            if dni in Usuario.set_dni:
-                raise ValueError("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
             if len(dni) < 8:
                 raise ValueError("El DNI debe contener al menos 8 digitos")
             Usuario.set_dni.add(dni)  # Agrega DNI ingresado al set
@@ -122,9 +120,9 @@ def pedir_contra():
 
 def pedir_fec_nac():
     while True:
-        fec_nac_str = input("Ingrese fecha de nacimiento en formato YYYY-MM-DD: ")
+        fec_nac_str = input("Ingrese fecha de nacimiento en formato DD/MM/YYYY: ")
         try:
-            fec_nac = datetime.strptime(fec_nac_str, "%Y-%m-%d")
+            fec_nac = datetime.strptime(fec_nac_str, "%d/%m/%Y")
             hoy = datetime.today() # Calcula edad
             edad = hoy.year - fec_nac.year - ((hoy.month, hoy.day) < (fec_nac.month, fec_nac.day))
             if edad >= 18:
@@ -133,7 +131,7 @@ def pedir_fec_nac():
                 print("Debe tener más de 18 años para ingresar.")  
         except ValueError:
             print("""Formato de fecha invalido. 
-                  Por favor ingrese su fecha de nacimiento en el formato YYYY-MM-DD.""")
+                  Por favor ingrese su fecha de nacimiento en el formato DD/MM/YYYY.""")
 
 def pedir_genero():
     while True:
@@ -174,9 +172,12 @@ def pedir_sueldo():
 
 
 def pedir_datos_basicos_sing_in():
-    dni = pedir_dni()
-    nombre = pedir_nombre()
-    dni = pedir_dni()
+    while True:
+        dni = pedir_dni()
+        if dni in Usuario.set_dni:
+            print("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
+        else:
+            break      
     nombre = pedir_nombre()
     fec_nac = pedir_fec_nac()
     genero = pedir_genero()
@@ -184,13 +185,13 @@ def pedir_datos_basicos_sing_in():
     mail = pedir_mail()
     domicilio = pedir_domicilio()
     contra = pedir_contra()
-    fec_alta = datetime.datetime.now().strftime('%d/%m/%y')
+    fec_alta = datetime.today().strftime('%d/%m/%Y')
     return dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta
 
 # Con las variables del metodo anterior anadimos a nuestra "base de datos" al usuario creado.
 
 def sign_in_cliente(lista_clientes):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_clientes)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Cliente'
     
     # Una vez que cargo todos los datos, lo agrego a la base de datos
