@@ -1,4 +1,6 @@
 import datetime
+from collections import deque
+
 
 class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volumen de datos)
     def __init__(self):
@@ -60,6 +62,24 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
                 historico_gral_reservas.write(f'{self.nroreserva},{self.cliente},{self.habitacion},{self.fec_checkin},{self.fec_checkout}\n')
         historico_gral_reservas.close()
         print("El historial de reservas fue guardado con exito en 'historico_gral_reservas.txt' ")  
+        
+        
+    def historico_general_reservas2 (self):
+        fecha_actual = datetime.date.today()
+        actual = self.cabeza
+        pila_reservas = deque ()
+        historico_gral_reservas = open('tp_estructura/txt/historico_gral_reservas.txt', 'w')
+        
+        while actual:
+            if actual.fec_checkout < fecha_actual:
+                pila_reservas.append(actual) 
+            actual = actual.prox
+        
+        
+        while pila_reservas:
+                 reserva = pila_reservas.pop()
+                 historico_gral_reservas.write(f'{reserva.nroreserva},{reserva.cliente},{reserva.habitacion},{reserva.fec_checkin},{reserva.fec_checkout}\n')
+        historico_gral_reservas.close()
     
 
 
