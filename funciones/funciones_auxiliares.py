@@ -20,7 +20,7 @@ from datetime import datetime
 def load_hotel():
     lista_habitaciones = load_habitaciones()
     lista_reservas_activas = load_reservas_activas()
-    admin = Administrador('Administrador','1','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    admin = Administrador('Administrador','1122223333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
 
 def load_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
@@ -94,13 +94,12 @@ def load_reservas_activas():
 
 def pedir_dni ():
     while True:
-        dni = input('Ingrese su DNI: ')
         try:
+            dni = input('Ingrese su DNI: ')
             if not dni.isnumeric():
                 raise ValueError("DNI debe tener caracteres numéricos.")
-            if len(dni) < 8:
-                raise ValueError("El DNI debe contener al menos 8 digitos")
-            Usuario.set_dni.add(dni)  # Agrega DNI ingresado al set
+            if len(dni) != 8:
+                raise ValueError("El DNI debe contener 8 digitos")
             return dni  # Me devuelve el DNI validado
         except ValueError as e:
             print(e)
@@ -122,10 +121,13 @@ def pedir_fec_nac():
     while True:
         fec_nac_str = input("Ingrese fecha de nacimiento en formato DD/MM/YYYY: ")
         try:
-            fec_nac = datetime.strptime(fec_nac_str, "%d/%m/%Y")
-            hoy = datetime.today() # Calcula edad
+            fec_nac = datetime.strptime(fec_nac_str, '%d/%m/%Y')
+            hoy = datetime.today().strftime('%d/%m/%Y')
+            hoy = datetime.strptime(hoy, '%d/%m/%Y')
+            # Calcula edad
             edad = hoy.year - fec_nac.year - ((hoy.month, hoy.day) < (fec_nac.month, fec_nac.day))
             if edad >= 18:
+                fec_nac = fec_nac.strftime('%d/%m/%Y')
                 return fec_nac
             else:
                 print("Debe tener más de 18 años para ingresar.")  
@@ -177,6 +179,7 @@ def pedir_datos_basicos_sing_in():
         if dni in Usuario.set_dni:
             print("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
         else:
+            Usuario.set_dni.add(dni)  # Agrega DNI ingresado al set
             break      
     nombre = pedir_nombre()
     fec_nac = pedir_fec_nac()
@@ -204,35 +207,42 @@ def sign_in_cliente(lista_clientes):
     # no funcionaba bien. Y queriamos que al volver al menu se vea un espacio, por una cuestion de prolijidad y estetica para el usuario.
     
     print('')
+    lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta,0))
 
 # Dejo hecha la base queda hacerle el final nomas
 
 def sign_in_administrativo(lista_administrativo):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_administrativo)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Administrativo'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/administrativo.txt', 'a') as archivo_administrativo:
         archivo_administrativo.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo}\n')
     print(f'El usuario del empleado administrativo {nombre} con DNI: {dni} fue creado satisfactoriamente.')
+    print('')
+    lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
 def sign_in_mantenimiento(lista_mantenimiento):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_mantenimiento)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Mantenimiento'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/mantenimiento.txt', 'a') as archivo_mantenimiento:
         archivo_mantenimiento.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
     print(f'El usuario del empleado de mantenimiento {nombre} con DNI: {dni} fue creado satisfactoriamente.')
+    print('')
+    lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
 def sign_in_limpieza(lista_limpieza):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_limpieza)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Limpieza'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/limpieza.txt', 'a') as archivo_limpieza:
         archivo_limpieza.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
     print(f'El usuario del empleado de limpieza {nombre} con DNI: {dni} fue creado satisfactoriamente.')
+    print('')
+    lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
 
 def buscar_usuario(lista, dni, contra):
     for persona in lista:

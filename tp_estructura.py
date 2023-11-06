@@ -30,17 +30,18 @@ if __name__ == '__main__':
         match ingreso:
             case 'a':
                 usuario = fa.log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza)
-                match usuario.tipo_usuario:
-                    case 'Cliente':
-                        menu_cliente.menu_cliente(usuario)
-                    case 'Administrativo':
-                        print('Entro a admin')
-                    case 'Mantenimiento':
-                        print('Entro a Mantenimiento')
-                    case 'Limpieza':
-                        print('Entro a limpieza')
-                    case None:
-                        pass
+                if usuario != None:
+                    match usuario.tipo_usuario:
+                        case 'Cliente':
+                            menu_cliente.menu_cliente(usuario)
+                        case 'Administrativo':
+                            print('Entro a admin')
+                        case 'Mantenimiento':
+                            print('Entro a Mantenimiento')
+                        case 'Limpieza':
+                            print('Entro a limpieza')
+                pass
+            
             case 'b':
                 while True:
                     tipo_usuario = input('''Elija una opcion:
