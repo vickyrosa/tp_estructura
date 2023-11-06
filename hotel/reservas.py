@@ -164,6 +164,7 @@ class Reserva:
         fecinaux = 0
         fecoutaux = 0
         #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
+        # Puedo recorrer asi Lista_Reservas????
         for res in Lista_Reservas:
             if res.habitacion == habitacion:
                 fecinaux = int(res.fec_checkin.strftime("%Y%m%d%H%M%S"))
