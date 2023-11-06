@@ -12,6 +12,8 @@ from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
 from usuario.usuario import Usuario
 
+from datetime import datetime
+
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
 
@@ -26,8 +28,8 @@ def load_clientes():    #Devuelve una lista con toda la informacion de los clien
     with open('txt/clientes.txt', 'r') as archivo_clientes:
         lista_info_clientes = archivo_clientes.readlines()
         for i in range(len(lista_info_clientes)):
-            tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, historico_gastos = lista_info_clientes[i].strip().split(',')
-            lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, historico_gastos))
+            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos = lista_info_clientes[i].strip().split(',')
+            lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos))
     return lista_clientes
 
 def load_personal():    #Devuelve toda la informacion del personal separada por sectores.
@@ -42,8 +44,8 @@ def load_administrativo():      #Devuelve una lista con toda la informacion del 
     with open('txt/administrativo.txt', 'r') as archivo_administrativo:
         lista_info_administrativo = archivo_administrativo.readlines()
         for i in range(len(lista_info_administrativo)):
-            tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
-            lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
+            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
+            lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
     return lista_administrativo
 
 def load_mantenimiento():   #Devuelve una lista con toda la informacion del personal de mantenimiento contenida en el .txt.
@@ -51,8 +53,8 @@ def load_mantenimiento():   #Devuelve una lista con toda la informacion del pers
     with open('txt/mantenimiento.txt', 'r') as archivo_mantenimiento:
         lista_info_mantenimiento = archivo_mantenimiento.readlines()
         for i in range(len(lista_info_mantenimiento)):
-            tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
-            lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
+            lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_mantenimiento
 
 def load_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
@@ -60,8 +62,8 @@ def load_limpieza():    #Devuelve una lista con toda la informacion del personal
     with open('txt/limpieza.txt', 'r') as archivo_limpieza:
         lista_info_limpieza = archivo_limpieza.readlines()
         for i in range(len(lista_info_limpieza)):
-            tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
-            lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, edad, sexo, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
+            lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_limpieza
 
 def load_habitaciones():
@@ -90,30 +92,56 @@ def load_reservas_activas():
 
 #el check que hay para dni mas abajo no lo borre porque se puede usar para otra cosa
 
-def pedir_dni():
-        while True:
-            try:
-                dni = input('Ingrese su DNI: ')
-                if not dni.isnumeric():
-                    raise ValueError("DNI debe tener caracteres numéricos.")
-                if dni in Usuario.set_dni:
-                    raise ValueError("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
-                Usuario.set_dni.add(dni)  # agrega dni ingresado al set
-                return dni  # Me devuelve el DNI validado
-            except ValueError as e:
-                print(e)
+def pedir_dni ():
+    while True:
+        dni = input('Ingrese su DNI: ')
+        try:
+            if not dni.isnumeric():
+                raise ValueError("DNI debe tener caracteres numéricos.")
+            if dni in Usuario.set_dni:
+                raise ValueError("El DNI ingresado ya existe. Por favor ingrese otro DNI.")
+            if len(dni) < 8:
+                raise ValueError("El DNI debe contener al menos 8 digitos")
+            Usuario.set_dni.add(dni)  # Agrega DNI ingresado al set
+            return dni  # Me devuelve el DNI validado
+        except ValueError as e:
+            print(e)
 
 def pedir_nombre():
-    return input('Ingrese su nombre: ')
+    while True:
+        nombre = input('Ingrese su nombre: ')
+        try:
+            if not nombre.isalpha():
+                raise ValueError("El nombre debe tener caracteres alfabéticos.")
+            return nombre
+        except ValueError as e:
+            print(e)
 
 def pedir_contra():
     return input('Ingrese su contraseña: ')
 
-def pedir_edad():
-    return input('Ingrese su edad: ')
+def pedir_fec_nac():
+    while True:
+        fec_nac_str = input("Ingrese fecha de nacimiento en formato YYYY-MM-DD: ")
+        try:
+            fec_nac = datetime.strptime(fec_nac_str, "%Y-%m-%d")
+            hoy = datetime.today() # Calcula edad
+            edad = hoy.year - fec_nac.year - ((hoy.month, hoy.day) < (fec_nac.month, fec_nac.day))
+            if edad >= 18:
+                return fec_nac
+            else:
+                print("Debe tener más de 18 años para ingresar.")  
+        except ValueError:
+            print("""Formato de fecha invalido. 
+                  Por favor ingrese su fecha de nacimiento en el formato YYYY-MM-DD.""")
 
-def pedir_sexo():
-    return input('Ingrese su sexo: ')
+def pedir_genero():
+    while True:
+        genero = input("Ingrese su género (F para femenino, M para masculino, O para otro): ")
+        if genero in ["F", "M", "O"]:
+            return genero
+        else:
+            print("Género no válido. Por favor, ingrese 'F' para femenino, 'M' para masculino o 'O' para otro.")
 
 def pedir_telefono():
     return input('Ingrese su numero de telefono: ')
@@ -125,7 +153,19 @@ def pedir_domicilio():
     return input('Ingrese su domicilio: ')
 
 def pedir_cuil():
-    return input('Ingrese su numero de CUIL: ')
+    while True:
+        cuil = input('Ingrese su numero de CUIL: ')
+        try:
+            if not cuil.isnumeric():
+                    raise ValueError("El CUIL debe tener caracteres numéricos.")
+            if len(cuil) < 11:
+                    raise ValueError("El CUIL debe contener al menos 11 digitos")
+            if cuil in Usuario.set_cuil:
+                raise ValueError("El CUIL ingresado ya existe. Por favor ingrese otro CUIL.")
+            return cuil
+        except ValueError as e:
+            print(e)
+
 
 def pedir_sueldo():
     return input('Ingrese sueldo: ')
@@ -133,34 +173,29 @@ def pedir_sueldo():
 # Le asignamos a variables la informacion del usuario mediante los metodos creados anteriormente.
 
 
-def pedir_datos_basicos_sing_in(lista):
-    while True:
-        dni = pedir_dni()
-        
-        # Con este check verificamos que el dni que ingresa el cliente no exista en la base de datos
-        if checks.check_dni(lista, dni) == True:
-            break
-        print('El DNI ingresado ya existe en la base de datos, porfavor ingrese uno nuevo.')
+def pedir_datos_basicos_sing_in():
+    dni = pedir_dni()
     nombre = pedir_nombre()
     dni = pedir_dni()
     nombre = pedir_nombre()
-    edad = pedir_edad()
-    sexo = pedir_sexo()
-    tel = pedir_telefono()
+    fec_nac = pedir_fec_nac()
+    genero = pedir_genero()
+    tel = pedir_telefono()     
     mail = pedir_mail()
     domicilio = pedir_domicilio()
     contra = pedir_contra()
     fec_alta = datetime.datetime.now().strftime('%d/%m/%y')
-    return dni, nombre, contra, edad, sexo, tel, mail, domicilio, fec_alta
+    return dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta
 
 # Con las variables del metodo anterior anadimos a nuestra "base de datos" al usuario creado.
+
 def sign_in_cliente(lista_clientes):
-    dni, nombre, contra, edad, sexo, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_clientes)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_clientes)
     tipo_usuario = 'Cliente'
     
     # Una vez que cargo todos los datos, lo agrego a la base de datos
     with open('txt/clientes.txt', 'a') as archivo_clientes:
-        archivo_clientes.write(f'{tipo_usuario},{dni},{nombre},{contra},{edad},{sexo},{tel},{mail},{domicilio},{fec_alta},{0}\n')
+        archivo_clientes.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{0}\n')
     print(f'El usuario del cliente {nombre} con DNI: {dni} fue creado satisfactoriamente.')
     
     # Agregamos esto porque cuando pusimos:
@@ -172,30 +207,30 @@ def sign_in_cliente(lista_clientes):
 # Dejo hecha la base queda hacerle el final nomas
 
 def sign_in_administrativo(lista_administrativo):
-    dni, nombre, contra, edad, sexo, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_administrativo)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_administrativo)
     tipo_usuario = 'Administrativo'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/administrativo.txt', 'a') as archivo_administrativo:
-        archivo_administrativo.write(f'{tipo_usuario},{dni},{nombre},{contra},{edad},{sexo},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo}\n')
+        archivo_administrativo.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo}\n')
     print(f'El usuario del empleado administrativo {nombre} con DNI: {dni} fue creado satisfactoriamente.')
     
 def sign_in_mantenimiento(lista_mantenimiento):
-    dni, nombre, contra, edad, sexo, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_mantenimiento)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_mantenimiento)
     tipo_usuario = 'Mantenimiento'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/mantenimiento.txt', 'a') as archivo_mantenimiento:
-        archivo_mantenimiento.write(f'{tipo_usuario},{dni},{nombre},{contra},{edad},{sexo},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
+        archivo_mantenimiento.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
     print(f'El usuario del empleado de mantenimiento {nombre} con DNI: {dni} fue creado satisfactoriamente.')
     
 def sign_in_limpieza(lista_limpieza):
-    dni, nombre, contra, edad, sexo, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_limpieza)
+    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in(lista_limpieza)
     tipo_usuario = 'Limpieza'
     cuil = pedir_cuil()
     sueldo = pedir_sueldo()
     with open('txt/limpieza.txt', 'a') as archivo_limpieza:
-        archivo_limpieza.write(f'{tipo_usuario},{dni},{nombre},{contra},{edad},{sexo},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
+        archivo_limpieza.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{None},{cuil},{sueldo},{True}\n')
     print(f'El usuario del empleado de limpieza {nombre} con DNI: {dni} fue creado satisfactoriamente.')
 
 def buscar_usuario(lista, dni, contra):
