@@ -20,8 +20,9 @@ from datetime import datetime
 def download_hotel():
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas()
-    admin = Administrador('Administrador','1122223333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    admin = Administrador('Administrador','11222333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
+    return hotel
 
 def download_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
     lista_clientes = list()
@@ -225,7 +226,7 @@ def buscar_usuario(lista, dni, contra):
             return persona
     return None
 
-def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza):
+def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel):
     dni = pedir_dni()
     contra = pedir_contra()
     usuario = buscar_usuario(lista_clientes, dni, contra)
@@ -236,7 +237,10 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
            if usuario == None:
                usuario = buscar_usuario(lista_limpieza, dni, contra)
                if usuario == None:
-                   print('El dni o contraseña ingresados no son correctos.')
+                   if dni == hotel.admin.dni and contra == hotel.admin.contra:
+                        usuario = hotel.admin
+                   else:
+                        print('El dni o contraseña ingresados no son correctos.')
     return usuario
 
 def load_hotel():

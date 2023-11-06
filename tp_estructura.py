@@ -15,7 +15,7 @@ import funciones.menu_administrador as menu_administrador
 import datetime
 
 if __name__ == '__main__':
-    fa.download_hotel()
+    hotel = fa.download_hotel()
     lista_clientes = fa.download_clientes()
     lista_administrativo, lista_mantenimiento, lista_limpieza = fa.download_personal()
     
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         
         match ingreso:
             case 'a':
-                usuario = fa.log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza)
+                usuario = fa.log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel)
                 if usuario != None:
                     match usuario.tipo_usuario:
                         case 'Cliente':
@@ -40,6 +40,8 @@ if __name__ == '__main__':
                             print('Entro a Mantenimiento')
                         case 'Limpieza':
                             print('Entro a limpieza')
+                        case 'Administrador':
+                            print('Entro a Administrador')
                 pass
             
             case 'b':
