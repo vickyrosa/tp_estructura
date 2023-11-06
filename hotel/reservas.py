@@ -154,20 +154,46 @@ class Reserva:
     
     # CORRO ESTAS FUNCIONES ACA Y NO EN FA POR UN PROBLEMA DE MODULARIDAD CIRCULAR, NO NOS DEJA IMPORTAR RESERVAS EN FA Y EL MISMO TIEMPO
     # FA EN RESERVAS
+    
+    #Veo dos maneras de hacerlo: 1- Recorrer la lista enlazada preguntando en cada nodo por 
+    # la habitacion y la fecha de reserva y ordenar de menor a mayor
+    # La 2da forma es recorriendo el .txt que me parece menos practico porque tengo que abrir el archivo leerlo y recien ahi empezar a codear.
     def lista_reservas_actuales(habitacion):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
-        listareservas = []
-        return listareservas
-
+        listareservasnum = []
+        fecinaux = 0
+        fecoutaux = 0
+        #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
+        for res in Lista_Reservas:
+            if res.habitacion == habitacion:
+                fecinaux = int(res.fec_checkin.strftime("%Y%m%d%H%M%S"))
+                fecoutaux = int(res.fec_checkout.strftime("%Y%m%d%H%M%S"))
+                listareservasnum.append[fecinaux]
+                listareservasnum.append[fecoutaux]
+        ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
+        ## Como tengo las fechas en formato int lo hago con sorted.
+        listareservasnum = sorted(listareservasnum)
+        # Ahora recorro la lista y paso las fechas de formato int a formato fecha.
+        listareservasfec = []
+        for fecha in listareservasnum:
+            fecha = str(fecha)
+            fecha = datetime.strptime(fecha, "%Y%m%d%H%M%S")
+            listareservasfec.append(fecha)
+        return listareservasfec
+    
+    
+    # HACER TRY EXCEPT PARA VER QUE FECHA CHECKOUT > FECHA CHECKIN
     def disponibilidad(fec_checkin, fec_checkout, habitacion):
         lista_reservas_x_hab = lista_reservas_actuales(habitacion)
-        if fec_checkin < lista_reservas_x_hab[0] and fec_checkout < lista_reservas_x_hab[0]:
+        if fec_checkout < lista_reservas_x_hab[0]:
             return True
         i = 2
         while i < lista_reservas_x_hab.len():
             if fec_checkin > lista_reservas_x_hab[i-1] and fec_checkout < lista_reservas_x_hab[i]:
                 return True
             i += 2
+        if fec_checkin > lista_reservas_x_hab[i-1]:
+            return True       
         return False
        
 
