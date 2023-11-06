@@ -15,9 +15,9 @@ import funciones.menu_administrador as menu_administrador
 import datetime
 
 if __name__ == '__main__':
-    fa.load_hotel()
-    lista_clientes = fa.load_clientes()
-    lista_administrativo, lista_mantenimiento, lista_limpieza = fa.load_personal()
+    fa.download_hotel()
+    lista_clientes = fa.download_clientes()
+    lista_administrativo, lista_mantenimiento, lista_limpieza = fa.download_personal()
     
     while True:
         ingreso = input('''Elija una opcion:
@@ -85,7 +85,6 @@ if __name__ == '__main__':
                                     case _:
                                         print('Porfavor elija una de las opciones (a | b | c | d)')
                         case 'c':
-                            print('Aca falta hacer la carga de archivos (una funcion que actualice todos los txt)')
                             break
                         case _:
                             print('Porfavor elija una de las opciones (a | b | c)')
@@ -94,6 +93,10 @@ if __name__ == '__main__':
                     else:
                         break
             case 'c':
+                fa.load_hotel()
+                fa.load_clientes(lista_clientes)
+                fa.load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza)
+                print('La carga de archivos al sistema fue exitosa.')
                 break
             case _:
                 print('Porfavor elija una de las opciones (a | b | c)')

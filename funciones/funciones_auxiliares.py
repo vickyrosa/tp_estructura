@@ -17,72 +17,72 @@ from datetime import datetime
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
 
-def load_hotel():
-    lista_habitaciones = load_habitaciones()
-    lista_reservas_activas = load_reservas_activas()
+def download_hotel():
+    lista_habitaciones = download_habitaciones()
+    lista_reservas_activas = download_reservas_activas()
     admin = Administrador('Administrador','1122223333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
 
-def load_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
+def download_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
     lista_clientes = list()
     with open('txt/clientes.txt', 'r') as archivo_clientes:
         lista_info_clientes = archivo_clientes.readlines()
-        for i in range(len(lista_info_clientes)):
-            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos = lista_info_clientes[i].strip().split(',')
-            lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos))
+    for i in range(len(lista_info_clientes)):
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos = lista_info_clientes[i].strip().split(',')
+        lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos))
     return lista_clientes
 
-def load_personal():    #Devuelve toda la informacion del personal separada por sectores.
-    lista_administrativo = load_administrativo()
-    lista_mantenimiento = load_mantenimiento()
-    lista_limpieza = load_limpieza()
+def download_personal():    #Devuelve toda la informacion del personal separada por sectores.
+    lista_administrativo = download_administrativo()
+    lista_mantenimiento = download_mantenimiento()
+    lista_limpieza = download_limpieza()
     
     return lista_administrativo, lista_mantenimiento, lista_limpieza
 
-def load_administrativo():      #Devuelve una lista con toda la informacion del personal administrativo contenida en el .txt.
+def download_administrativo():      #Devuelve una lista con toda la informacion del personal administrativo contenida en el .txt.
     lista_administrativo = list()
     with open('txt/administrativo.txt', 'r') as archivo_administrativo:
         lista_info_administrativo = archivo_administrativo.readlines()
-        for i in range(len(lista_info_administrativo)):
-            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
-            lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
+    for i in range(len(lista_info_administrativo)):
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
+        lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
     return lista_administrativo
 
-def load_mantenimiento():   #Devuelve una lista con toda la informacion del personal de mantenimiento contenida en el .txt.
+def download_mantenimiento():   #Devuelve una lista con toda la informacion del personal de mantenimiento contenida en el .txt.
     lista_mantenimiento = list()
     with open('txt/mantenimiento.txt', 'r') as archivo_mantenimiento:
         lista_info_mantenimiento = archivo_mantenimiento.readlines()
-        for i in range(len(lista_info_mantenimiento)):
-            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
-            lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+    for i in range(len(lista_info_mantenimiento)):
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_mantenimiento
 
-def load_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
+def download_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
     lista_limpieza = list()
     with open('txt/limpieza.txt', 'r') as archivo_limpieza:
         lista_info_limpieza = archivo_limpieza.readlines()
-        for i in range(len(lista_info_limpieza)):
-            tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
-            lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+    for i in range(len(lista_info_limpieza)):
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_limpieza
 
-def load_habitaciones():
+def download_habitaciones():
     lista_habitaciones = list()
     with open('txt/habitaciones.txt', 'r') as archivo_habitaciones:
         lista_info_habitaciones = archivo_habitaciones.readlines()
-        for i in range(len(lista_info_habitaciones)):
-            numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
-            lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
+    for i in range(len(lista_info_habitaciones)):
+        numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
+        lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
     return lista_habitaciones
 
-def load_reservas_activas():
+def download_reservas_activas():
     lista_reservas = Lista_Reservas()
     with open('txt/reservas_activas.txt', 'r') as archivo_reservas:
         lista_info_reservas = archivo_reservas.readlines()
-        for i in range(len(lista_info_reservas)):
-            nroreserva, cliente, habitacion, fec_checkin, fec_checkout = lista_info_reservas[i].strip().split(',')
-            lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
-        return lista_reservas
+    for i in range(len(lista_info_reservas)):
+        nroreserva, cliente, habitacion, fec_checkin, fec_checkout = lista_info_reservas[i].strip().split(',')
+        lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
+    return lista_reservas
     
     
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
@@ -196,17 +196,6 @@ def pedir_datos_basicos_sing_in():
 def sign_in_cliente(lista_clientes):
     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
     tipo_usuario = 'Cliente'
-    
-    # Una vez que cargo todos los datos, lo agrego a la base de datos
-    with open('txt/clientes.txt', 'a') as archivo_clientes:
-        archivo_clientes.write(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{tel},{mail},{domicilio},{fec_alta},{0}\n')
-    print(f'El usuario del cliente {nombre} con DNI: {dni} fue creado satisfactoriamente.')
-    
-    # Agregamos esto porque cuando pusimos:
-    # -> print(f'El usuario del cliente {nombre} con DNI: {dni} fue creado satisfactoriamente.', end = '\n') <-
-    # no funcionaba bien. Y queriamos que al volver al menu se vea un espacio, por una cuestion de prolijidad y estetica para el usuario.
-    
-    print('')
     lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta,0))
 
 # Dejo hecha la base queda hacerle el final nomas
@@ -264,3 +253,15 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
                    print('El dni o contraseña ingresados no son correctos.')
     return usuario
 
+def load_hotel():
+    pass
+
+def load_clientes(lista_clientes):
+    # Una vez que cerramos el programa, cargo todos los datos, lo agrego a la base de datos
+    archivo_clientes = open('txt/clientes.txt', 'w')
+    for cliente in lista_clientes:
+        archivo_clientes.write(f'{cliente.tipo_usuario},{cliente.dni},{cliente.nombre},{cliente.contra},{cliente.fec_nac},{cliente.genero},{cliente.tel},{cliente.mail},{cliente.domicilio},{cliente.fec_alta},{cliente.historico_gastos}\n')    
+    archivo_clientes.close()
+
+def load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza):
+    pass
