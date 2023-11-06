@@ -106,10 +106,10 @@ def pedir_dni ():
 
 def pedir_nombre():
     while True:
-        nombre = input('Ingrese su nombre: ')
+        nombre = input('Ingrese su nombre y apellido (Ej: Felipe Martin Oyerzabal): ')
         try:
-            if not nombre.isalpha():
-                raise ValueError("El nombre debe tener caracteres alfabéticos.")
+            if nombre.isdigit():
+                raise ValueError("El nombre no puede tener caracteres numericos.")
             return nombre
         except ValueError as e:
             print(e)

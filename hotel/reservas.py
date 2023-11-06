@@ -57,6 +57,7 @@ class Reserva:
                     print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
             if fec_checkin < fec_checkout:
                 if fec_checkin < datetime.date.today():
+                    # Una vez que verificamos que las fechas son correctas cronologicamente, las pasamos a str en el formato que queremos
                     fec_checkin = fec_checkin.strftime('%d/%m/%Y')
                     fec_checkout = fec_checkout.strftime('%d/%m/%Y')
                     break
