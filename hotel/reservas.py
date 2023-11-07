@@ -3,7 +3,7 @@ from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
 import funciones.checks as checks
-import funciones.menu_cliente as menu_cliente
+#import funciones.menu_cliente as menu_cliente
 import random
 #import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
 class Reserva:
@@ -223,11 +223,11 @@ class Reserva:
                     a. Reservar otra habitacion
                     b. Volver atrás   
                     ''')
-        match opcion:
-            case 'a':
-                Reserva.reservar()
-            case 'b':
-                menu_cliente.menu_cliente()
+        # match opcion:
+        #     case 'a':
+        #         Reserva.reservar()
+        #     case 'b':
+        #         menu_cliente.menu_cliente()
         pass
        
 
