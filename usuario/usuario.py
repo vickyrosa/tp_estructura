@@ -27,9 +27,7 @@ class Usuario:
     Domicilio: {self.domicilio}
     Fecha de alta: {self.fec_alta}
     '''
-    # FALTA MODIFICAR EL TXT AL FINAL ASI LA PROXIMA VEZ QUE ENTRE SE GUARDA EL CAMBIO DE CONTRASENA
-    # PARA ESO VOY A HACER QUE SE MODIFIQUE EL OBJETO, LUEGO CUANDO SELECCIONE CERRAR PROGRAMA TODOS!!! LOS TXT
-    # SE VUELVEN A ESCRIBIR
+
     def cambiar_contra(self):
         while True:
             self.contra = input('Ingrese nueva contraseña: ')

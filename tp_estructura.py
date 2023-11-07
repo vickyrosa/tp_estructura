@@ -41,7 +41,7 @@ if __name__ == '__main__':
                         case 'Limpieza':
                             print('Entro a limpieza')
                         case 'Administrador':
-                            print('Entro a Administrador')
+                            menu_administrador.menu_administrador(usuario, hotel)
                 pass
             
             case 'b':

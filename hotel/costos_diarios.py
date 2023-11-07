@@ -1,4 +1,4 @@
-import usuario.usuario
+from usuario.usuario import Usuario
 from usuario.cliente import Cliente
 
 class Costos_diarios(Cliente):

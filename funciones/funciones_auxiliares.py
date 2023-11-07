@@ -20,7 +20,7 @@ from datetime import datetime
 def download_hotel():
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas()
-    admin = Administrador('Administrador','1122223333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    admin = Administrador('Administrador','11222333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
     return hotel
 
