@@ -90,6 +90,7 @@ if __name__ == '__main__':
                             break
                         case _:
                             print('Porfavor elija una de las opciones (a | b | c)')
+                            volver_atras = True
                     if volver_atras:
                         pass
                     else:
