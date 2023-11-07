@@ -197,26 +197,33 @@ class Reserva:
         if hotel.lista_reservas_activas.len_lista() == 0:
             pass
         else:
-            for res in hotel.lista_reservas_activas:
-                if res.habitacion == habitacion:
-                    listareservas.append(datetime.datetime.strptime(res.fec_checkin, '%d/%m/%Y'))
-                    listareservas.append(datetime.datetime.strptime(res.fec_checkout, '%d/%m/%Y'))
-        ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
+            lista_reservas_activas = hotel.lista_reservas_activas
+            reserva_movil = lista_reservas_activas.cabeza
+            while reserva_movil is not None:
+                if reserva_movil.habitacion == habitacion:
+                    listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkin, '%d/%m/%Y'))
+                    listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkout, '%d/%m/%Y'))
+                reserva_movil = reserva_movil.prox    
+        ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout
+        print(listareservas)
         listareservas = sorted(listareservas)
+        print(listareservas, " ----Ordenada")
         return listareservas
     
     def disponibilidad(fec_checkin, fec_checkout, habitacion, hotel):
+        fecha_checkin =  datetime.datetime.strptime(fec_checkin, '%d/%m/%Y')
+        fecha_checkout =  datetime.datetime.strptime(fec_checkout, '%d/%m/%Y')
         lista_reservas_x_hab = Reserva.lista_reservas_actuales(habitacion, hotel)
         if len(lista_reservas_x_hab) == 0:
             return True
-        if fec_checkout < lista_reservas_x_hab[0]:
+        if fecha_checkout < lista_reservas_x_hab[0]:
             return True
         i = 2
-        while i < lista_reservas_x_hab.len():
-            if fec_checkin > lista_reservas_x_hab[i-1] and fec_checkout < lista_reservas_x_hab[i]:
+        while i < len(lista_reservas_x_hab):
+            if fecha_checkin > lista_reservas_x_hab[i-1] and fecha_checkout < lista_reservas_x_hab[i]:
                 return True
             i += 2
-        if fec_checkin > lista_reservas_x_hab[i-1]:
+        if fecha_checkin > lista_reservas_x_hab[i-1]:
             return True       
         return False
        
