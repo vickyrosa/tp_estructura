@@ -3,6 +3,7 @@ from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
 import funciones.checks as checks
+import funciones.menu_cliente as menu_cliente
 import random
 #import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
 class Reserva:
@@ -165,15 +166,10 @@ class Reserva:
     # CORRO ESTAS FUNCIONES ACA Y NO EN FA POR UN PROBLEMA DE MODULARIDAD CIRCULAR, NO NOS DEJA IMPORTAR RESERVAS EN FA Y EL MISMO TIEMPO
     # FA EN RESERVAS
     
-    #Veo dos maneras de hacerlo: 1- Recorrer la lista enlazada preguntando en cada nodo por 
-    # la habitacion y la fecha de reserva y ordenar de menor a mayor
-    # La 2da forma es recorriendo el .txt que me parece menos practico porque tengo que abrir el archivo leerlo y recien ahi empezar a codear.
     def lista_reservas_actuales(habitacion, hotel):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
         #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
-        # Puedo recorrer asi Lista_Reservas????
         #-----------------------------------------
-        # Por si no anda aplicar sorted de una dejo esto de aca abajo
         #listareservasnum = []
         #fecinaux = 0
         #fecoutaux = 0
@@ -205,9 +201,7 @@ class Reserva:
                     listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkout, '%d/%m/%Y'))
                 reserva_movil = reserva_movil.prox    
         ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout
-        print(listareservas)
         listareservas = sorted(listareservas)
-        print(listareservas, " ----Ordenada")
         return listareservas
     
     def disponibilidad(fec_checkin, fec_checkout, habitacion, hotel):
@@ -225,7 +219,16 @@ class Reserva:
             i += 2
         if fecha_checkin > lista_reservas_x_hab[i-1]:
             return True       
-        return False
+        opcion = input('''No se encontraron habitaciones disponibles en esas fechas, elija una opcion:
+                    a. Reservar otra habitacion
+                    b. Volver atrás   
+                    ''')
+        match opcion:
+            case 'a':
+                Reserva.reservar()
+            case 'b':
+                menu_cliente.menu_cliente()
+        pass
        
 
 
