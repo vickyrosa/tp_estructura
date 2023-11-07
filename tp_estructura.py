@@ -2,6 +2,7 @@
 
 from hotel.habitacion import Habitacion
 from usuario.cliente import Cliente
+from usuario.administrador import Administrador
 from hotel.buffet import Buffet
 from hotel.hotel import Hotel
 from hotel.reservas import Reserva
@@ -15,9 +16,9 @@ import funciones.menu_administrador as menu_administrador
 import datetime
 
 if __name__ == '__main__':
-    hotel = fa.download_hotel()
     lista_clientes = fa.download_clientes()
     lista_administrativo, lista_mantenimiento, lista_limpieza = fa.download_personal()
+    hotel = fa.download_hotel(lista_clientes)
     
     while True:
         ingreso = input('''Elija una opcion:
@@ -96,7 +97,7 @@ if __name__ == '__main__':
                     else:
                         break
             case 'c':
-                fa.load_hotel()
+                fa.load_hotel(hotel)
                 fa.load_clientes(lista_clientes)
                 fa.load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza)
                 print('La carga de archivos al sistema fue exitosa.')

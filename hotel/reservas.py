@@ -9,14 +9,14 @@ class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
         self.nroreserva = nroreserva
-        self.nombre= cliente
-        self.habitacion=habitacion
-        self.fec_checkin= fec_checkin
-        self.fec_checkout= fec_checkout
+        self.cliente = cliente
+        self.habitacion =habitacion
+        self.fec_checkin = fec_checkin
+        self.fec_checkout = fec_checkout
         self.prox = prox
         
     def __str__(self):
-        return str(self.data)
+        return str(self.nroreserva)
     
     def __eq__(self, otro):
         if self.nroreserva == otro.nroreserva:

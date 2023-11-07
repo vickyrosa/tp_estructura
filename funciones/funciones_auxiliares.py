@@ -17,10 +17,10 @@ from datetime import datetime
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
 
-def download_hotel():
+def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
-    lista_reservas_activas = download_reservas_activas()
-    admin = Administrador('Administrador','11222333','Jefe','jefe123','40','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    lista_reservas_activas = download_reservas_activas(lista_clientes, lista_habitaciones)
+    admin = Administrador('Administrador','11222333','Jefe','a','01/01/1960','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
     return hotel
 
@@ -76,12 +76,20 @@ def download_habitaciones():
         lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
     return lista_habitaciones
 
-def download_reservas_activas():
+def download_reservas_activas(lista_clientes, lista_habitaciones):
     lista_reservas = Lista_Reservas()
     with open('txt/reservas_activas.txt', 'r') as archivo_reservas:
         lista_info_reservas = archivo_reservas.readlines()
     for i in range(len(lista_info_reservas)):
-        nroreserva, cliente, habitacion, fec_checkin, fec_checkout = lista_info_reservas[i].strip().split(',')
+        nroreserva, dni_cliente, nro_habitacion, fec_checkin, fec_checkout = lista_info_reservas[i].strip().split(',')
+        for cli in lista_clientes:
+            if cli.dni == dni_cliente:
+                cliente = cli
+                break
+        for hab in lista_habitaciones:
+            if hab.numero == nro_habitacion:
+                habitacion = hab
+                break
         lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
     return lista_reservas
     
@@ -248,8 +256,25 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
                         print('El dni o contraseña ingresados no son correctos.')
     return usuario
 
-def load_hotel():
-    pass
+def load_hotel(hotel):
+    load_reservas_activas(hotel)
+    load_habitaciones(hotel)
+    
+def load_reservas_activas(hotel):
+    lista_reservas_activas = hotel.lista_reservas_activas
+    reserva_movil = lista_reservas_activas.cabeza
+    archivo_reservas = open('txt/reservas_activas.txt', 'w')
+    while reserva_movil is not None:
+        archivo_reservas.write(f'{reserva_movil.nroreserva},{reserva_movil.cliente.dni},{reserva_movil.habitacion.numero},{reserva_movil.fec_checkin},{reserva_movil.fec_checkout}\n')
+        reserva_movil = reserva_movil.prox
+    archivo_reservas.close()
+
+def load_habitaciones(hotel):
+    lista_habitaciones = hotel.lista_habitaciones
+    archivo_habitaciones = open('txt/habitaciones.txt', 'w')
+    for habitacion in lista_habitaciones:
+        archivo_habitaciones.write(f'{habitacion.numero},{habitacion.tipo},{habitacion.precio_noche},{habitacion.bano_privado},{habitacion.ventana_balcon},{habitacion.disponible}\n')
+    archivo_habitaciones.close()
 
 def load_clientes(lista_clientes):
     # Una vez que cerramos el programa, cargo todos los datos, lo agrego a la base de datos

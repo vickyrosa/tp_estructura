@@ -8,8 +8,6 @@ class Administrador(Personal):
         super().__init__(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo)
         
     def porcentaje_ocupacion(hotel):
-        # Voy a cambiar esto, porque lo hice al principio sin tener en cuenta cosas como el txt
-        # Lo termino manana, pero basicamente es recorrer la lista de reservas accediendo asi Hotel.lista_reservas_activas
         cont_ocupados = 0
         reserva_movil = hotel.lista_reservas_activas.head
         # Este paso parece de mas, pero es para que todas las fechas sean calculadas con la misma hora y que no haya excpeciones con eso
