@@ -14,7 +14,7 @@ def menu_cliente(cliente, hotel):
     match opcion:
         case 'a':
             # Hacer try except para estos inputs
-            Reserva.reservar(cliente, hotel)
+            print(Reserva.reservar(cliente, hotel))
         case 'b':
             pass
         case 'c':

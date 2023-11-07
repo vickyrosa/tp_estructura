@@ -3,6 +3,7 @@ from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
 import funciones.checks as checks
+import random
 #import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
@@ -23,7 +24,7 @@ class Reserva:
         else:
             return False
         
-    def reservar(self, usuario, hotel):
+    def reservar(usuario, hotel):
         while True:
             tipo = input(''' Elija un tipo de habitacion:
                 a. Simple
@@ -33,7 +34,17 @@ class Reserva:
                         
                 ''')
             match tipo:
-                case 'a' | 'b' | 'c' | 'd':
+                case 'a':
+                    tipo = 'Simple'
+                    break
+                case 'b':
+                    tipo = 'Doble'
+                    break
+                case 'c':
+                    tipo = 'Suite'
+                    break
+                case 'd':
+                    tipo = 'Familiar'
                     break
                 case _:
                     print('Porfavor elija una de las opciones (a | b | c | d)')
@@ -42,7 +53,7 @@ class Reserva:
             # no precisa volver a ingresar la anterior
             while True:
                 try:
-                    dia, mes, ano = map(int, input("Ingrese fecha de check in en formato dd/mm/yyyy: ").split('/'))
+                    dia, mes, ano = map(int, input("Ingrese fecha de check-in en formato DD/MM/YYYY: ").split('/'))
                     fec_checkin = datetime.date(ano, mes, dia)
                     break
                 except:
@@ -50,21 +61,21 @@ class Reserva:
                     
             while True:
                 try:
-                    dia, mes, ano = map(int, input("Ingrese fecha de check out en formato dd/mm/yyyy: ").split('/'))
+                    dia, mes, ano = map(int, input("Ingrese fecha de check-out en formato DD/MM/YYYY: ").split('/'))
                     fec_checkout = datetime.date(ano, mes, dia)
                     break
                 except:
                     print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
             if fec_checkin < fec_checkout:
-                if fec_checkin < datetime.date.today():
+                if datetime.date.today() < fec_checkin:
                     # Una vez que verificamos que las fechas son correctas cronologicamente, las pasamos a str en el formato que queremos
                     fec_checkin = fec_checkin.strftime('%d/%m/%Y')
                     fec_checkout = fec_checkout.strftime('%d/%m/%Y')
                     break
                 else:
-                    print('Porfavor ingrese una fecha de check in posterior al dia de hoy')
+                    print('Porfavor ingrese una fecha de check-in posterior al dia de hoy')
             else:
-                print('Porfavor ingrese una fecha de check in anterior a fecha de check out')
+                print('Porfavor ingrese una fecha de check-in anterior a fecha de check-out')
                     
         # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
         # por ende solo filtramos por tipo y fechas
@@ -74,7 +85,7 @@ class Reserva:
             accion = input(''' 
                 a. Elegir con o sin baño
                 b. Elegir con o sin ventana
-                c. Salir (si no ha seleccionado ninguna opcion se le considerara como indiferente)
+                c. Continuar (si no ha seleccionado ninguna opcion se le considerara como indiferente)
                         
             ''')
             match accion:
@@ -127,28 +138,26 @@ class Reserva:
         # cerrar sesion o cambiar las condiciones de reserva (ya sea fechas, tipo cuarto o lo que quiera, osea volver a hcaer la reserva de 0)
         
         for hab in hotel.lista_habitaciones:
-                if hab.get_tipo() == tipo:
-                    if conbano is not None:
-                        if conventana is not None:
-                            if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
-                                if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                    # Esto es lo que digo juanchi, mepa que asi si arranca (accede al atributo lista enlazada de reservas)
-                                    # Hotel.lista_reservas_activas.agregar_reserva(Reserva(Lista_Reservas.len_lista, usuario, hab, fec_checkin, fec_checkout))
-                                    Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
-                                    return True
-                        else:
-                           if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
+            if hab.get_tipo() == tipo:
+                if conbano is not None:
+                    if conventana is not None:
+                        if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
+                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
                                 return True
                     else:
-                        if conventana is not None:
-                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
-                                return True
-                        else:
-                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                Lista_Reservas.agregar_reserva(Reserva(hotel.lista_reservas_activas.len_lista + 1, usuario, hab, fec_checkin, fec_checkout))
-                                return True
+                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                            return True
+                else:
+                    if conventana is not None:
+                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                            return True
+                    else:
+                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                            return True
         return False
         ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
     
@@ -185,18 +194,21 @@ class Reserva:
         #     listareservasfec.append(fecha)
         #-----------------------------------------
         listareservas = []
-        for res in hotel.lista_reservas_activas:
-            if res.habitacion == habitacion:
-                listareservas.append[res.fec_checkin]
-                listareservas.append[res.fec_checkout]
+        if hotel.lista_reservas_activas.len_lista() == 0:
+            pass
+        else:
+            for res in hotel.lista_reservas_activas:
+                if res.habitacion == habitacion:
+                    listareservas.append(datetime.datetime.strptime(res.fec_checkin, '%d/%m/%Y'))
+                    listareservas.append(datetime.datetime.strptime(res.fec_checkout, '%d/%m/%Y'))
         ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
         listareservas = sorted(listareservas)
         return listareservas
     
-    
-    # HACER TRY EXCEPT PARA VER QUE FECHA CHECKOUT > FECHA CHECKIN
     def disponibilidad(fec_checkin, fec_checkout, habitacion, hotel):
         lista_reservas_x_hab = Reserva.lista_reservas_actuales(habitacion, hotel)
+        if len(lista_reservas_x_hab) == 0:
+            return True
         if fec_checkout < lista_reservas_x_hab[0]:
             return True
         i = 2
