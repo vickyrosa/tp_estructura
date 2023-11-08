@@ -120,7 +120,7 @@ def historico_general_reservas(pila_reservas):
 def pedir_dni ():
     while True:
         try:
-            dni = input('Ingrese su DNI: ')
+            dni = input('Ingrese su DNI: ').strip()
             if not dni.isnumeric():
                 raise ValueError("DNI debe tener caracteres numéricos.")
             if len(dni) != 8:
@@ -131,7 +131,7 @@ def pedir_dni ():
 
 def pedir_nombre():
     while True:
-        nombre = input('Ingrese su nombre y apellido (Ej: Felipe Martin Oyerzabal): ')
+        nombre = input('Ingrese su nombre y apellido (Ej: Felipe Martin Oyerzabal): ').strip()
         try:
             for letra in nombre:
                 if letra.isdigit():
@@ -141,11 +141,11 @@ def pedir_nombre():
             print(e)
 
 def pedir_contra():
-    return input('Ingrese su contraseña: ')
+    return input('Ingrese su contraseña: ').strip()
 
 def pedir_fec_nac():
     while True:
-        fec_nac_str = input("Ingrese fecha de nacimiento en formato DD/MM/YYYY: ")
+        fec_nac_str = input("Ingrese fecha de nacimiento en formato DD/MM/YYYY: ").strip()
         try:
             fec_nac = datetime.datetime.strptime(fec_nac_str, '%d/%m/%Y')
             hoy = datetime.datetime.today().strftime('%d/%m/%Y')
@@ -163,24 +163,24 @@ def pedir_fec_nac():
 
 def pedir_genero():
     while True:
-        genero = input("Ingrese su género (F para femenino, M para masculino, O para otro): ")
+        genero = input("Ingrese su género (F para femenino, M para masculino, O para otro): ").upper().strip()
         if genero in ["F", "M", "O"]:
             return genero
         else:
             print("Género no válido. Por favor, ingrese 'F' para femenino, 'M' para masculino o 'O' para otro.")
 
 def pedir_telefono():
-    return input('Ingrese su numero de telefono: ')
+    return input('Ingrese su numero de telefono: ').strip()
 
 def pedir_mail():
-    return input('Ingrese su mail: ')
+    return input('Ingrese su mail: ').lower().strip()
 
 def pedir_domicilio():
-    return input('Ingrese su domicilio: ')
+    return input('Ingrese su domicilio: ').strip()
 
 def pedir_cuil():
     while True:
-        cuil = input('Ingrese su numero de CUIL: ')
+        cuil = input('Ingrese su numero de CUIL: ').strip()
         try:
             if not cuil.isnumeric():
                     raise ValueError("El CUIL debe tener caracteres numéricos.")
@@ -194,7 +194,7 @@ def pedir_cuil():
 
 
 def pedir_sueldo():
-    return input('Ingrese sueldo: ')
+    return input('Ingrese sueldo: ').strip()
 
 # Le asignamos a variables la informacion del usuario mediante los metodos creados anteriormente.
 

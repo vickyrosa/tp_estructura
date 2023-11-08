@@ -26,7 +26,7 @@ if __name__ == '__main__':
                     b. Sign In
                     c. Cerrar programa
                     
-                    ''')
+                    ''').lower()
         
         match ingreso:
             case 'a':
@@ -52,7 +52,7 @@ if __name__ == '__main__':
                     b. Personal del hotel
                     c. Volver atrás
                     
-                    ''')
+                    ''').lower()
                     match tipo_usuario:
                         case 'a':
                             fa.sign_in_cliente(lista_clientes)
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                     c. Limpieza
                     d. Volver atrás
                     
-                    ''')
+                    ''').lower()
                                 match tipo_personal:
                                     case 'a':
                                         fa.sign_in_administrativo(lista_administrativo)
