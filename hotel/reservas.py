@@ -2,7 +2,6 @@ import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-import funciones.checks as checks
 #import funciones.menu_cliente as menu_cliente
 import random
 #import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
@@ -195,6 +194,7 @@ CHECK OUT: {fec_checkout}
         #-----------------------------------------
         listareservas = []
         if hotel.lista_reservas_activas.len_lista() == 0:
+            print("No hay reservas actuales")
             pass
         else:
             lista_reservas_activas = hotel.lista_reservas_activas

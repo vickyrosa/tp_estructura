@@ -15,6 +15,9 @@ def menu_administrador(administrador, hotel):
             case 'a':
                 # NO ENTIENDO XQ SALTA ERROR, DICE QUE LE PASO DOS ARGUMENTO CDO CLARAMENTE LE TOY PASANDO UNO SOLO
                 # Puse el print este para que se vea que administrador y hotel se pasan bien como objetos
+
+                #creo que no se estan importando bien los archivos que te dicen el porcentaje.
+
                 print(administrador)
                 print(hotel)
                 administrador.porcentaje_ocupacion(hotel)
@@ -27,4 +30,4 @@ def menu_administrador(administrador, hotel):
             case 'e':
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c | d | e)')
+                print('Por favor elija una de las opciones (a | b | c | d | e)')
