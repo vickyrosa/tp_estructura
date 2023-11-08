@@ -126,23 +126,23 @@ class Reserva:
                     break
                 case _: 
                     print("Porfavor elija una de las opciones (a | b | c)")
-        
-        #Puse parametros hardcodeados, despues cambiar
-        #Fijarme si existe la habitacion que esta buscando el cliente
-        ### FIJARME SI LA FECHA CHECKIN Y FECHA CHECKOUT NO SE ENCUENTRAN EN NINGUN INTERVALO DE FECHAS (.GET DISPONIBILIDAD EN HABITACION)
-        
-        # Soy toto, ahi te agregue para acceder a la lsita de habitaciones (esta gurdada en la clase hotel)
-        # OJO! Con las condiciones que nos da la persona para reservar tenemos que hacer una lista de posibles opciones de habitaciones
-        # luego en las reservas SOLO vamos a verificar aquellas que coincidan con la habitacion que el cliente nuevo quiere.
-        # Despues de eso vamos a tener que ver que NO haya solapamiento de fechas para ahi recien poder crear la reserva
-        # En caso de que no se encuentre una habitacion disponible vamos a tener que decirle al usuario que no hay y ofrecerle dos opciones:
-        # cerrar sesion o cambiar las condiciones de reserva (ya sea fechas, tipo cuarto o lo que quiera, osea volver a hcaer la reserva de 0)
-        
+
         for hab in hotel.lista_habitaciones:
             if hab.get_tipo() == tipo:
                 if conbano is not None:
                     if conventana is not None:
-                        if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
+                        if conbano == bool(hab.tiene_bano_privado()) and conventana == bool(hab.tiene_ventana_balcon()):
+                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                                return True
+                    else:
+                        if conbano == bool(hab.tiene_bano_privado()):
+                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                                return True
+                else:
+                    if conventana is not None:
+                        if conventana == bool(hab.tiene_ventana_balcon()):
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
                                 return True
@@ -150,24 +150,7 @@ class Reserva:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                             hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
                             return True
-                else:
-                    if conventana is not None:
-                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
-                            return True
-                    else:
-                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
-                            return True
-        opcion = input('''No se encontro una habitacion disponible en las fechas con sus preferencias.
-    Seleccione una opcion:
-    a. Cambiar datos
-    b. Salir''')
-        ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
-    
-    
-    # CORRO ESTAS FUNCIONES ACA Y NO EN FA POR UN PROBLEMA DE MODULARIDAD CIRCULAR, NO NOS DEJA IMPORTAR RESERVAS EN FA Y EL MISMO TIEMPO
-    # FA EN RESERVAS
+        print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
     
     def lista_reservas_actuales(habitacion, hotel):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
