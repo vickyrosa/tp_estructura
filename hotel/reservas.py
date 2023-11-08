@@ -159,7 +159,10 @@ class Reserva:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                             hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
                             return True
-        return False
+        opcion = input('''No se encontro una habitacion disponible en las fechas con sus preferencias.
+    Seleccione una opcion:
+    a. Cambiar datos
+    b. Salir''')
         ##Returnea TRUE si encontro la reserva, FALSE si no hay ninguna habitacion disponible. 
     
     
@@ -218,17 +221,18 @@ class Reserva:
                 return True
             i += 2
         if fecha_checkin > lista_reservas_x_hab[i-1]:
-            return True       
-        opcion = input('''No se encontraron habitaciones disponibles en esas fechas, elija una opcion:
-                    a. Reservar otra habitacion
-                    b. Volver atrás   
-                    ''')
+            return True
+        return False
+        # opcion = input('''No se encontraron habitaciones disponibles en esas fechas, elija una opcion:
+        #             a. Reservar otra habitacion
+        #             b. Volver atrás   
+        #             ''')
         # match opcion:
         #     case 'a':
         #         Reserva.reservar()
         #     case 'b':
         #         menu_cliente.menu_cliente()
-        pass
+        # pass
        
 
 
