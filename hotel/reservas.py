@@ -128,29 +128,47 @@ class Reserva:
                     print("Porfavor elija una de las opciones (a | b | c)")
 
         for hab in hotel.lista_habitaciones:
+            numero_reserva = random.randint(1,999999)
             if hab.get_tipo() == tipo:
                 if conbano is not None:
                     if conventana is not None:
                         if conbano == bool(hab.tiene_bano_privado()) and conventana == bool(hab.tiene_ventana_balcon()):
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
                                 return True
                     else:
                         if conbano == bool(hab.tiene_bano_privado()):
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
                                 return True
                 else:
                     if conventana is not None:
                         if conventana == bool(hab.tiene_ventana_balcon()):
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
                                 return True
                     else:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                            hotel.lista_reservas_activas.agregar_reserva(Reserva(random.randint(1,999999), usuario, hab, fec_checkin, fec_checkout))
+                            hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+                            Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
                             return True
         print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
+    
+    def confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout):
+        print(f'''La reserva fue efectuada correctamente.
+NUMERO DE RESERVA: {numero_reserva}
+
+HABITACION:
+{hab}
+
+CLIENTE:
+{usuario}
+CHECK IN: {fec_checkin}
+CHECK OUT: {fec_checkout}
+''')
     
     def lista_reservas_actuales(habitacion, hotel):
         ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase

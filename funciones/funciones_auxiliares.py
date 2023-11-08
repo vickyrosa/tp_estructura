@@ -11,8 +11,7 @@ from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
 from usuario.usuario import Usuario
-
-from datetime import datetime
+from collections import deque
 
 # IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
 # funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
@@ -20,9 +19,15 @@ from datetime import datetime
 def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas(lista_clientes, lista_habitaciones)
-    admin = Administrador('Administrador','11222333','Jefe','a','01/01/1960','M','123456','jefe@hotel.com','a1','01/01/1990',None,'123','10000')
+    admin = download_administrador()
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
     return hotel
+
+def download_administrador():
+    with open('txt/administrador.txt', 'r') as archivo_administrador:
+        info_administrador = archivo_administrador.readlines()
+    tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = info_administrador[0].strip().split(',')
+    return Administrador(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo)
 
 def download_clientes():    #Devuelve una lista con toda la informacion de los clientes contenida en el .txt.
     lista_clientes = list()
@@ -78,6 +83,7 @@ def download_habitaciones():
 
 def download_reservas_activas(lista_clientes, lista_habitaciones):
     lista_reservas = Lista_Reservas()
+    pila_reservas = deque()
     with open('txt/reservas_activas.txt', 'r') as archivo_reservas:
         lista_info_reservas = archivo_reservas.readlines()
     for i in range(len(lista_info_reservas)):
@@ -90,10 +96,20 @@ def download_reservas_activas(lista_clientes, lista_habitaciones):
             if hab.numero == nro_habitacion:
                 habitacion = hab
                 break
-        lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
+        # Verificamos si la reserva ya caduco o si sigue activa
+        if datetime.datetime.strptime(fec_checkout, '%d/%m/%Y') < datetime.datetime.today():
+            pila_reservas.append(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
+        else:
+            lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
+    historico_general_reservas(pila_reservas)
     return lista_reservas
     
-    
+def historico_general_reservas(pila_reservas):
+    historico_gral_reservas = open('txt/historico_gral_reservas.txt', 'a')
+    while pila_reservas:
+        reserva = pila_reservas.pop()
+        historico_gral_reservas.write(f'{reserva.nroreserva},{reserva.cliente.dni},{reserva.habitacion.numero},{reserva.fec_checkin},{reserva.fec_checkout}\n')
+    historico_gral_reservas.close()
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
 
 #Cambie la funcion de pedir dni para no usar check sino set, asi metemos esa estructura
@@ -117,8 +133,9 @@ def pedir_nombre():
     while True:
         nombre = input('Ingrese su nombre y apellido (Ej: Felipe Martin Oyerzabal): ')
         try:
-            if nombre.isdigit():
-                raise ValueError("El nombre no puede tener caracteres numericos.")
+            for letra in nombre:
+                if letra.isdigit():
+                    raise ValueError("El nombre no puede tener caracteres numericos.")
             return nombre
         except ValueError as e:
             print(e)
@@ -130,9 +147,9 @@ def pedir_fec_nac():
     while True:
         fec_nac_str = input("Ingrese fecha de nacimiento en formato DD/MM/YYYY: ")
         try:
-            fec_nac = datetime.strptime(fec_nac_str, '%d/%m/%Y')
-            hoy = datetime.today().strftime('%d/%m/%Y')
-            hoy = datetime.strptime(hoy, '%d/%m/%Y')
+            fec_nac = datetime.datetime.strptime(fec_nac_str, '%d/%m/%Y')
+            hoy = datetime.datetime.today().strftime('%d/%m/%Y')
+            hoy = datetime.datetime.strptime(hoy, '%d/%m/%Y')
             # Calcula edad
             edad = hoy.year - fec_nac.year - ((hoy.month, hoy.day) < (fec_nac.month, fec_nac.day))
             if edad >= 18:
@@ -197,7 +214,7 @@ def pedir_datos_basicos_sing_in():
     mail = pedir_mail()
     domicilio = pedir_domicilio()
     contra = pedir_contra()
-    fec_alta = datetime.today().strftime('%d/%m/%Y')
+    fec_alta = datetime.datetime.today().strftime('%d/%m/%Y')
     return dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta
 
 # Con las variables del metodo anterior anadimos a nuestra "base de datos" al usuario creado.
@@ -259,6 +276,7 @@ def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limp
 def load_hotel(hotel):
     load_reservas_activas(hotel)
     load_habitaciones(hotel)
+    load_administrador(hotel)
     
 def load_reservas_activas(hotel):
     lista_reservas_activas = hotel.lista_reservas_activas
@@ -275,6 +293,12 @@ def load_habitaciones(hotel):
     for habitacion in lista_habitaciones:
         archivo_habitaciones.write(f'{habitacion.numero},{habitacion.tipo},{habitacion.precio_noche},{habitacion.bano_privado},{habitacion.ventana_balcon},{habitacion.disponible}\n')
     archivo_habitaciones.close()
+
+def load_administrador(hotel):
+    admin = hotel.admin
+    archivo_administrador = open('txt/administrador.txt', 'w')
+    archivo_administrador.write(f'{admin.tipo_usuario},{admin.dni},{admin.nombre},{admin.contra},{admin.fec_nac},{admin.genero},{admin.tel},{admin.mail},{admin.domicilio},{admin.fec_alta},{admin.fec_baja},{admin.cuil},{admin.sueldo}')
+    
 
 def load_clientes(lista_clientes):
     # Una vez que cerramos el programa, cargo todos los datos, lo agrego a la base de datos
