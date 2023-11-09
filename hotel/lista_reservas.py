@@ -82,5 +82,9 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
     #     historico_gral_reservas.close()
     
 
+    def mostrar_reservas_cliente (self):
+        buscar_cliente = input("Ingrese DNI del cliente a buscar")
 
+        
+        
     

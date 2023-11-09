@@ -1,3 +1,7 @@
+from usuario.usuario import Usuario
+from usuario.cliente import Cliente
+
+
 class Buffet():
     def __init__(self, menu):    
         # Crea el menu vacio
@@ -52,26 +56,26 @@ class Buffet():
         ## Para cuando se instancia cliente.ordenar() acceder al precio del item.
         return self.menu.get(item)
     
-    
-    
     #### HAGO EL MENU PERO NO VA ACA
 
-    def ordenar_menu(self, usuario):
+    def ordenar_menu(self, cliente):
         print('Menu del buffet\n========')
         Buffet.__str__()
         total = 0
         while True:
-            print("Menú del buffet:")
+            print("Menu del buffet:")
             Buffet.__str__()
-            ans = input("¿Qué desea ordenar? (Escriba 'salir' si ya no desea ordenar ): ")
-            if ans.lower() == 'salir':
+            ans = input("Selecione lo que quiera ordenar (Escriba 'salir' si ya no desea ordenar ): ")
+            ans = ans.lower().strip()
+            if ans == 'salir':
                 break
             elif ans in self.menu:
                 total += self.menu[ans]
                 print(f"Ordenaste {ans}. Su comida llegara pronto")
-                usuario.cliente.historicogastos += total
+                cliente.historico_gastos += total
             else:
-                print("Ese plato no está en el menú. Por favor, elija un plato del menú.")
+                print("Ese plato no esta en el menu. Por favor, elija un plato del menu.")
         print(f'Precio total: {total}')
                     
+
 
