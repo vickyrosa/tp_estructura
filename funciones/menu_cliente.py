@@ -1,5 +1,6 @@
 import funciones.funciones_auxiliares as fa
 from hotel.reservas import Reserva
+from hotel.buffet import Buffet
 
 def menu_cliente(cliente, hotel):
     while True:
@@ -17,7 +18,7 @@ def menu_cliente(cliente, hotel):
                 # Hacer try except para estos inputs
                 Reserva.reservar(cliente, hotel)
             case 'b':
-                pass
+                Buffet.ordenar_menu(cliente)
             case 'c':
                 pass
             case 'd':
@@ -25,5 +26,5 @@ def menu_cliente(cliente, hotel):
             case 'e':
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c | d | e)')
+                print('Por favor elija una de las opciones (a | b | c | d | e)')
     

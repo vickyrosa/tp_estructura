@@ -11,4 +11,7 @@ class Limpieza(Personal):  #    HACER   metodo para iniciar trabajo y otro para 
         else:
             return("No hay personal disponible")
     def finalizar_trabajo(self):
-        self.disponibilidad = True
+        if self.disponibilidad == False:
+            self.disponibilidad = True
+        else:
+            return "No estaba realizando ninguna tarea actualmente"

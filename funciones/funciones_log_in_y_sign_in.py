@@ -1,10 +1,4 @@
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
-from usuario.cliente import Cliente
-from usuario.administrativo import Administrativo
-from usuario.administrador import Administrador
-from usuario.mantenimiento import Mantenimiento
-from usuario.limpieza import Limpieza
-from usuario.usuario import Usuario
 import datetime
 
 def pedir_dni ():

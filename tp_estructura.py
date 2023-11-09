@@ -1,12 +1,6 @@
 # ACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)
-from hotel.habitacion import Habitacion
-from usuario.cliente import Cliente
-from usuario.administrador import Administrador
-from hotel.buffet import Buffet
-from hotel.hotel import Hotel
-from hotel.reservas import Reserva
-from hotel.lista_reservas import Lista_Reservas
 import funciones.funciones_auxiliares as fa
+import funciones.funciones_log_in_y_sign_in as flisi
 import funciones.menu_cliente as menu_cliente
 import funciones.menu_administrativo as menu_administrativo
 import funciones.menu_limpieza as menu_limpieza
@@ -29,19 +23,19 @@ if __name__ == '__main__':
         
         match ingreso:
             case 'a':
-                usuario = fa.log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel)
+                usuario = flisi.log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel)
                 if usuario != None:
                     match usuario.tipo_usuario:
                         case 'Cliente':
                             menu_cliente.menu_cliente(usuario, hotel)
                         case 'Administrativo':
-                            print('Entro a admin')
+                            menu_administrativo.menu_administrativo(usuario, hotel, lista_clientes)
                         case 'Mantenimiento':
                             print('Entro a Mantenimiento')
                         case 'Limpieza':
                             print('Entro a limpieza')
                         case 'Administrador':
-                            menu_administrador.menu_administrador(usuario, hotel)
+                            menu_administrador.menu_administrador(usuario, hotel, lista_administrativo)
                 pass
             
             case 'b':
@@ -54,7 +48,7 @@ if __name__ == '__main__':
                     ''').lower()
                     match tipo_usuario:
                         case 'a':
-                            fa.sign_in_cliente(lista_clientes)
+                            flisi.sign_in_cliente(lista_clientes)
                             break
                         case 'b':
                             while True:
@@ -67,17 +61,17 @@ if __name__ == '__main__':
                     ''').lower()
                                 match tipo_personal:
                                     case 'a':
-                                        fa.sign_in_administrativo(lista_administrativo)
+                                        flisi.sign_in_administrativo(lista_administrativo)
                                         # Este volver atras = False, es para que si el usuario en algun momento toco volver atras, no se guarde
                                         # el valor de esa variable y al crear el usuario, vuelva al menu principal.
                                         volver_atras = False
                                         break
                                     case 'b':
-                                        fa.sign_in_mantenimiento(lista_mantenimiento)
+                                        flisi.sign_in_mantenimiento(lista_mantenimiento)
                                         volver_atras = False
                                         break
                                     case 'c':
-                                        fa.sign_in_limpieza(lista_limpieza)
+                                        flisi.sign_in_limpieza(lista_limpieza)
                                         volver_atras = False
                                         break
                                     case 'd':

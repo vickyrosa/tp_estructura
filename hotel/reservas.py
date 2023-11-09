@@ -1,7 +1,8 @@
 import datetime
-from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
+import usuario.cliente
+#import METODO DE PAGO
 #import funciones.menu_cliente as menu_cliente
 import random
 #import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
@@ -27,27 +28,32 @@ class Reserva:
     def reservar(usuario, hotel):
         while True:
             tipo = input(''' Elija un tipo de habitacion:
-                a. Simple
-                b. Doble
-                c. Suite
-                d. Familiar
+                a. Simple ---> $1000
+                b. Doble ----> $2000
+                c. Suite ----> $3000
+                d. Familiar ----> $4000
                         
                 ''')
+            valortotal = 0
             match tipo:
                 case 'a':
                     tipo = 'Simple'
+                    valortotal = 1000
                     break
                 case 'b':
                     tipo = 'Doble'
+                    valortotal = 2000
                     break
                 case 'c':
                     tipo = 'Suite'
+                    valortotal = 3000
                     break
                 case 'd':
                     tipo = 'Familiar'
+                    valortotal = 4000
                     break
                 case _:
-                    print('Porfavor elija una de las opciones (a | b | c | d)')
+                    print('Por favor elija una de las opciones (a | b | c | d)')
         while True:
             # Utilizamos dos While diferentes para cada fecha, asi el usuario en caso de ingresar una de las dos en un formato incorrecto
             # no precisa volver a ingresar la anterior
@@ -135,12 +141,14 @@ class Reserva:
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
+                                usuario.historico_gastos += valortotal
                                 return True
                     else:
                         if conbano == bool(hab.tiene_bano_privado()):
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
+                                usuario.historico_gastos += valortotal
                                 return True
                 else:
                     if conventana is not None:
@@ -148,11 +156,13 @@ class Reserva:
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
+                                usuario.historico_gastos += valortotal
                                 return True
                     else:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
                             Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
+                            usuario.historico_gastos += valortotal
                             return True
         print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
     

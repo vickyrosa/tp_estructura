@@ -1,11 +1,21 @@
 from usuario.usuario import Usuario
 from usuario.cliente import Cliente
+from queue import Queue
+import time
+# IMPORT METODO DE PAGO
+cola_pedidos = Queue()
 
 
 class Buffet():
-    def __init__(self, menu):    
-        # Crea el menu vacio
-        self.menu = menu
+    def __init__(self):    
+        self.menu = {
+            'Desayuno': 1000,
+            'Almuerzo': 1000,
+            'Merienda': 1000,
+            'Cena': 1000,
+            'Bebida': 1000,
+            'Snack' :1000}
+        
     def agregar_comida(self, item, precio_item):
         
         # Se fija que si no hay comidas en el menu, crea uno. Si hay comidas lo agrega junto con su precio.
@@ -37,7 +47,7 @@ class Buffet():
         else: 
             return "Introduzca un formato correcto"  ## ACA HAY QUE VOLVER AL MENU (QUE NO EXISTE POR AHORA)
     def modificar_precio_comida(self,item,nuevo_precio_item):
-        
+
         # Le doy una comida y modifico el precio (TENGO QUE HACER UNA OPCION PARA DARLE UN PRECIO Y CAMBIAR EL ITEM? no tiene sentido me parece)
         if type(nuevo_precio_item) == int and type(item) == str:
             if len(self.menu) == 0: #No hay comidas entonces no puedo cambiar nada.
@@ -58,24 +68,42 @@ class Buffet():
     
     #### HAGO EL MENU PERO NO VA ACA
 
-    def ordenar_menu(self, cliente):
+    def ordenar_menu(self, cliente, cola_pedidos):
+        def procesar_pedidos():
+            while not cola_pedidos.empty():
+                pedido = cola_pedidos.get()
+                print(f"Procesando pedido: {pedido}")
+                print(f"{pedido} listo.")
+
         print('Menu del buffet\n========')
-        Buffet.__str__()
+        self.__str__()
+
         total = 0
+
         while True:
             print("Menu del buffet:")
-            Buffet.__str__()
-            ans = input("Selecione lo que quiera ordenar (Escriba 'salir' si ya no desea ordenar ): ")
+            self.__str__()
+            ans = input("Selecione lo que quiera ordenar (Escriba 'salir' si ya no desea ordenar): ")
             ans = ans.lower().strip()
+
             if ans == 'salir':
                 break
             elif ans in self.menu:
                 total += self.menu[ans]
                 print(f"Ordenaste {ans}. Su comida llegara pronto")
+                
+                # Agregar el pedido a la cola
+                cola_pedidos.put(ans)
+                #Llamar metodo de pago:
+                
                 cliente.historico_gastos += total
+
+                # Llamar a la funcion para procesar pedidos
+                procesar_pedidos()
             else:
                 print("Ese plato no esta en el menu. Por favor, elija un plato del menu.")
+        
         print(f'Precio total: {total}')
-                    
+
 
 
