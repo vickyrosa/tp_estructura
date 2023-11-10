@@ -50,7 +50,11 @@ def download_administrativo():      #Devuelve una lista con toda la informacion 
         lista_info_administrativo = archivo_administrativo.readlines()
     for i in range(len(lista_info_administrativo)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
-        lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
+        if fec_baja != 'None':
+            with open('txt/ex_personal.txt', 'a') as ex_personal:
+                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
+        else:
+            lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
     return lista_administrativo
 
 def download_mantenimiento():   #Devuelve una lista con toda la informacion del personal de mantenimiento contenida en el .txt.
@@ -59,7 +63,11 @@ def download_mantenimiento():   #Devuelve una lista con toda la informacion del 
         lista_info_mantenimiento = archivo_mantenimiento.readlines()
     for i in range(len(lista_info_mantenimiento)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
-        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        if fec_baja != 'None':
+            with open('txt/ex_personal.txt', 'a') as ex_personal:
+                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
+        else:
+            lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_mantenimiento
 
 def download_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
@@ -68,7 +76,11 @@ def download_limpieza():    #Devuelve una lista con toda la informacion del pers
         lista_info_limpieza = archivo_limpieza.readlines()
     for i in range(len(lista_info_limpieza)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
-        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        if fec_baja != 'None':
+            with open('txt/ex_personal.txt', 'a') as ex_personal:
+                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
+        else:
+            lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_limpieza
 
 def download_habitaciones():

@@ -2,6 +2,7 @@ from usuario.usuario import Usuario
 from hotel.reservas import Reserva
 from hotel.buffet import Buffet
 from collections import deque
+import funciones.metodos_de_pagos as mp
 import datetime
 import random
 
@@ -176,6 +177,6 @@ class Cliente(Usuario):
                 print("Comando incorrecto. Por favor, elija un plato del menu o salir.")
         
         print(f'Precio total: ${total}')
-        # Llamar metodo de pago!!!!!!
+        mp.metodo_de_pago()
         buffet.procesar_pedidos(cola_pedidos)
         self.historico_gastos += total
