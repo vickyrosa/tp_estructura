@@ -11,10 +11,6 @@ def menu_administrador(administrador, hotel, lista_administrativo):
                     ''')
         match opcion:
             case 'a':
-                # NO ENTIENDO XQ SALTA ERROR, DICE QUE LE PASO DOS ARGUMENTO CDO CLARAMENTE LE TOY PASANDO UNO SOLO
-                # Puse el print este para que se vea que administrador y hotel se pasan bien como objetos
-
-                #creo que no se estan importando bien los archivos que te dicen el porcentaje.
                 administrador.porcentaje_ocupacion(hotel)
             case 'b':
                 administrador.porcentaje_ocupacion_portipo(hotel)
