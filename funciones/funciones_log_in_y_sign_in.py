@@ -1,5 +1,11 @@
 #Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
 import datetime
+from usuario.usuario import Usuario
+from usuario.cliente import Cliente
+from usuario.mantenimiento import Mantenimiento
+from usuario.limpieza import Limpieza
+from usuario.administrativo import Administrativo
+
 
 def pedir_dni ():
     while True:
@@ -113,26 +119,26 @@ def sign_in_cliente(lista_clientes):
     nomina_cliente.write(f'{nombre}  {dni}  {tel}  {mail}\n')
     nomina_cliente.close()
     
-def sign_in_administrativo(lista_administrativo):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
-    tipo_usuario = 'Administrativo'
-    cuil = pedir_cuil()
-    sueldo = pedir_sueldo()
-    lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+# def sign_in_administrativo(lista_administrativo):
+#     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
+#     tipo_usuario = 'Administrativo'
+#     cuil = pedir_cuil()
+#     sueldo = pedir_sueldo()
+#     lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
-def sign_in_mantenimiento(lista_mantenimiento):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
-    tipo_usuario = 'Mantenimiento'
-    cuil = pedir_cuil()
-    sueldo = pedir_sueldo()
-    lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+# def sign_in_mantenimiento(lista_mantenimiento):
+#     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
+#     tipo_usuario = 'Mantenimiento'
+#     cuil = pedir_cuil()
+#     sueldo = pedir_sueldo()
+#     lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
     
-def sign_in_limpieza(lista_limpieza):
-    dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
-    tipo_usuario = 'Limpieza'
-    cuil = pedir_cuil()
-    sueldo = pedir_sueldo()
-    lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+# def sign_in_limpieza(lista_limpieza):
+#     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
+#     tipo_usuario = 'Limpieza'
+#     cuil = pedir_cuil()
+#     sueldo = pedir_sueldo()
+#     lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
 
 def buscar_usuario(lista, dni, contra):
     for persona in lista:

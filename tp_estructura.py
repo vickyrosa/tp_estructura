@@ -29,7 +29,7 @@ if __name__ == '__main__':
                         case 'Cliente':
                             menu_cliente.menu_cliente(usuario, hotel)
                         case 'Administrativo':
-                            menu_administrativo.menu_administrativo(usuario, hotel, lista_clientes)
+                            menu_administrativo.menu_administrativo(usuario, hotel, lista_clientes, lista_mantenimiento, lista_limpieza)
                         case 'Mantenimiento':
                             print('Entro a Mantenimiento')
                         case 'Limpieza':

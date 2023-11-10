@@ -1,20 +1,42 @@
-def menu_administrativo(administrativo, hotel, lista_clientes):
+def menu_administrativo(administrativo, hotel, lista_clientes, lista_mantenimiento, lista_limpieza):
     while True:
-        opcion = input(''' Elija una opcion:
-                        a. Dar de baja personal
-                        b. Asignar tarea
-                        c. Buscar resrvas de un cliente
-                        d. Log out
+        opcion = input('''Elija una opcion:
+                        a. Dar de alta personal
+                        b. Dar de baja personal
+                        c. Asignar tarea
+                        d. Cancelar tarea
+                        e. Buscar reservas de un cliente
+                        f. Log out
                         
-                        ''')
+                        ''').lower().strip()
         match opcion:
             case 'a':
-                administrativo.despedir_personal()
+                while True:
+                    tipo_usuario = input('''Que usuario creara:
+                                        a. Mantenimiento
+                                        b. Limpieza
+                                        c. Volver atras                                    
+                                        
+                                        ''').lower().strip()
+                    match tipo_usuario:
+                        case 'a':
+                            administrativo.sign_in_mantenimiento(lista_mantenimiento)
+                        case 'b':
+                            administrativo.sign_in_limpieza(lista_limpieza)
+                        case 'c':
+                            break
+                        case _:
+                            print('Porfavor elija una de las opciones (a | b | c)')
+                
             case 'b':
-                pass
+                administrativo.despedir_personal()
             case 'c':
-                administrativo.mostrar_reservas_cliente(hotel, lista_clientes)
+                pass
             case 'd':
                 break
+            case 'e':
+                administrativo.mostrar_reservas_cliente(hotel, lista_clientes)
+            case 'f':
+                break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c)')
+                print('Porfavor elija una de las opciones (a | b | c | d | e | f)')

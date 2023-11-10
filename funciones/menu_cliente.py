@@ -15,6 +15,7 @@ def menu_cliente(cliente, hotel):
                         ''')
         match opcion:
             case 'a':
+                #OJO! LOS METODOS SE TIENEN QUE LLAMAR SI O SI DE CLIENTE OSEA: cliente.ordenar_menu() y cliente.reservar()
                 # Hacer try except para estos inputs
                 Reserva.reservar(cliente, hotel)
             case 'b':

@@ -1,12 +1,31 @@
 from usuario.personal import Personal
 import funciones.funciones_auxiliares as fa
 from hotel.reservas import Reserva 
+import funciones.funciones_log_in_y_sign_in as flisi
+from usuario.limpieza import Limpieza
+from usuario.mantenimiento import Mantenimiento
 
 
 class Administrativo(Personal):
     def __init__(self, tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo):
         super().__init__(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo)
     
+    def sign_in_mantenimiento(self, lista_mantenimiento):
+        dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = flisi.pedir_datos_basicos_sing_in()
+        tipo_usuario = 'Mantenimiento'
+        cuil = flisi.pedir_cuil()
+        sueldo = flisi.pedir_sueldo()
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+        print(f'El usuario del personal de mantenimiento con DNI: {dni} fue creado correctamente.')
+        
+    def sign_in_limpieza(self, lista_limpieza):
+        dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = flisi.pedir_datos_basicos_sing_in()
+        tipo_usuario = 'Limpieza'
+        cuil = flisi.pedir_cuil()
+        sueldo = flisi.pedir_sueldo()
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+        print(f'El usuario del personal de limpieza con DNI: {dni} fue creado correctamente.')
+        
     def encargar_tareas(self):
         while True:
             area = input(''' Elija una opcion:
@@ -80,8 +99,8 @@ class Administrativo(Personal):
                 reservas_encontradas.append(reserva)
 
         if reservas_encontradas:
-         print("Reservas del cliente:")
-        for reserva in reservas_encontradas:
-            print(f'Número de reserva: {reserva.nroreserva} Habitación: {reserva.habitacion} Fecha de check-in: {reserva.fec_checkin}\tFecha de check-out: {reserva.fec_checkout}\n')    
+            print("Reservas del cliente:")
+            for reserva in reservas_encontradas:
+                print(f'Número de reserva: {reserva.nroreserva} Habitación: {reserva.habitacion} Fecha de check-in: {reserva.fec_checkin}\tFecha de check-out: {reserva.fec_checkout}\n')    
         else:
             print("No se encontraron reservas para este cliente.")
