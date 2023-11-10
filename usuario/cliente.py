@@ -1,5 +1,7 @@
 from usuario.usuario import Usuario
 from hotel.reservas import Reserva
+from hotel.buffet import Buffet
+from collections import deque
 import datetime
 import random
 
@@ -20,12 +22,12 @@ class Cliente(Usuario):
     def reservar(self, hotel):
         while True:
             tipo = input(''' Elija un tipo de habitacion:
-                a. Simple ---> $1000 por noche
-                b. Doble ----> $2000 por noche
-                c. Suite ----> $3000 por noche
-                d. Familiar ----> $4000 por noche
+                    a. Simple ---> $1000 por noche
+                    b. Doble ----> $2000 por noche
+                    c. Familiar ----> $3000 por noche
+                    d. Suite ----> $4000 por noche
                         
-                ''')
+                    ''')
             match tipo:
                 case 'a':
                     tipo = 'Simple'
@@ -34,10 +36,10 @@ class Cliente(Usuario):
                     tipo = 'Doble'
                     break
                 case 'c':
-                    tipo = 'Suite'
+                    tipo = 'Familiar'
                     break
                 case 'd':
-                    tipo = 'Familiar'
+                    tipo = 'Suite'
                     break
                 case _:
                     print('Por favor elija una de las opciones (a | b | c | d)')
@@ -77,19 +79,19 @@ class Cliente(Usuario):
         conventana = None
         while True:
             accion = input(''' 
-                a. Elegir con o sin baño
-                b. Elegir con o sin ventana
-                c. Continuar (si no ha seleccionado ninguna opcion se le considerara como indiferente)
+                    a. Elegir con o sin baño
+                    b. Elegir con o sin ventana
+                    c. Continuar (si no ha seleccionado ninguna opcion se le considerara como indiferente)
                         
-            ''')
+                    ''')
             match accion:
                 case 'a':
                     bano = input('''Elija si quiere con baño privado o no:
-                                a. Con baño privado
-                                b. Sin baño privado
-                                c. Indiferente
+                    a. Con baño privado
+                    b. Sin baño privado
+                    c. Indiferente
                                  
-                                ''')
+                    ''')
                     match bano:
                         case 'a': 
                             conbano = True
@@ -101,11 +103,11 @@ class Cliente(Usuario):
                             print("Porfavor elija una de las opciones (a | b | c)")
                 case 'b':
                     ventana = input('''Elija si quiere con ventana o no:
-                                a. Con ventana
-                                b. Sin ventana
-                                c. Indiferente
+                    a. Con ventana
+                    b. Sin ventana
+                    c. Indiferente
                                     
-                                ''')
+                    ''')
                     match ventana:
                         case 'a':
                             conventana = True
@@ -153,3 +155,27 @@ class Cliente(Usuario):
                             self.historico_gastos += hab.precio_noche*dias_totales
                             return True
         print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
+        
+    def ordenar_del_buffet(self):
+        total = 0
+        cola_pedidos = deque()
+        buffet = Buffet()
+        while True:
+            print("Menu del buffet:")
+            buffet.mostrar_menu()
+            ans = input("Escriba lo que quiera ordenar (Escriba 'salir' si ya no desea ordenar): ").capitalize().strip()
+            if ans == 'Salir':
+                break
+            elif ans in buffet.menu.keys():
+                total += buffet.menu[ans]
+                print(f"Ordenaste {ans}.")
+                
+                # Agregar el pedido a la cola
+                cola_pedidos.append(ans)
+            else:
+                print("Comando incorrecto. Por favor, elija un plato del menu o salir.")
+        
+        print(f'Precio total: ${total}')
+        # Llamar metodo de pago!!!!!!
+        buffet.procesar_pedidos(cola_pedidos)
+        self.historico_gastos += total

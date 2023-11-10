@@ -30,11 +30,11 @@ class Administrativo(Personal):
     def encargar_tareas(self, lista_mantenimiento, lista_limpieza):
         while True:
             area = input(''' Elija una opcion:
-                            a. Ordenar mantenimiento
-                            b. Ordenar limpieza
-                            c. Salir
+                    a. Ordenar mantenimiento
+                    b. Ordenar limpieza
+                    c. Salir
 
-                            ''').strip().lower()
+                    ''').strip().lower()
                         
             match area:
                 case 'a':
@@ -142,9 +142,9 @@ class Administrativo(Personal):
                 reservas_encontradas.append(reserva)
 
         if reservas_encontradas:
-            print("Reservas del cliente:")
+            print(f"Reservas de {cliente.nombre}:")
             for reserva in reservas_encontradas:
-                print(f'Número de reserva: {reserva.nroreserva} Habitación: {reserva.habitacion} Fecha de check-in: {reserva.fec_checkin}\tFecha de check-out: {reserva.fec_checkout}\n')    
+                print(f'Número de reserva: {reserva.nroreserva} Habitación: {reserva.habitacion.numero} Fecha de check-in: {reserva.fec_checkin}\tFecha de check-out: {reserva.fec_checkout}\n')    
         else:
             print("No se encontraron reservas para este cliente.")
             

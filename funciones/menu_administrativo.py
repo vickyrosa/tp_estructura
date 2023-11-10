@@ -1,24 +1,24 @@
 def menu_administrativo(administrativo, hotel, lista_clientes, lista_mantenimiento, lista_limpieza):
     while True:
         opcion = input('''Elija una opcion:
-                        a. Dar de alta personal
-                        b. Dar de baja personal
-                        c. Asignar tarea
-                        d. Cancelar tarea
-                        e. Buscar reservas de un cliente
-                        f. Cambiar contrasena
-                        g. Log out
+                    a. Dar de alta personal
+                    b. Dar de baja personal
+                    c. Asignar tarea
+                    d. Cancelar tarea
+                    e. Buscar reservas de un cliente
+                    f. Cambiar contrasena
+                    g. Log out
                         
-                        ''').lower().strip()
+                    ''').lower().strip()
         match opcion:
             case 'a':
                 while True:
                     tipo_usuario = input('''Que usuario creara:
-                                        a. Mantenimiento
-                                        b. Limpieza
-                                        c. Volver atras                                    
+                    a. Mantenimiento
+                    b. Limpieza
+                    c. Volver atras                                    
                                         
-                                        ''').lower().strip()
+                    ''').lower().strip()
                     match tipo_usuario:
                         case 'a':
                             administrativo.sign_in_mantenimiento(lista_mantenimiento)

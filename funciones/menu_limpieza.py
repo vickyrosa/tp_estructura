@@ -1,13 +1,13 @@
 def menu_limpieza(limpieza):
     while True:
         opcion = input('''Elija una opcion:
-                        a. Fichar Ingreso
-                        b. Fichar Egreso
-                        c. Finalizar Tarea
-                        d. Cambiar contrasena
-                        e. Log out
+                    a. Fichar Ingreso
+                    b. Fichar Egreso
+                    c. Finalizar Tarea
+                    d. Cambiar contrasena
+                    e. Log out
                         
-                        ''').lower().strip()
+                    ''').lower().strip()
         match opcion:
             case 'a':
                 limpieza.fichar_ingreso()

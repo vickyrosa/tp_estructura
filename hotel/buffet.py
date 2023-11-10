@@ -1,109 +1,28 @@
-from usuario.usuario import Usuario
-from usuario.cliente import Cliente
-from queue import Queue
-import time
 # IMPORT METODO DE PAGO
-cola_pedidos = Queue()
-
 
 class Buffet():
     def __init__(self):    
-        self.menu = {
-            'Desayuno': 1000,
-            'Almuerzo': 1000,
-            'Merienda': 1000,
-            'Cena': 1000,
-            'Bebida': 1000,
-            'Snack' :1000}
+        self.menu = {'Desayuno': 1000,
+                    'Almuerzo': 1000,
+                    'Merienda': 1000,
+                    'Cena': 1000,
+                    'Bebida': 1000,
+                    'Snack' :1000}
         
-    def agregar_comida(self, item, precio_item):
-        
-        # Se fija que si no hay comidas en el menu, crea uno. Si hay comidas lo agrega junto con su precio.
-        # Checkea que este bien el formato del dato (NO SE SI ES NECESARIO)
-        if type(precio_item) == int and type(item) == str:
-            if len(self.menu) == 0:
-                self.menu = {item: precio_item}
-            else:
-                if item in self.menu.keys:
-                    
-                    # Si el item a agregar ya esta en el menu devuelve error (ACA VA A TENER QUE HABER UNA OPCION QUE TE DEJE VOLVER AL MENU)
-                    return "El item que quiere agregar ya se encuentra en el menu"
-                else:
-                    self.menu[item] = precio_item
-        else: 
-            return "Introduzca un formato correcto"  ## ACA HAY QUE VOLVER AL MENU (QUE NO EXISTE POR AHORA)
-    def remover_comida(self, item):
-        
-        # Borra una comida determinada que le pase. Si el menu esta vacio o no esta el item devuelve error (idem caso anterior).
-        # Si encuentra el item lo borra. 
-        if type(item) == str:
-            if len(self.menu) == 0:
-                return "El menu se encuentra vacio"
-            else:
-                if item in self.menu.keys:
-                    self.menu.pop(item)
-                else:
-                    return "El item que quiere borrar no existe"
-        else: 
-            return "Introduzca un formato correcto"  ## ACA HAY QUE VOLVER AL MENU (QUE NO EXISTE POR AHORA)
-    def modificar_precio_comida(self,item,nuevo_precio_item):
-
-        # Le doy una comida y modifico el precio (TENGO QUE HACER UNA OPCION PARA DARLE UN PRECIO Y CAMBIAR EL ITEM? no tiene sentido me parece)
-        if type(nuevo_precio_item) == int and type(item) == str:
-            if len(self.menu) == 0: #No hay comidas entonces no puedo cambiar nada.
-                return "No puede modificar el precio ya que no hay ninguna comida en el menu"
-            else:
-                if item in self.menu.keys:
-                    self.menu.update({item:nuevo_precio_item})
-                else:   #No encontro el item que le pase.
-                    return "No puede modificar el precio ya que no se encuentra la comida en el menu"
-        else: 
-            return "Introduzca un formato correcto"  ## ACA HAY QUE VOLVER AL MENU (QUE NO EXISTE POR AHORA)
     def __str__(self):
-        # Printeo el diccionario entero
         return self.menu
-    def  ver_precio_comida(self, item):
-        ## Para cuando se instancia cliente.ordenar() acceder al precio del item.
-        return self.menu.get(item)
+
+    def mostrar_menu(self):
+        for key in self.menu.keys():
+            print(f'{key} -> ${self.menu[key]}')
     
-    #### HAGO EL MENU PERO NO VA ACA
+    def procesar_pedidos(self, cola_pedidos):
+        while cola_pedidos:
+            pedido = cola_pedidos.popleft()
+            print(f"El pedido de '{pedido}' fue enviado a la cocina")
+        print('La orden ya esta lista, retirar por mostrador')
 
-    def ordenar_menu(self, cliente, cola_pedidos):
-        def procesar_pedidos():
-            while not cola_pedidos.empty():
-                pedido = cola_pedidos.get()
-                print(f"Procesando pedido: {pedido}")
-                print(f"{pedido} listo.")
-
-        print('Menu del buffet\n========')
-        self.__str__()
-
-        total = 0
-
-        while True:
-            print("Menu del buffet:")
-            self.__str__()
-            ans = input("Selecione lo que quiera ordenar (Escriba 'salir' si ya no desea ordenar): ")
-            ans = ans.lower().strip()
-
-            if ans == 'salir':
-                break
-            elif ans in self.menu:
-                total += self.menu[ans]
-                print(f"Ordenaste {ans}. Su comida llegara pronto")
-                
-                # Agregar el pedido a la cola
-                cola_pedidos.put(ans)
-                #Llamar metodo de pago:
-                
-                cliente.historico_gastos += total
-
-                # Llamar a la funcion para procesar pedidos
-                procesar_pedidos()
-            else:
-                print("Ese plato no esta en el menu. Por favor, elija un plato del menu.")
         
-        print(f'Precio total: {total}')
 
 
 
