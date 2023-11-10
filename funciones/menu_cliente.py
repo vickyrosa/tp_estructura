@@ -9,23 +9,26 @@ def menu_cliente(cliente, hotel):
                         a. Reservar una habitacion
                         b. Cancelar reserva
                         c. Pedir del buffet
-                        d. Cambiar contraseña
-                        e. Log out
+                        d. Ver mi categoria
+                        e. Cambiar contraseña
+                        f. Log out
                         
                         ''')
         match opcion:
             case 'a':
                 #OJO! LOS METODOS SE TIENEN QUE LLAMAR SI O SI DE CLIENTE OSEA: cliente.ordenar_menu() y cliente.reservar()
                 # Hacer try except para estos inputs
-                Reserva.reservar(cliente, hotel)
+                cliente.reservar(hotel)
             case 'b':
-                Buffet.ordenar_menu(cliente)
-            case 'c':
                 pass
+            case 'c':
+                Buffet.ordenar_menu(cliente)
             case 'd':
-                cliente.cambiar_contra()
+                cliente.ver_categoria()
             case 'e':
+                cliente.cambiar_contra()
+            case 'f':
                 break
             case _:
-                print('Por favor elija una de las opciones (a | b | c | d | e)')
+                print('Por favor elija una de las opciones (a | b | c | d | e | f)')
     

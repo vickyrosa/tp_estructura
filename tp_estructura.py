@@ -31,64 +31,18 @@ if __name__ == '__main__':
                         case 'Administrativo':
                             menu_administrativo.menu_administrativo(usuario, hotel, lista_clientes, lista_mantenimiento, lista_limpieza)
                         case 'Mantenimiento':
-                            print('Entro a Mantenimiento')
+                            menu_mantenimiento.menu_mantenimiento(usuario)
                         case 'Limpieza':
-                            print('Entro a limpieza')
+                            menu_limpieza.menu_limpieza(usuario)
                         case 'Administrador':
                             menu_administrador.menu_administrador(usuario, hotel, lista_administrativo)
                 pass
             
             case 'b':
-                while True:
-                    tipo_usuario = input('''Elija una opcion:
-                    a. Cliente
-                    b. Personal del hotel
-                    c. Volver atrás
-                    
-                    ''').lower()
-                    match tipo_usuario:
-                        case 'a':
-                            flisi.sign_in_cliente(lista_clientes)
-                            break
-                        case 'b':
-                            while True:
-                                tipo_personal = input('''Elija una opcion:
-                    a. Administrativo
-                    b. Mantenimiento
-                    c. Limpieza
-                    d. Volver atrás
-                    
-                    ''').lower()
-                                match tipo_personal:
-                                    case 'a':
-                                        flisi.sign_in_administrativo(lista_administrativo)
-                                        # Este volver atras = False, es para que si el usuario en algun momento toco volver atras, no se guarde
-                                        # el valor de esa variable y al crear el usuario, vuelva al menu principal.
-                                        volver_atras = False
-                                        break
-                                    case 'b':
-                                        flisi.sign_in_mantenimiento(lista_mantenimiento)
-                                        volver_atras = False
-                                        break
-                                    case 'c':
-                                        flisi.sign_in_limpieza(lista_limpieza)
-                                        volver_atras = False
-                                        break
-                                    case 'd':
-                                        # Ponemos este bool aca para que si quiere volver atras no haga break y vuelva al login, sino que le aparezcan las opciones del menu anterior
-                                        volver_atras = True
-                                        break
-                                    case _:
-                                        print('Porfavor elija una de las opciones (a | b | c | d)')
-                        case 'c':
-                            break
-                        case _:
-                            print('Porfavor elija una de las opciones (a | b | c)')
-                            volver_atras = True
-                    if volver_atras:
-                        pass
-                    else:
-                        break
+                # Solo el cliente puede realizar un sign in 'por su cuenta'. Los empleados requieren que un personal superior les haga el sign in
+                flisi.sign_in_cliente(lista_clientes)
+                break
+            
             case 'c':
                 fa.load_hotel(hotel)
                 fa.load_clientes(lista_clientes)

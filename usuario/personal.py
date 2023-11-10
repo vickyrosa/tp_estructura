@@ -19,4 +19,5 @@ class Personal(Usuario):
         fichas_egreso.write(f'{self.dni},{datetime.datetime.now().strftime("%d/%m/%y %H:%M")}\n')
         fichas_egreso.close()
         print('Se registro su hora de salida a las ',datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
+        
     

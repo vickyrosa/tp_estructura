@@ -34,7 +34,7 @@ def download_clientes():    #Devuelve una lista con toda la informacion de los c
         lista_info_clientes = archivo_clientes.readlines()
     for i in range(len(lista_info_clientes)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos = lista_info_clientes[i].strip().split(',')
-        lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, historico_gastos))
+        lista_clientes.append(Cliente(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, int(historico_gastos)))
     return lista_clientes
 
 def download_personal():    #Devuelve toda la informacion del personal separada por sectores.
@@ -77,7 +77,7 @@ def download_habitaciones():
         lista_info_habitaciones = archivo_habitaciones.readlines()
     for i in range(len(lista_info_habitaciones)):
         numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
-        lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible))
+        lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, bool(disponible)))
     return lista_habitaciones
 
 def download_reservas_activas(lista_clientes, lista_habitaciones):
@@ -134,8 +134,7 @@ def load_habitaciones(hotel):
 def load_administrador(hotel):
     admin = hotel.admin
     archivo_administrador = open('txt/administrador.txt', 'w')
-    archivo_administrador.write(f'{admin.tipo_usuario},{admin.dni},{admin.nombre},{admin.contra},{admin.fec_nac},{admin.genero},{admin.tel},{admin.mail},{admin.domicilio},{admin.fec_alta},{admin.fec_baja},{admin.cuil},{admin.sueldo}')
-    
+    archivo_administrador.write(f'{admin.tipo_usuario},{admin.dni},{admin.nombre},{admin.contra},{admin.fec_nac},{admin.genero},{admin.tel},{admin.mail},{admin.domicilio},{admin.fec_alta},{admin.fec_baja},{admin.cuil},{admin.sueldo}')  
 
 def load_clientes(lista_clientes):
     # Una vez que cerramos el programa, cargo todos los datos, lo agrego a la base de datos
@@ -146,8 +145,8 @@ def load_clientes(lista_clientes):
 
 def load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza):
     load_administrativo(lista_administrativo)
-    load_limpieza(lista_mantenimiento)
-    load_mantenimiento(lista_limpieza)
+    load_mantenimiento(lista_mantenimiento)
+    load_limpieza(lista_limpieza)
     
 def load_administrativo(lista_administrativo):
     archivo_administrativo = open('txt/administrativo.txt', 'w')

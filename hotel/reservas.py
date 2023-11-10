@@ -1,11 +1,9 @@
 import datetime
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-import usuario.cliente
 #import METODO DE PAGO
-#import funciones.menu_cliente as menu_cliente
 import random
-#import funciones.funciones_auxiliares as fa OJO! Esto va a haber que sacarlo! Porque en fa tmb importamos reservas
+
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
@@ -25,148 +23,144 @@ class Reserva:
         else:
             return False
         
-    def reservar(usuario, hotel):
-        while True:
-            tipo = input(''' Elija un tipo de habitacion:
-                a. Simple ---> $1000
-                b. Doble ----> $2000
-                c. Suite ----> $3000
-                d. Familiar ----> $4000
+    # def reservar(usuario, hotel):
+    #     while True:
+    #         tipo = input(''' Elija un tipo de habitacion:
+    #             a. Simple ---> $1000 por noche
+    #             b. Doble ----> $2000 por noche
+    #             c. Suite ----> $3000 por noche
+    #             d. Familiar ----> $4000 por noche
                         
-                ''')
-            valortotal = 0
-            match tipo:
-                case 'a':
-                    tipo = 'Simple'
-                    valortotal = 1000
-                    break
-                case 'b':
-                    tipo = 'Doble'
-                    valortotal = 2000
-                    break
-                case 'c':
-                    tipo = 'Suite'
-                    valortotal = 3000
-                    break
-                case 'd':
-                    tipo = 'Familiar'
-                    valortotal = 4000
-                    break
-                case _:
-                    print('Por favor elija una de las opciones (a | b | c | d)')
-        while True:
-            # Utilizamos dos While diferentes para cada fecha, asi el usuario en caso de ingresar una de las dos en un formato incorrecto
-            # no precisa volver a ingresar la anterior
-            while True:
-                try:
-                    dia, mes, ano = map(int, input("Ingrese fecha de check-in en formato DD/MM/YYYY: ").split('/'))
-                    fec_checkin = datetime.date(ano, mes, dia)
-                    break
-                except:
-                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+    #             ''')
+    #         match tipo:
+    #             case 'a':
+    #                 tipo = 'Simple'
+    #                 break
+    #             case 'b':
+    #                 tipo = 'Doble'
+    #                 break
+    #             case 'c':
+    #                 tipo = 'Suite'
+    #                 break
+    #             case 'd':
+    #                 tipo = 'Familiar'
+    #                 break
+    #             case _:
+    #                 print('Por favor elija una de las opciones (a | b | c | d)')
+    #     while True:
+    #         # Utilizamos dos While diferentes para cada fecha, asi el usuario en caso de ingresar una de las dos en un formato incorrecto
+    #         # no precisa volver a ingresar la anterior
+    #         while True:
+    #             try:
+    #                 dia, mes, ano = map(int, input("Ingrese fecha de check-in en formato DD/MM/YYYY: ").split('/'))
+    #                 fec_checkin = datetime.date(ano, mes, dia)
+    #                 break
+    #             except:
+    #                 print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
                     
-            while True:
-                try:
-                    dia, mes, ano = map(int, input("Ingrese fecha de check-out en formato DD/MM/YYYY: ").split('/'))
-                    fec_checkout = datetime.date(ano, mes, dia)
-                    break
-                except:
-                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
-            if fec_checkin < fec_checkout:
-                if datetime.date.today() < fec_checkin:
-                    # Una vez que verificamos que las fechas son correctas cronologicamente, las pasamos a str en el formato que queremos
-                    fec_checkin = fec_checkin.strftime('%d/%m/%Y')
-                    fec_checkout = fec_checkout.strftime('%d/%m/%Y')
-                    break
-                else:
-                    print('Porfavor ingrese una fecha de check-in posterior al dia de hoy')
-            else:
-                print('Porfavor ingrese una fecha de check-in anterior a fecha de check-out')
+    #         while True:
+    #             try:
+    #                 dia, mes, ano = map(int, input("Ingrese fecha de check-out en formato DD/MM/YYYY: ").split('/'))
+    #                 fec_checkout = datetime.date(ano, mes, dia)
+    #                 break
+    #             except:
+    #                 print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+    #         if fec_checkin < fec_checkout:
+    #             if datetime.date.today() < fec_checkin:
+    #                 dias_totales = (fec_checkout - fec_checkin).days
+    #                 # Una vez que verificamos que las fechas son correctas cronologicamente, las pasamos a str en el formato que queremos
+    #                 fec_checkin = fec_checkin.strftime('%d/%m/%Y')
+    #                 fec_checkout = fec_checkout.strftime('%d/%m/%Y')
+    #                 break
+    #             else:
+    #                 print('Porfavor ingrese una fecha de check-in posterior al dia de hoy')
+    #         else:
+    #             print('Porfavor ingrese una fecha de check-in anterior a fecha de check-out')
                     
-        # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
-        # por ende solo filtramos por tipo y fechas
-        conbano = None
-        conventana = None
-        while True:
-            accion = input(''' 
-                a. Elegir con o sin baño
-                b. Elegir con o sin ventana
-                c. Continuar (si no ha seleccionado ninguna opcion se le considerara como indiferente)
+    #     # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
+    #     # por ende solo filtramos por tipo y fechas
+    #     conbano = None
+    #     conventana = None
+    #     while True:
+    #         accion = input(''' 
+    #             a. Elegir con o sin baño
+    #             b. Elegir con o sin ventana
+    #             c. Continuar (si no ha seleccionado ninguna opcion se le considerara como indiferente)
                         
-            ''')
-            match accion:
-                case 'a':
-                    bano = input('''Elija si quiere con baño privado o no:
-                                a. Con baño privado
-                                b. Sin baño privado
-                                c. Indiferente
+    #         ''')
+    #         match accion:
+    #             case 'a':
+    #                 bano = input('''Elija si quiere con baño privado o no:
+    #                             a. Con baño privado
+    #                             b. Sin baño privado
+    #                             c. Indiferente
                                  
-                                ''')
-                    match bano:
-                        case 'a': 
-                            conbano = True
-                        case 'b':
-                            conbano = False
-                        case 'c':
-                            conbano = None
-                        case _: 
-                            print("Porfavor elija una de las opciones (a | b | c)")
-                case 'b':
-                    ventana = input('''Elija si quiere con ventana o no:
-                                a. Con ventana
-                                b. Sin ventana
-                                c. Indiferente
+    #                             ''')
+    #                 match bano:
+    #                     case 'a': 
+    #                         conbano = True
+    #                     case 'b':
+    #                         conbano = False
+    #                     case 'c':
+    #                         conbano = None
+    #                     case _: 
+    #                         print("Porfavor elija una de las opciones (a | b | c)")
+    #             case 'b':
+    #                 ventana = input('''Elija si quiere con ventana o no:
+    #                             a. Con ventana
+    #                             b. Sin ventana
+    #                             c. Indiferente
                                     
-                                ''')
-                    match ventana:
-                        case 'a':
-                            conventana = True
-                        case 'b': 
-                            conventana = False
-                        case 'c':
-                            conventana = None
-                        case _:
-                            print("Porfavor elija una de las opciones (a | b | c)")
-                case 'c':
-                    break
-                case _: 
-                    print("Porfavor elija una de las opciones (a | b | c)")
+    #                             ''')
+    #                 match ventana:
+    #                     case 'a':
+    #                         conventana = True
+    #                     case 'b': 
+    #                         conventana = False
+    #                     case 'c':
+    #                         conventana = None
+    #                     case _:
+    #                         print("Porfavor elija una de las opciones (a | b | c)")
+    #             case 'c':
+    #                 break
+    #             case _: 
+    #                 print("Porfavor elija una de las opciones (a | b | c)")
 
-        for hab in hotel.lista_habitaciones:
-            numero_reserva = random.randint(1,999999)
-            if hab.get_tipo() == tipo:
-                if conbano is not None:
-                    if conventana is not None:
-                        if conbano == bool(hab.tiene_bano_privado()) and conventana == bool(hab.tiene_ventana_balcon()):
-                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
-                                usuario.historico_gastos += valortotal
-                                return True
-                    else:
-                        if conbano == bool(hab.tiene_bano_privado()):
-                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
-                                usuario.historico_gastos += valortotal
-                                return True
-                else:
-                    if conventana is not None:
-                        if conventana == bool(hab.tiene_ventana_balcon()):
-                            if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                                hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
-                                usuario.historico_gastos += valortotal
-                                return True
-                    else:
-                        if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
-                            hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
-                            Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout)
-                            usuario.historico_gastos += valortotal
-                            return True
-        print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
+    #     for hab in hotel.lista_habitaciones:
+    #         numero_reserva = random.randint(1,999999)
+    #         if hab.get_tipo() == tipo:
+    #             if conbano is not None:
+    #                 if conventana is not None:
+    #                     if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
+    #                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+    #                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+    #                             Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales)
+    #                             usuario.historico_gastos += hab.precio_noche*dias_totales
+    #                             return True
+    #                 else:
+    #                     if conbano == hab.tiene_bano_privado():
+    #                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+    #                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+    #                             Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales)
+    #                             usuario.historico_gastos += hab.precio_noche*dias_totales
+    #                             return True
+    #             else:
+    #                 if conventana is not None:
+    #                     if conventana == hab.tiene_ventana_balcon():
+    #                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+    #                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+    #                             Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales)
+    #                             usuario.historico_gastos += hab.precio_noche*dias_totales
+    #                             return True
+    #                 else:
+    #                     if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
+    #                         hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout))
+    #                         Reserva.confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales)
+    #                         usuario.historico_gastos += hab.precio_noche*dias_totales
+    #                         return True
+    #     print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
     
-    def confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout):
+    def confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales):
         print(f'''La reserva fue efectuada correctamente.
 NUMERO DE RESERVA: {numero_reserva}
 
@@ -177,31 +171,12 @@ CLIENTE:
 {usuario}
 CHECK IN: {fec_checkin}
 CHECK OUT: {fec_checkout}
+TOTAL DIAS: {dias_totales} 
+
+COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
 ''')
     
     def lista_reservas_actuales(habitacion, hotel):
-        ##levantar una lista que tenga fechas checkin checkout por la habitacion que yo le pase
-        #Obs: todo esto funciona bajo la suposicion de que fec_checkin < fec_checkout.
-        #-----------------------------------------
-        #listareservasnum = []
-        #fecinaux = 0
-        #fecoutaux = 0
-        # for res in Lista_Reservas:
-        #     if res.habitacion == habitacion:
-        #         fecinaux = int(res.fec_checkin.strftime("%Y%m%d%H%M%S"))
-        #         fecoutaux = int(res.fec_checkout.strftime("%Y%m%d%H%M%S"))
-        #         listareservasnum.append[fecinaux]
-        #         listareservasnum.append[fecoutaux]
-        # ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout.
-        # ## Como tengo las fechas en formato int lo hago con sorted.
-        # listareservasnum = sorted(listareservasnum)
-        # # Ahora recorro la lista y paso las fechas de formato int a formato fecha.
-        # listareservasfec = []
-        # for fecha in listareservasnum:
-        #     fecha = str(fecha)
-        #     fecha = datetime.strptime(fecha, "%Y%m%d%H%M%S")
-        #     listareservasfec.append(fecha)
-        #-----------------------------------------
         listareservas = []
         if hotel.lista_reservas_activas.len_lista() == 0:
             print("No hay reservas actuales")
@@ -214,7 +189,7 @@ CHECK OUT: {fec_checkout}
                     listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkin, '%d/%m/%Y'))
                     listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkout, '%d/%m/%Y'))
                 reserva_movil = reserva_movil.prox    
-        ## Ahora toca ordenar de menor a mayor esas fechas de checkin checkout
+        # Ahora toca ordenar de menor a mayor esas fechas de checkin checkout
         listareservas = sorted(listareservas)
         return listareservas
     
@@ -234,21 +209,4 @@ CHECK OUT: {fec_checkout}
         if fecha_checkin > lista_reservas_x_hab[i-1]:
             return True
         return False
-        # opcion = input('''No se encontraron habitaciones disponibles en esas fechas, elija una opcion:
-        #             a. Reservar otra habitacion
-        #             b. Volver atrás   
-        #             ''')
-        # match opcion:
-        #     case 'a':
-        #         Reserva.reservar()
-        #     case 'b':
-        #         menu_cliente.menu_cliente()
-        # pass
-       
-
-
-
-
-
-    
     

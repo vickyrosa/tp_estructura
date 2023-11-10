@@ -6,7 +6,8 @@ def menu_administrativo(administrativo, hotel, lista_clientes, lista_mantenimien
                         c. Asignar tarea
                         d. Cancelar tarea
                         e. Buscar reservas de un cliente
-                        f. Log out
+                        f. Cambiar contrasena
+                        g. Log out
                         
                         ''').lower().strip()
         match opcion:
@@ -29,14 +30,16 @@ def menu_administrativo(administrativo, hotel, lista_clientes, lista_mantenimien
                             print('Porfavor elija una de las opciones (a | b | c)')
                 
             case 'b':
-                administrativo.despedir_personal()
+                administrativo.despedir_personal(lista_mantenimiento, lista_limpieza)
             case 'c':
-                pass
+                administrativo.encargar_tareas(lista_mantenimiento, lista_limpieza)
             case 'd':
-                break
+                administrativo.cancelar_tarea(lista_mantenimiento, lista_limpieza)
             case 'e':
                 administrativo.mostrar_reservas_cliente(hotel, lista_clientes)
             case 'f':
+                administrativo.cambiar_contra()
+            case 'g':
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c | d | e | f)')
+                print('Porfavor elija una de las opciones (a | b | c | d | e | f | g)')

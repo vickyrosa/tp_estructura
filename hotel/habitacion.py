@@ -3,10 +3,11 @@ class Habitacion():
     def __init__(self, numero, tipo, precio_noche, bano_privado:bool, ventana_balcon:bool, disponible:bool):
         self.numero = numero
         self.tipo = tipo
-        self.precio_noche = precio_noche
-        self.bano_privado = bano_privado
-        self.ventana_balcon = ventana_balcon
-        self.disponible = disponible
+        self.precio_noche = int(precio_noche)
+        # Con estas lineas de codigo transformamos el str de los txt a bool
+        self.bano_privado = bano_privado == 'True'
+        self.ventana_balcon = ventana_balcon == 'True'
+        self.disponible = disponible == 'True'
         
     def __str__(self):
         return f'''

@@ -1,2 +1,2 @@
-Cliente,12345678,Tomas Rodriguez,hola123,31/03/2003,M,123,t@r.com,ABC123,06/11/2023,0
+Cliente,12345678,Tomas Rodriguez,hola123,31/03/2003,M,123,t@r.com,ABC123,06/11/2023,10000
 Cliente,44111222,Prueba,hola,01/01/2000,O,123123123,prueba@hotmail.com,AA1,08/11/2023,0
