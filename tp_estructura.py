@@ -18,7 +18,7 @@ if __name__ == '__main__':
                     b. Sign In
                     c. Cerrar programa
                     
-                    ''').lower()
+                    ''').lower().strip()
         
         match ingreso:
             case 'a':
@@ -40,7 +40,6 @@ if __name__ == '__main__':
             case 'b':
                 # Solo el cliente puede realizar un sign in 'por su cuenta'. Los empleados requieren que un personal superior les haga el sign in
                 flisi.sign_in_cliente(lista_clientes)
-                break
             
             case 'c':
                 fa.load_hotel(hotel)
