@@ -1,2 +1,4 @@
 Cliente,12345678,Tomas Rodriguez,hola123,31/03/2003,M,123,t@r.com,ABC123,06/11/2023,53000
 Cliente,44111222,Prueba,hola,01/01/2000,O,123123123,prueba@hotmail.com,AA1,08/11/2023,0
+Cliente,44448967,Felipe Oyarazbal,1234,27/09/2002,M,1123267550,foyarzabal@itba.edu.ar,Melian 2700,11/11/2023,5000
+Cliente,38446789,Maria Perez,werty,02/03/1997,F,1145326598,mperez@yahoo.com.ar,Cabildo 1317,11/11/2023,21000

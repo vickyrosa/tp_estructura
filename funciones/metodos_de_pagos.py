@@ -2,7 +2,7 @@ import datetime
 
 def metodo_de_pago():
     while True:
-        opcion = input('''
+        opcion = input('''Seleccione el metodo de pago:
                     a. Efectivo
                     b. Tarjeta
                     

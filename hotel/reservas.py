@@ -1,7 +1,7 @@
 import datetime
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-#import METODO DE PAGO
+import funciones.metodos_de_pagos as mp
 import random
 
 class Reserva:
@@ -38,6 +38,7 @@ TOTAL DIAS: {dias_totales}
 
 COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
 ''')
+        mp.metodo_de_pago()
     
     def lista_reservas_actuales(habitacion, hotel):
         listareservas = []
