@@ -174,17 +174,4 @@ def load_mantenimiento(lista_mantenimiento):
 # entonces luego al cerrar el codigo se carga en un txt. Dsps al abrir el txt hay que verificar si la linea del txt con gastos es del dia de hoy u otro dia, si es de hoy
 # tomamos ese valor y le seguimos sumando compras sino que arranque en cero denuevo la variable
 # Ojo en el paso de recuperar el valor del txt xq hay que borrar esa linea sin borrar todo el resto!
-# def load_historico_gastos():
-#     gastos_totales = 0
-#     with open('txt/clientes.txt', 'r') as archivo_clientes:
-#         lista_info_clientes = archivo_clientes.readlines()
-#         for cliente_info in lista_info_clientes:
-#             atributos_cliente = cliente_info.strip().split(',')
-#             historico_gastos = int(atributos_cliente[-1])  
-#             gastos_totales += historico_gastos
-    
-#     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
-    
-#     with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_total:
-#         archivo_recaudacion_total.write(f"Fecha: {fecha_hoy}, Gasto total: {gastos_totales}\n")
-#     archivo_recaudacion_total.close()
+

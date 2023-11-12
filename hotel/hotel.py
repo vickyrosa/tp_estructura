@@ -5,6 +5,7 @@ class Hotel():
         self.lista_habitaciones = lista_habitaciones
         self.lista_reservas_activas = lista_reservas_activas
         self.nombre = nombre
+        self.ingresos_diarios = ingresos_diarios
         
     def __str__(self):
         return f'{self.nombre}'
