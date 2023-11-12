@@ -13,7 +13,7 @@ def menu_cliente(cliente, hotel):
             case 'a':
                 cliente.reservar(hotel)
             case 'b':
-                print('NO ESTA HECHO!!!')
+                cliente.cancelar_reserva(hotel)
             case 'c':
                 cliente.ordenar_del_buffet()
             case 'd':

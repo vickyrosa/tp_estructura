@@ -180,3 +180,20 @@ class Cliente(Usuario):
         mp.metodo_de_pago()
         buffet.procesar_pedidos(cola_pedidos)
         self.historico_gastos += total
+        
+    def cancelar_reserva(self, hotel):
+        num_reserva_cancelar = input("Ingrese el número de reserva que desea cancelar: ")
+        lista_reservas = hotel.lista_reservas_activas
+        nodo = lista_reservas.cabeza
+        while nodo:
+            if nodo.nroreserva == num_reserva_cancelar:
+                fec_checkin = datetime.strptime(nodo.fec_checkin, '%d/%m/%Y')
+                if datetime.today() < fec_checkin:
+                    lista_reservas.eliminar_reserva(nodo.nroreserva)
+                    print(f'Reserva {num_reserva_cancelar} cancelada exitosamente.')
+                    return
+                else:
+                    print("No es posible cancelar reservas activas.")
+                    return 
+            nodo = nodo.prox
+        print(f'No se encontró la reserva con el número {num_reserva_cancelar}.')

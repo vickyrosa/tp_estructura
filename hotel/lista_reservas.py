@@ -28,17 +28,15 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
             actual = actual.prox
         return None
 
-    def eliminar_reserva(self, reserva):#nroreserva):
-        if self.cabeza is None:
-            return
-        if self.cabeza.reserva == reserva:
-        #if self.cabeza.nroreserva == nroreserva:
+    def eliminar_reserva(self, nroreserva):            
+        if self.cabeza is None:                                 
+            return                                               
+        if self.cabeza.nroreserva == nroreserva:
             self.cabeza = self.cabeza.prox
             return
         actual = self.cabeza
         while actual.prox:
-            if actual.prox.reserva == reserva:
-            #if actual.prox.nroreserva == nroreserva:
+            if actual.prox.nroreserva == nroreserva:
                 actual.prox = actual.prox.prox
                 return
             actual = actual.prox

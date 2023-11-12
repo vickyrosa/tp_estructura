@@ -123,11 +123,11 @@ class Administrativo(Personal):
         
         reservas_encontradas = []
     
-        actual = lista_reservas.cabeza
-        while actual:
-            if actual.cliente.dni == dni_cliente:
-                reservas_encontradas.append(actual)
-            actual = actual.prox
+        nodo = lista_reservas.cabeza
+        while nodo:
+            if nodo.cliente.dni == dni_cliente:
+                reservas_encontradas.append(nodo)
+            nodo = nodo.prox
 
         historico_gral_reservas = open('txt/historico_gral_reservas.txt', 'r')
         lista_info_reserva = historico_gral_reservas.readlines()
