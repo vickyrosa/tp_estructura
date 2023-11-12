@@ -5,7 +5,7 @@ from usuario.mantenimiento import Mantenimiento
 from usuario.limpieza import Limpieza
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-from datetime import datetime
+import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
@@ -19,7 +19,8 @@ def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas(lista_clientes, lista_habitaciones)
     admin = download_administrador()
-    hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
+    ingresos_diarios = 0
+    hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas, ingresos_diarios)
     return hotel
 
 def download_administrador():
@@ -50,11 +51,7 @@ def download_administrativo():      #Devuelve una lista con toda la informacion 
         lista_info_administrativo = archivo_administrativo.readlines()
     for i in range(len(lista_info_administrativo)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = lista_info_administrativo[i].strip().split(',')
-        if fec_baja != 'None':
-            with open('txt/ex_personal.txt', 'a') as ex_personal:
-                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
-        else:
-            lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
+        lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo))
     return lista_administrativo
 
 def download_mantenimiento():   #Devuelve una lista con toda la informacion del personal de mantenimiento contenida en el .txt.
@@ -63,11 +60,7 @@ def download_mantenimiento():   #Devuelve una lista con toda la informacion del 
         lista_info_mantenimiento = archivo_mantenimiento.readlines()
     for i in range(len(lista_info_mantenimiento)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
-        if fec_baja != 'None':
-            with open('txt/ex_personal.txt', 'a') as ex_personal:
-                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
-        else:
-            lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_mantenimiento
 
 def download_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
@@ -76,11 +69,7 @@ def download_limpieza():    #Devuelve una lista con toda la informacion del pers
         lista_info_limpieza = archivo_limpieza.readlines()
     for i in range(len(lista_info_limpieza)):
         tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
-        if fec_baja != 'None':
-            with open('txt/ex_personal.txt', 'a') as ex_personal:
-                ex_personal.append(f'{tipo_usuario},{dni},{nombre},{contra},{fec_nac},{genero},{telefono},{mail},{domicilio},{fec_alta},{fec_baja},{cuil},{sueldo}')
-        else:
-            lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
     return lista_limpieza
 
 def download_habitaciones():
@@ -126,7 +115,7 @@ def load_hotel(hotel):
     load_reservas_activas(hotel)
     load_habitaciones(hotel)
     load_administrador(hotel)
-    load_historico_gastos(hotel)
+    #load_historico_gastos(hotel)
     
 def load_reservas_activas(hotel):
     lista_reservas_activas = hotel.lista_reservas_activas
@@ -179,17 +168,23 @@ def load_mantenimiento(lista_mantenimiento):
         archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad}\n')
     archivo_mantenimiento.close()
 
-def load_historico_gastos():
-    gastos_totales = 0
-    with open('txt/clientes.txt', 'r') as archivo_clientes:
-        lista_info_clientes = archivo_clientes.readlines()
-        for cliente_info in lista_info_clientes:
-            atributos_cliente = cliente_info.strip().split(',')
-            historico_gastos = int(atributos_cliente[-1])  
-            gastos_totales += historico_gastos
+
+# OJO ESTA FCION! Xq ahora lo que esta haciendo es sumar los gastos de todos los clientes y los pone como recaudacion del dia,
+# lo que hay q hacer es que se cree una variable gastos_dia que vaya a todas las partes del codigo donde alguien compre/reserve
+# entonces luego al cerrar el codigo se carga en un txt. Dsps al abrir el txt hay que verificar si la linea del txt con gastos es del dia de hoy u otro dia, si es de hoy
+# tomamos ese valor y le seguimos sumando compras sino que arranque en cero denuevo la variable
+# Ojo en el paso de recuperar el valor del txt xq hay que borrar esa linea sin borrar todo el resto!
+# def load_historico_gastos():
+#     gastos_totales = 0
+#     with open('txt/clientes.txt', 'r') as archivo_clientes:
+#         lista_info_clientes = archivo_clientes.readlines()
+#         for cliente_info in lista_info_clientes:
+#             atributos_cliente = cliente_info.strip().split(',')
+#             historico_gastos = int(atributos_cliente[-1])  
+#             gastos_totales += historico_gastos
     
-    fecha_hoy = datetime.now().strftime('%d/%m/%Y')
+#     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
     
-    with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_total:
-        archivo_recaudacion_total.write(f"Fecha: {fecha_hoy}, Gasto total: {gastos_totales}\n")
-    archivo_recaudacion_total.close()
+#     with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_total:
+#         archivo_recaudacion_total.write(f"Fecha: {fecha_hoy}, Gasto total: {gastos_totales}\n")
+#     archivo_recaudacion_total.close()

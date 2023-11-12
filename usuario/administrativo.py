@@ -154,22 +154,25 @@ class Administrativo(Personal):
             dni_empleado = input('Ingrese DNI del empleado: ').strip()
             if flisi.check_dni(dni_empleado):
                 break
-        echado = False
+        i = 0
         for mantenimiento in lista_mantenimiento:
             if mantenimiento.dni == dni_empleado:
                 mantenimiento.fec_baja = datetime.date.today().strftime('%d/%m/%Y')
-                echado = True
-                area_personal = 'Mantenimiento'
-                break
-        if echado == False:
-            for limpieza in lista_limpieza:
-                if limpieza.dni == dni_empleado:
-                    limpieza.fec_baja = datetime.date.today().strftime('%d/%m/%Y')
-                echado = True
-                area_personal = 'Limpieza'
-                break
-        if echado == True:
-            return f'{mantenimiento.nombre}, personal de {area_personal} ha sido despedido correctamente'
-        else:
-            print(f'No se ha encontrado un empleado con el dni: {dni_empleado}')
+                with open('txt/ex_personal.txt', 'a') as ex_personal:
+                    ex_personal.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo}\n')
+                del(lista_mantenimiento[i])
+                print(f'{mantenimiento.nombre}, personal de Mantenimiento ha sido despedido correctamente')
+                return
+            i += 1
+        i = 0
+        for limpieza in lista_limpieza:
+            if limpieza.dni == dni_empleado:
+                limpieza.fec_baja = datetime.date.today().strftime('%d/%m/%Y')
+                with open('txt/ex_personal.txt', 'a') as ex_personal:
+                    ex_personal.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo}\n')
+                del(lista_limpieza[i])
+                print(f'{limpieza.nombre}, personal de Limpieza ha sido despedido correctamente')
+                return
+            i += 1
+        print(f'No se ha encontrado un empleado con el dni: {dni_empleado}')
             

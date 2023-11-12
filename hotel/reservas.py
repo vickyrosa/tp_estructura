@@ -1,13 +1,10 @@
 import datetime
-from hotel.habitacion import Habitacion
-from hotel.hotel import Hotel
 import funciones.metodos_de_pagos as mp
-import random
 
 class Reserva:
     #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
-        self.nroreserva = nroreserva
+        self.nroreserva = int(nroreserva)
         self.cliente = cliente
         self.habitacion =habitacion
         self.fec_checkin = fec_checkin

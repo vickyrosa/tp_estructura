@@ -182,13 +182,13 @@ class Cliente(Usuario):
         self.historico_gastos += total
         
     def cancelar_reserva(self, hotel):
-        num_reserva_cancelar = input("Ingrese el número de reserva que desea cancelar: ")
+        num_reserva_cancelar = int(input("Ingrese el número de reserva que desea cancelar: ").strip())
         lista_reservas = hotel.lista_reservas_activas
         nodo = lista_reservas.cabeza
         while nodo:
             if nodo.nroreserva == num_reserva_cancelar:
-                fec_checkin = datetime.strptime(nodo.fec_checkin, '%d/%m/%Y')
-                if datetime.today() < fec_checkin:
+                fec_checkin = datetime.datetime.strptime(nodo.fec_checkin, '%d/%m/%Y')
+                if datetime.datetime.today() < fec_checkin:
                     lista_reservas.eliminar_reserva(nodo.nroreserva)
                     print(f'Reserva {num_reserva_cancelar} cancelada exitosamente.')
                     return

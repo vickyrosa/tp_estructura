@@ -33,14 +33,15 @@ class Lista_Reservas:   #Creamos una lista enlazada de las reservas (Gran volume
             return                                               
         if self.cabeza.nroreserva == nroreserva:
             self.cabeza = self.cabeza.prox
+            self.tamanio-=1
             return
         actual = self.cabeza
         while actual.prox:
             if actual.prox.nroreserva == nroreserva:
                 actual.prox = actual.prox.prox
+                self.tamanio-=1
                 return
             actual = actual.prox
-        self.tamanio-=1
 
     def mostrar_reservas(self):
         actual = self.cabeza

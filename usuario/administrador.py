@@ -36,16 +36,17 @@ class Administrador(Personal):
     
     def despedir_administrativo(self, lista_administrativo):
         dni = input('Ingrese DNI del administrativo a dar de baja: ').strip()
-        echado = False
+        i = 0
         for administrativo in lista_administrativo:
             if administrativo.dni == dni:
                 administrativo.fec_baja = datetime.date.today().strftime('%d/%m/%Y')
-                echado = True
+                with open('txt/ex_personal.txt', 'a') as ex_personal:
+                    ex_personal.write(f'{administrativo.tipo_usuario},{administrativo.dni},{administrativo.nombre},{administrativo.contra},{administrativo.fec_nac},{administrativo.genero},{administrativo.tel},{administrativo.mail},{administrativo.domicilio},{administrativo.fec_alta},{administrativo.fec_baja},{administrativo.cuil},{administrativo.sueldo}\n')
+                del(lista_administrativo[i])
+                print(f'{administrativo.nombre} ha sido despedido correctamente')
                 break
-        if echado == True:
-            return f'{administrativo.nombre} ha sido despedido correctamente'
-        else:
-            print(f'No se ha encontrado un administrativo con el dni: {dni}')
+            i += 1
+        print(f'No se ha encontrado un administrativo con el dni: {dni}')
     
     def sign_in_administrativo(self, lista_administrativo):
         dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = flisi.pedir_datos_basicos_sing_in()
