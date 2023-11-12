@@ -1,4 +1,5 @@
 from usuario.personal import Personal
+from usuario.usuario import Usuario
 from hotel.hotel import Hotel
 from hotel.lista_reservas import Lista_Reservas
 import datetime
@@ -43,8 +44,10 @@ class Administrador(Personal):
                 with open('txt/ex_personal.txt', 'a') as ex_personal:
                     ex_personal.write(f'{administrativo.tipo_usuario},{administrativo.dni},{administrativo.nombre},{administrativo.contra},{administrativo.fec_nac},{administrativo.genero},{administrativo.tel},{administrativo.mail},{administrativo.domicilio},{administrativo.fec_alta},{administrativo.fec_baja},{administrativo.cuil},{administrativo.sueldo}\n')
                 del(lista_administrativo[i])
+                Usuario.set_dni.discard(administrativo.dni)
+                Usuario.set_cuil.discard(administrativo.cuil)
                 print(f'{administrativo.nombre} ha sido despedido correctamente')
-                break
+                return
             i += 1
         print(f'No se ha encontrado un administrativo con el dni: {dni}')
     

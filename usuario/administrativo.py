@@ -4,6 +4,7 @@ from hotel.reservas import Reserva
 import funciones.funciones_log_in_y_sign_in as flisi
 from usuario.limpieza import Limpieza
 from usuario.mantenimiento import Mantenimiento
+from usuario.usuario import Usuario
 import datetime
 
 
@@ -16,7 +17,7 @@ class Administrativo(Personal):
         tipo_usuario = 'Mantenimiento'
         cuil = flisi.pedir_cuil()
         sueldo = flisi.pedir_sueldo()
-        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True'))
         print(f'El usuario del personal de mantenimiento con DNI: {dni} fue creado correctamente.')
         
     def sign_in_limpieza(self, lista_limpieza):
@@ -24,7 +25,7 @@ class Administrativo(Personal):
         tipo_usuario = 'Limpieza'
         cuil = flisi.pedir_cuil()
         sueldo = flisi.pedir_sueldo()
-        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True'))
         print(f'El usuario del personal de limpieza con DNI: {dni} fue creado correctamente.')
         
     def encargar_tareas(self, lista_mantenimiento, lista_limpieza):
@@ -149,7 +150,6 @@ class Administrativo(Personal):
             print("No se encontraron reservas para este cliente.")
             
     def despedir_personal(self, lista_mantenimiento, lista_limpieza):
-        area_personal = None
         while True:
             dni_empleado = input('Ingrese DNI del empleado: ').strip()
             if flisi.check_dni(dni_empleado):
@@ -161,6 +161,8 @@ class Administrativo(Personal):
                 with open('txt/ex_personal.txt', 'a') as ex_personal:
                     ex_personal.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo}\n')
                 del(lista_mantenimiento[i])
+                Usuario.set_dni.discard(mantenimiento.dni)
+                Usuario.set_cuil.discard(mantenimiento.cuil)
                 print(f'{mantenimiento.nombre}, personal de Mantenimiento ha sido despedido correctamente')
                 return
             i += 1
@@ -171,6 +173,8 @@ class Administrativo(Personal):
                 with open('txt/ex_personal.txt', 'a') as ex_personal:
                     ex_personal.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo}\n')
                 del(lista_limpieza[i])
+                Usuario.set_dni.discard(limpieza.dni)
+                Usuario.set_cuil.discard(limpieza.cuil)
                 print(f'{limpieza.nombre}, personal de Limpieza ha sido despedido correctamente')
                 return
             i += 1

@@ -13,7 +13,7 @@ def metodo_de_pago():
                 break
             case 'b':
                 if ingresar_tarjeta():
-                    print('Gracias por su compra.')
+                    print('Pago realizado con exito.')
                     break
                 else:
                     pass
@@ -21,7 +21,7 @@ def metodo_de_pago():
                 print('Por favor elija una de las opciones ( a | b )')
 
 def efectivo():
-    print('Gracias por su compra.')
+    print('Pago realizado con exito.')
 
 def ingresar_tarjeta():
     while True:
