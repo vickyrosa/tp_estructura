@@ -4,7 +4,7 @@ def load_historico_gastos(costo):
     # Paso la fecha de hoy a formato deseado (primero a str y despues devuelta a fecha)
     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
     with open('txt/gastos_diarios_aux.txt', 'r') as archivo_aux:
-        fecha = datetime.datetime.strftime(archivo_aux.read(10))
+        fecha = archivo_aux.read(10)
     archivo_aux.close()
     if fecha_hoy == fecha:    
         hotel.ingresos_diarios += costo
