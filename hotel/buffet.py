@@ -2,10 +2,10 @@
 
 class Buffet():
     def __init__(self):    
-        self.menu = {'Desayuno': 1000,
-                    'Almuerzo': 1000,
-                    'Merienda': 1000,
-                    'Cena': 1000,
+        self.menu = {'Desayuno': 2000,
+                    'Almuerzo': 3000,
+                    'Merienda': 2000,
+                    'Cena': 3000,
                     'Bebida': 1000,
                     'Snack' :1000}
         

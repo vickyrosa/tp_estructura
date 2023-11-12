@@ -48,4 +48,4 @@ if __name__ == '__main__':
                 print('La carga de archivos al sistema fue exitosa.')
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c)')
+                print('Por favor elija una de las opciones (a | b | c)')
