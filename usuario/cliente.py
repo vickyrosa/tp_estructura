@@ -53,7 +53,7 @@ class Cliente(Usuario):
                     fec_checkin = datetime.date(ano, mes, dia)
                     break
                 except:
-                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+                    print('Por favor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
                     
             while True:
                 try:
@@ -61,7 +61,7 @@ class Cliente(Usuario):
                     fec_checkout = datetime.date(ano, mes, dia)
                     break
                 except:
-                    print('Porfavor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+                    print('Por favor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
             if fec_checkin < fec_checkout:
                 if datetime.date.today() < fec_checkin:
                     dias_totales = (fec_checkout - fec_checkin).days
@@ -70,9 +70,9 @@ class Cliente(Usuario):
                     fec_checkout = fec_checkout.strftime('%d/%m/%Y')
                     break
                 else:
-                    print('Porfavor ingrese una fecha de check-in posterior al dia de hoy')
+                    print('Por favor ingrese una fecha de check-in posterior al dia de hoy')
             else:
-                print('Porfavor ingrese una fecha de check-in anterior a fecha de check-out')
+                print('Por favor ingrese una fecha de check-in anterior a fecha de check-out')
                     
         # En caso de que el usuario decida salir directamente sin elegir, consideramos que es indiferente cual sea su habitacion,
         # por ende solo filtramos por tipo y fechas
@@ -101,7 +101,7 @@ class Cliente(Usuario):
                         case 'c':
                             conbano = None
                         case _: 
-                            print("Porfavor elija una de las opciones (a | b | c)")
+                            print("Por favor elija una de las opciones (a | b | c)")
                 case 'b':
                     ventana = input('''Elija si quiere con ventana o no:
                     a. Con ventana
@@ -117,11 +117,11 @@ class Cliente(Usuario):
                         case 'c':
                             conventana = None
                         case _:
-                            print("Porfavor elija una de las opciones (a | b | c)")
+                            print("Por favor elija una de las opciones (a | b | c)")
                 case 'c':
                     break
                 case _: 
-                    print("Porfavor elija una de las opciones (a | b | c)")
+                    print("Por favor elija una de las opciones (a | b | c)")
 
         for hab in hotel.lista_habitaciones:
             numero_reserva = random.randint(1,999999)
@@ -155,7 +155,7 @@ class Cliente(Usuario):
                             Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
                             self.historico_gastos += hab.precio_noche*dias_totales
                             return True
-        print('No se encontro una habitacion disponible en las fechas con sus preferencias, porfavor realize una nueva reserva cambiando los parametros y/o fechas')
+        print('No se encontro una habitacion disponible en las fechas con sus preferencias, por favor realize una nueva reserva cambiando los parametros y/o fechas')
         
     def ordenar_del_buffet(self):
         total = 0

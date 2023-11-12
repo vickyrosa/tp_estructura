@@ -2,7 +2,7 @@ import datetime
 
 def metodo_de_pago():
     while True:
-        opcion = input('''Seleccione el metodo de pago:
+        opcion = input('''Seleccione un metodo de pago:
                     a. Efectivo
                     b. Tarjeta
                     
@@ -40,10 +40,10 @@ def ingresar_tarjeta():
             fec_venc = datetime.datetime.strptime(f'{10}/{mes}/{ano}', '%d/%m/%y')
             break
         except:
-            print('Porfavor ingrese una fecha valida y en el formato pedido (Ej: 10/23)')
+            print('Por favor ingrese una fecha valida y en el formato pedido (Ej: 10/23)')
     mes_y_ano_ahora = datetime.datetime.strptime(f'{10}/{datetime.date.today().month}/{datetime.date.today().strftime("%y")}', '%d/%m/%y')
     if fec_venc < mes_y_ano_ahora:
-        print('La tarjeta esta vencida, porfavor seleccione otro metodo de pago o ingrese otra tarjeta')
+        print('La tarjeta esta vencida, por favor seleccione otro metodo de pago o ingrese otra tarjeta')
         return False
     return True
 
