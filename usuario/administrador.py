@@ -53,7 +53,24 @@ class Administrador(Personal):
         cuil = flisi.pedir_cuil()
         sueldo = flisi.pedir_sueldo()
         lista_administrativo.append(Administrativo(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo))
-        
+    
+    def buscar_recaudacion(self, fecha):
+        while True:
+            try:
+                dia, mes, ano = map(int, input("Ingrese fecha de la cual quiere conocer la recaudación diaria en formato DD/MM/YYYY: ").split('/'))
+                fecha = datetime.date(ano, mes, dia)
+                break
+            except:
+                print('Por favor ingrese una fecha valida en el formato pedido (Ej: 29/01/2023)')
+        ingreso_total = 0 
+        with open('txt/recaudacion.txt', 'r') as archivo_recaudacion:
+            for linea in archivo_recaudacion:
+                    if linea.startswith(f"Fecha: {fecha}"):
+                        ingreso_total = int(linea.split('Recaudacion del dia: ')[1])
+                        break
+            return ingreso_total
+            
+      
     
        
             

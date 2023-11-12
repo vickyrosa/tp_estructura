@@ -5,7 +5,7 @@ from usuario.mantenimiento import Mantenimiento
 from usuario.limpieza import Limpieza
 from hotel.habitacion import Habitacion
 from hotel.hotel import Hotel
-import datetime
+from datetime import datetime
 from hotel.lista_reservas import Lista_Reservas
 from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
@@ -126,6 +126,7 @@ def load_hotel(hotel):
     load_reservas_activas(hotel)
     load_habitaciones(hotel)
     load_administrador(hotel)
+    load_historico_gastos(hotel)
     
 def load_reservas_activas(hotel):
     lista_reservas_activas = hotel.lista_reservas_activas
@@ -177,3 +178,18 @@ def load_mantenimiento(lista_mantenimiento):
     for mantenimiento in lista_mantenimiento:
         archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad}\n')
     archivo_mantenimiento.close()
+
+def load_historico_gastos():
+    gastos_totales = 0
+    with open('txt/clientes.txt', 'r') as archivo_clientes:
+        lista_info_clientes = archivo_clientes.readlines()
+        for cliente_info in lista_info_clientes:
+            atributos_cliente = cliente_info.strip().split(',')
+            historico_gastos = int(atributos_cliente[-1])  
+            gastos_totales += historico_gastos
+    
+    fecha_hoy = datetime.now().strftime('%d/%m/%Y')
+    
+    with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_total:
+        archivo_recaudacion_total.write(f"Fecha: {fecha_hoy}, Gasto total: {gastos_totales}\n")
+    archivo_recaudacion_total.close()
