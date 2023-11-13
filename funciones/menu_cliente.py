@@ -3,10 +3,11 @@ def menu_cliente(cliente, hotel):
         opcion = input('''Elija una opcion:
                     a. Reservar una habitacion
                     b. Cancelar reserva
-                    c. Pedir del buffet
-                    d. Ver mi categoria
-                    e. Cambiar contraseña
-                    f. Log out
+                    c. Ver mis reservas
+                    d. Pedir del buffet
+                    e. Ver mi categoria
+                    f. Cambiar contraseña
+                    g. Log out
                         
                     ''')
         match opcion:
@@ -15,12 +16,15 @@ def menu_cliente(cliente, hotel):
             case 'b':
                 cliente.cancelar_reserva(hotel)
             case 'c':
-                cliente.ordenar_del_buffet(hotel)
+                print('Ver reservas!')
+                #cliente.ver_mis_reservas(hotel)
             case 'd':
-                cliente.ver_categoria()
+                cliente.ordenar_del_buffet(hotel)
             case 'e':
-                cliente.cambiar_contra()
+                cliente.ver_categoria()
             case 'f':
+                cliente.cambiar_contra()
+            case 'g':
                 break
             case _:
                 print('Por favor elija una de las opciones (a | b | c | d | e | f)')

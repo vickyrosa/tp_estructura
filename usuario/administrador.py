@@ -15,7 +15,7 @@ class Administrador(Personal):
         cont_ocupados = 0
         reserva_movil = hotel.lista_reservas_activas.cabeza
         fecha_hoy = datetime.datetime.today().strftime('%d/%m/%Y')
-        # Este paso parece de mas, pero es para que todas las fechas sean calculadas con la misma hora y que no haya excpeciones con eso
+        # Este paso parece de mas, pero es para que todas las fechas sean calculadas con la misma hora y que no haya excepciones con eso
         fecha_hoy = datetime.datetime.strptime(fecha_hoy, '%d/%m/%Y')
         while reserva_movil is not None:
             if datetime.datetime.strptime(reserva_movil.fec_checkin, '%d/%m/%Y') <= fecha_hoy <= datetime.datetime.strptime(reserva_movil.fec_checkout, '%d/%m/%Y'):
@@ -24,6 +24,8 @@ class Administrador(Personal):
         print(f'Estan ocupados {round((cont_ocupados/len(hotel.lista_habitaciones))*100, 2)}% de cuartos del hotel')
     
     def porcentaje_ocupacion_portipo(self, hotel):
+        # Los numeros de la cantidad total de habitaciones por tipo los dejamos fijos, ya que consultamos y nos dijeron que el hotel
+        # no se expande.
         dict_tipos = {'Ocupado':{'Simple':0, 'Doble':0, 'Suite':0, 'Familiar':0}, 'Total':{'Simple':9, 'Doble':9, 'Suite':9, 'Familiar':9}}
         reserva_movil = hotel.lista_reservas_activas.cabeza
         fecha_hoy = datetime.datetime.today().strftime('%d/%m/%Y')
@@ -70,9 +72,9 @@ class Administrador(Personal):
         with open('txt/recaudacion.txt', 'r') as archivo_recaudacion:
             for linea in archivo_recaudacion:
                     if linea.startswith(f"Fecha: {fecha}"):
-                        ingreso_total = int(linea.split('Recaudacion del dia: ')[1])
+                        ingreso_total = int(linea.split('Ingresos Totales: ')[1])
                         break
-            return ingreso_total
+        print(f'Fecha: {fecha} - Ingresos Totales: {ingreso_total}')
             
       
     
