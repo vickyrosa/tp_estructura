@@ -1,2 +1,2 @@
 Administrativo,44123456,Administrativo Prueba A,a,01/01/2000,M,123,prueba@a.com,ABC123,09/11/2023,None,12345678900,1000
-Administrativo,14725836,Toto Rodri,a,05/09/1990,O,6,a,a,13/11/2023,None,88888888888,123123
+Administrativo,14725836,Toto Rodri,a,05/09/1990,O,6,a@.com,a,13/11/2023,None,88888888888,123123

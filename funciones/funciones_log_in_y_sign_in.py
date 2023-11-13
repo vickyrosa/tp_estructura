@@ -42,7 +42,7 @@ def pedir_nombre():
 
 def pedir_contra():
     while True:
-        contrasena = input('Ingrese su contraseña: ').lower().strip()
+        contrasena = input('Ingrese su contraseña: ').strip()
         if longitud(contrasena):
             return contrasena
 
