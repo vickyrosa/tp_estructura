@@ -1,4 +1,3 @@
-# ACLARACION: Usar txt, pero las cosas separadas por comas como si fuera un csv (onda el del parcial)
 import funciones.funciones_auxiliares as fa
 import funciones.funciones_log_in_y_sign_in as flisi
 import funciones.menu_cliente as menu_cliente
@@ -34,11 +33,11 @@ if __name__ == '__main__':
                         case 'Limpieza':
                             menu_limpieza.menu_limpieza(usuario)
                         case 'Administrador':
-                            menu_administrador.menu_administrador(usuario, hotel, lista_administrativo)
+                            menu_administrador.menu_administrador(usuario, hotel, lista_administrativo, lista_clientes)
                 pass
             
             case 'b':
-                # Solo el cliente puede realizar un sign in 'por su cuenta'. Los empleados requieren que un personal superior les haga el sign in
+                # Solo el cliente puede realizar un sign in 'por su cuenta'. Los empleados requieren que un personal superior les haga el sign in.
                 flisi.sign_in_cliente(lista_clientes)
             
             case 'c':

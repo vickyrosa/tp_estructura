@@ -16,8 +16,7 @@ def menu_cliente(cliente, hotel):
             case 'b':
                 cliente.cancelar_reserva(hotel)
             case 'c':
-                print('Ver reservas!')
-                #cliente.ver_mis_reservas(hotel)
+                cliente.mostrar_reservas_cliente(hotel)
             case 'd':
                 cliente.ordenar_del_buffet(hotel)
             case 'e':
@@ -27,5 +26,5 @@ def menu_cliente(cliente, hotel):
             case 'g':
                 break
             case _:
-                print('Por favor elija una de las opciones (a | b | c | d | e | f)')
+                print('Por favor elija una de las opciones (a | b | c | d | e | f | g )')
     

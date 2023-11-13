@@ -2,7 +2,6 @@ import datetime
 import funciones.metodos_de_pagos as mp
 
 class Reserva:
-    #OJO cambio aca que le paso el cliente (como objeto) entero que reserva en vez del nombre
     def __init__(self, nroreserva, cliente, habitacion, fec_checkin, fec_checkout, prox = None):
         self.nroreserva = int(nroreserva)
         self.cliente = cliente
@@ -24,14 +23,12 @@ class Reserva:
         print(f'''La reserva fue efectuada correctamente.
 NUMERO DE RESERVA: {numero_reserva}
 
-HABITACION:
-{hab}
+HABITACION:{hab}
 
-CLIENTE:
-{usuario}
+CLIENTE: {usuario}
 CHECK IN: {fec_checkin}
 CHECK OUT: {fec_checkout}
-TOTAL DIAS: {dias_totales} 
+TOTAL DIAS: {dias_totales}
 
 COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
 ''')
@@ -50,7 +47,7 @@ COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
                     listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkin, '%d/%m/%Y'))
                     listareservas.append(datetime.datetime.strptime(reserva_movil.fec_checkout, '%d/%m/%Y'))
                 reserva_movil = reserva_movil.prox    
-        # Ahora toca ordenar de menor a mayor esas fechas de checkin checkout
+        # Ordenamos de menor a mayor esas fechas de checkin checkout
         listareservas = sorted(listareservas)
         return listareservas
     

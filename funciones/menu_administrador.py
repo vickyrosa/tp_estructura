@@ -1,4 +1,4 @@
-def menu_administrador(administrador, hotel, lista_administrativo):
+def menu_administrador(administrador, hotel, lista_administrativo, lista_clientes):
     while True:
         opcion = input('''Elija una opcion:
                     a. Ver porcentaje ocupacion del dia
@@ -17,9 +17,9 @@ def menu_administrador(administrador, hotel, lista_administrativo):
             case 'b':
                 administrador.porcentaje_ocupacion_portipo(hotel)
             case "c":
-                print('Cnant cli por tipo')
+                administrador.cant_clientes_por_tipo(lista_clientes)
             case 'd':
-                administrador.buscar_recaudacion()
+                administrador.buscar_recaudacion(hotel)
             case 'e':
                 administrador.sign_in_administrativo(lista_administrativo)
             case 'f':
@@ -29,4 +29,4 @@ def menu_administrador(administrador, hotel, lista_administrativo):
             case 'h':
                 break
             case _:
-                print('Por favor elija una de las opciones ( a | b | c | d | e | f | g )')
+                print('Por favor elija una de las opciones ( a | b | c | d | e | f | g | h )')

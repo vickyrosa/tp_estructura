@@ -1,17 +1,17 @@
 class Habitacion():
-    # Agregamos aca gastos? Asi la persona va al buffet y cuando 'paga' se le acredita a la habitacion
-    def __init__(self, numero, tipo, precio_noche, bano_privado:bool, ventana_balcon:bool, disponible:bool):
+    def __init__(self, numero, capacidad_max, tipo, precio_noche, bano_privado:bool, ventana_balcon:bool):
         self.numero = numero
+        self.capacidad_max = int(capacidad_max)
         self.tipo = tipo
         self.precio_noche = int(precio_noche)
         # Con estas lineas de codigo transformamos el str de los txt a bool
         self.bano_privado = bano_privado == 'True'
         self.ventana_balcon = ventana_balcon == 'True'
-        self.disponible = disponible == 'True'
         
     def __str__(self):
         return f'''
     Habitacion número: {self.numero}
+    Capacidad máxima de personas: {self.capacidad_max}
     Tipo: {self.tipo}
     Precio por noche: {self.precio_noche}
     Tiene baño privado: {self.bano_privado}
@@ -35,6 +35,4 @@ class Habitacion():
     
     def tiene_ventana_balcon(self):
         return self.ventana_balcon
-    
-    def esta_disponible(self):
-        return self.disponible
+

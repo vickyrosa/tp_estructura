@@ -11,8 +11,6 @@ from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
 from collections import deque
 
-# IMPORTANTE! Es probable que sea mejor crear varios archivos.py segun el tipo de funciones que son asi esta mas organizado y
-# funciones auxiliares no queda gigante por ejemplo separar en: fciones_login, fciones_signin, fciones_load, fciones_auxiliares, etc.
 
 def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
@@ -72,8 +70,8 @@ def download_mantenimiento():   #Devuelve una lista con toda la informacion del 
     with open('txt/mantenimiento.txt', 'r') as archivo_mantenimiento:
         lista_info_mantenimiento = archivo_mantenimiento.readlines()
     for i in range(len(lista_info_mantenimiento)):
-        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_mantenimiento[i].strip().split(',')
-        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad, fichar = lista_info_mantenimiento[i].strip().split(',')
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad, fichar))
     return lista_mantenimiento
 
 def download_limpieza():    #Devuelve una lista con toda la informacion del personal de limpieza contenida en el .txt.
@@ -81,8 +79,8 @@ def download_limpieza():    #Devuelve una lista con toda la informacion del pers
     with open('txt/limpieza.txt', 'r') as archivo_limpieza:
         lista_info_limpieza = archivo_limpieza.readlines()
     for i in range(len(lista_info_limpieza)):
-        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad = lista_info_limpieza[i].strip().split(',')
-        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad))
+        tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad, fichar = lista_info_limpieza[i].strip().split(',')
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad, fichar))
     return lista_limpieza
 
 def download_habitaciones():
@@ -90,8 +88,8 @@ def download_habitaciones():
     with open('txt/habitaciones.txt', 'r') as archivo_habitaciones:
         lista_info_habitaciones = archivo_habitaciones.readlines()
     for i in range(len(lista_info_habitaciones)):
-        numero, tipo, precio_noche, bano_privado, ventana_balcon, disponible = lista_info_habitaciones[i].strip().split(',')
-        lista_habitaciones.append(Habitacion(numero, tipo, precio_noche, bano_privado, ventana_balcon, bool(disponible)))
+        numero, capacidad_maxima, tipo, precio_noche, bano_privado, ventana_balcon = lista_info_habitaciones[i].strip().split(',')
+        lista_habitaciones.append(Habitacion(numero, capacidad_maxima, tipo, precio_noche, bano_privado, ventana_balcon))
     return lista_habitaciones
 
 def download_reservas_activas(lista_clientes, lista_habitaciones):
@@ -142,7 +140,7 @@ def load_habitaciones(hotel):
     lista_habitaciones = hotel.lista_habitaciones
     archivo_habitaciones = open('txt/habitaciones.txt', 'w')
     for habitacion in lista_habitaciones:
-        archivo_habitaciones.write(f'{habitacion.numero},{habitacion.tipo},{habitacion.precio_noche},{habitacion.bano_privado},{habitacion.ventana_balcon},{habitacion.disponible}\n')
+        archivo_habitaciones.write(f'{habitacion.numero},{habitacion.capacidad_max},{habitacion.tipo},{habitacion.precio_noche},{habitacion.bano_privado},{habitacion.ventana_balcon}\n')
     archivo_habitaciones.close()
 
 def load_administrador(hotel):
@@ -161,21 +159,24 @@ def load_personal(lista_administrativo, lista_mantenimiento, lista_limpieza):
     load_administrativo(lista_administrativo)
     load_mantenimiento(lista_mantenimiento)
     load_limpieza(lista_limpieza)
-    
+
+# Carga al archivo txt de empleados de mantenimiento todos los empleados de mantenimiento.
 def load_administrativo(lista_administrativo):
     archivo_administrativo = open('txt/administrativo.txt', 'w')
     for administrativo in lista_administrativo:
         archivo_administrativo.write(f'{administrativo.tipo_usuario},{administrativo.dni},{administrativo.nombre},{administrativo.contra},{administrativo.fec_nac},{administrativo.genero},{administrativo.tel},{administrativo.mail},{administrativo.domicilio},{administrativo.fec_alta},{administrativo.fec_baja},{administrativo.cuil},{administrativo.sueldo}\n')
     archivo_administrativo.close()
 
+# Carga al archivo txt de empleados de limpieza todos los empleados de limpieza.
 def load_limpieza(lista_limpieza):
     archivo_limpieza = open('txt/limpieza.txt', 'w')
     for limpieza in lista_limpieza:
-        archivo_limpieza.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo},{limpieza.disponibilidad}\n')
+        archivo_limpieza.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo},{limpieza.disponibilidad},{limpieza.fichar}\n')
     archivo_limpieza.close()
 
+# Carga al archivo txt de empleados de mantenimiento todos los empleados de mantenimiento.
 def load_mantenimiento(lista_mantenimiento):
     archivo_mantenimiento = open('txt/mantenimiento.txt', 'w')
     for mantenimiento in lista_mantenimiento:
-        archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad}\n')
+        archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad},{mantenimiento.fichar}\n')
     archivo_mantenimiento.close()

@@ -42,4 +42,4 @@ def menu_administrativo(administrativo, hotel, lista_clientes, lista_mantenimien
             case 'g':
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c | d | e | f | g)')
+                print('Porfavor elija una de las opciones (a | b | c | d | e | f | g )')

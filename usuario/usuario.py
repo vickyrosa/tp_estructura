@@ -28,6 +28,7 @@ class Usuario:
     Fecha de alta: {self.fec_alta}
     '''
 
+    # Permite a cualquier usuario del sistema cambiar su contraseña
     def cambiar_contra(self):
         while True:
             self.contra = input('Ingrese nueva contraseña: ')

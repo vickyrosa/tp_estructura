@@ -20,4 +20,4 @@ def menu_limpieza(limpieza):
             case 'e':
                 break
             case _:
-                print('Porfavor elija una de las opciones (a | b | c | d | e)')
+                print('Porfavor elija una de las opciones (a | b | c | d | e )')

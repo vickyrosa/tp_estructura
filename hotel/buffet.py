@@ -1,5 +1,3 @@
-# IMPORT METODO DE PAGO
-
 class Buffet():
     def __init__(self):    
         self.menu = {'Desayuno': 2000,
@@ -8,14 +6,13 @@ class Buffet():
                     'Cena': 3000,
                     'Bebida': 1000,
                     'Snack' :1000}
-        
-    def __str__(self):
-        return self.menu
-
+     
+    # Para mostrar el menu cada vez cada llamamos a el metodo. 
     def mostrar_menu(self):
         for key in self.menu.keys():
             print(f'{key} -> ${self.menu[key]}')
     
+    # Los pedidos se preparan segun ingresaron a la cola.
     def procesar_pedidos(self, cola_pedidos):
         while cola_pedidos:
             pedido = cola_pedidos.popleft()
