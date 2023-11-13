@@ -1,6 +1,6 @@
 import datetime
 
-def metodo_de_pago():
+def metodo_de_pago(gasto):
     while True:
         opcion = input('''Seleccione un metodo de pago:
                     a. Efectivo
@@ -10,10 +10,12 @@ def metodo_de_pago():
         match opcion:
             case 'a':
                 efectivo()
+                cargar_gastos(gasto)
                 break
             case 'b':
                 if ingresar_tarjeta():
                     print('Pago realizado con exito.')
+                    cargar_gastos(gasto)
                     break
                 else:
                     pass
@@ -47,3 +49,7 @@ def ingresar_tarjeta():
         return False
     return True
 
+def cargar_gastos(gasto):
+    fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
+    with open('txt/gastos_diarios_aux.txt', 'a') as gastos_aux:
+        gastos_aux.write(f'{fecha_hoy},{gasto}\n')

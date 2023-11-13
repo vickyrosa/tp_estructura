@@ -35,7 +35,7 @@ TOTAL DIAS: {dias_totales}
 
 COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
 ''')
-        mp.metodo_de_pago()
+        mp.metodo_de_pago(hab.precio_noche*dias_totales)
     
     def lista_reservas_actuales(habitacion, hotel):
         listareservas = []

@@ -1,10 +1,9 @@
 from usuario.usuario import Usuario
 from hotel.reservas import Reserva
 from hotel.buffet import Buffet
-import hotel.hotel
+from hotel.hotel import Hotel
 from collections import deque
 import funciones.metodos_de_pagos as mp
-import funciones.costos_diarios as Costos
 import datetime
 import random
 
@@ -135,7 +134,6 @@ class Cliente(Usuario):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
                                 self.historico_gastos += hab.precio_noche*dias_totales
-                                Costos.load_historico_gastos(hab.precio_noche*dias_totales)
                                 return True
                     else:
                         if conbano == hab.tiene_bano_privado():
@@ -143,7 +141,6 @@ class Cliente(Usuario):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
                                 self.historico_gastos += hab.precio_noche*dias_totales
-                                Costos.load_historico_gastos(hab.precio_noche*dias_totales)
                                 return True
                 else:
                     if conventana is not None:
@@ -152,17 +149,15 @@ class Cliente(Usuario):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
                                 Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
                                 self.historico_gastos += hab.precio_noche*dias_totales
-                                Costos.load_historico_gastos(hab.precio_noche*dias_totales)
                                 return True
                     else:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
                             Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
                             self.historico_gastos += hab.precio_noche*dias_totales
-                            Costos.load_historico_gastos(hab.precio_noche*dias_totales)
                             return True
         print('No se encontro una habitacion disponible en las fechas con sus preferencias, por favor realize una nueva reserva cambiando los parametros y/o fechas')
-        
+    
     def ordenar_del_buffet(self):
         total = 0
         cola_pedidos = deque()
@@ -183,10 +178,9 @@ class Cliente(Usuario):
                 print("Comando incorrecto. Por favor, elija un plato del menu o salir.")
         
         print(f'Precio total: ${total}')
-        mp.metodo_de_pago()
+        mp.metodo_de_pago(total)
         buffet.procesar_pedidos(cola_pedidos)
         self.historico_gastos += total
-        Costos.load_historico_gastos(total)
         
     def cancelar_reserva(self, hotel):  ### SE LE VA A DESCONTAR AL CLIENTE???
         num_reserva_cancelar = int(input("Ingrese el número de reserva que desea cancelar: ").strip())
