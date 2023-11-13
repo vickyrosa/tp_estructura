@@ -85,7 +85,13 @@ class Cliente(Usuario):
         # por ende solo filtramos por tipo y fechas.
         conbano = None
         conventana = None
-        cant_personas = int(input('Cantidad de personas: '))
+        while True:
+            try:
+                cant_personas = int(input('Cantidad de personas: '))
+                if len(str(cant_personas)) != 0:
+                    break
+            except:
+                print('Ingrese un numero')
         while True:
             accion = input(''' 
                     a. Elegir con o sin baño
@@ -194,7 +200,12 @@ class Cliente(Usuario):
     # Cuando el usuario quiera cancelar una reserva no se le devolvera su plata y luego se elimina de la lista enlazada de reservas
     # activas la reserva. 
     def cancelar_reserva(self, hotel):  
-        num_reserva_cancelar = int(input("Ingrese el número de reserva que desea cancelar: ").strip())
+        while True:
+            try:
+                num_reserva_cancelar = int(input("Ingrese el número de reserva que desea cancelar: ").strip())
+                break
+            except:
+                print('Ingrese un numero')
         lista_reservas = hotel.lista_reservas_activas
         nodo = lista_reservas.cabeza
     # Corrobora que la reserva que se desea cancelar no este en curso
@@ -211,7 +222,7 @@ class Cliente(Usuario):
             nodo = nodo.prox
         print(f'No se encontró la reserva con el número {num_reserva_cancelar}.')
 
-    #Obtiene el dni del cliente que se logueo
+    # Obtiene el dni del cliente que se logueo
     def mostrar_reservas_cliente(self, hotel):
         dni_cliente = self.dni
         lista_reservas = hotel.lista_reservas_activas

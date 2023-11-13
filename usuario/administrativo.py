@@ -19,7 +19,7 @@ class Administrativo(Personal):
         tipo_usuario = 'Mantenimiento'
         cuil = flisi.pedir_cuil()
         sueldo = flisi.pedir_sueldo()
-        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True'))
+        lista_mantenimiento.append(Mantenimiento(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True', 'True'))
         print(f'El usuario del personal de mantenimiento con DNI: {dni} fue creado correctamente.')
         
     def sign_in_limpieza(self, lista_limpieza):
@@ -27,14 +27,14 @@ class Administrativo(Personal):
         tipo_usuario = 'Limpieza'
         cuil = flisi.pedir_cuil()
         sueldo = flisi.pedir_sueldo()
-        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True'))
+        lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, None, cuil, sueldo, 'True', 'True'))
         print(f'El usuario del personal de limpieza con DNI: {dni} fue creado correctamente.')
         
     # Un administrativo puede encargarle tareas a empleados de mantenimiento o de limpieza
     # Lo hace a través de un submenú
     def encargar_tareas(self, lista_mantenimiento, lista_limpieza):
         while True:
-            area = input(''' Elija una opcion:
+            area = input('''Elija una opcion:
                     a. Ordenar mantenimiento
                     b. Ordenar limpieza
                     c. Salir

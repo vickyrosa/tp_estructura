@@ -48,7 +48,10 @@ def ingresar_tarjeta():
         print('La tarjeta esta vencida, por favor seleccione otro metodo de pago o ingrese otra tarjeta')
         return False
     return True
-        
+
+# El archivo auxiliar se utiliza para seguir la fecha del último ingreso registrado. 
+# Si la fecha actual coincide con la fecha registrada en el archivo auxiliar, se actualizan los ingresos acumulados. 
+# Si son diferentes, se guarda la información del día anterior en un archivo de ingresos diarios y se inicia un nuevo registro para el día actual.       
 def load_ingresos(hotel, ingreso):
     ingreso = int(ingreso)
     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')

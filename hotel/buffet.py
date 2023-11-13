@@ -7,12 +7,12 @@ class Buffet():
                     'Bebida': 1000,
                     'Snack' :1000}
      
-    # Para mostrar el menu cada vez cada llamamos a el metodo. 
+    # Mostramos el menu cada vez cada llamamos a el metodo. 
     def mostrar_menu(self):
         for key in self.menu.keys():
-            print(f'{key} -> ${self.menu[key]}')
+            print(f'\t{key} -> ${self.menu[key]}')
     
-    # Los pedidos se preparan segun ingresaron a la cola.
+    # Se envian los pedidos a la cocina segun estos fueron ingresados a la cola.
     def procesar_pedidos(self, cola_pedidos):
         while cola_pedidos:
             pedido = cola_pedidos.popleft()

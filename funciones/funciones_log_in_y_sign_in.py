@@ -1,15 +1,16 @@
-#Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
+# Las siguientes funciones se utilizan cuando se requiera que el usuario ingrese informacion.
 import datetime
 from usuario.usuario import Usuario
 from usuario.cliente import Cliente
 
+# Verifica que el usuario no ingrese un parametro vacio
 def longitud(parametro):
-    if len(parametro) != 0:
+    if len(str(parametro)) != 0:
         return True
     else:
         print('No puede ingresar un parametro vacio')
         return False
-
+# Verificar que el DNI ingresado tenga las caracteristicas de un DNI Argentino
 def check_dni(dni):
     try:
         if not dni.isnumeric():
@@ -29,7 +30,7 @@ def pedir_dni():
 
 def pedir_nombre():
     while True:
-        nombre = input('Ingrese su nombre y apellido (Ej: Felipe Martin Oyerzabal): ').strip().title()
+        nombre = input('Ingrese su nombre y apellido: ').strip().title()
         if longitud(nombre):
             try:
                 for letra in nombre:
@@ -62,8 +63,7 @@ def pedir_fec_nac():
                 else:
                     print("Debe tener más de 18 años para ingresar.") 
             except ValueError:
-                print("""Formato de fecha invalido. 
-                    Por favor ingrese su fecha de nacimiento en el formato DD/MM/YYYY.""")
+                print('Formato de fecha invalido. Por favor ingrese su fecha de nacimiento en el formato DD/MM/YYYY.')
 
 def pedir_genero():
     while True:
@@ -84,13 +84,15 @@ def pedir_telefono():
                 return tel
             except ValueError as e:
                 print(e)
-    
 
 def pedir_mail():
     while True:
         mail = input('Ingrese su mail: ').lower().strip()
         if longitud(mail):
-            return mail
+            if '@' in mail:
+                return mail
+            else:
+                print('El mail debe contener un @')
 
 def pedir_domicilio():
     while True:
@@ -113,15 +115,16 @@ def pedir_cuil():
             except ValueError as e:
                 print(e)
 
-
 def pedir_sueldo():
     while True:
-        sueldo= input('Ingrese sueldo: ').strip()
-        if longitud(sueldo):
-            return sueldo
+        try:
+            sueldo = int(input('Ingrese sueldo: ').strip())
+            if longitud(sueldo):
+                return sueldo
+        except:
+            print('Ingrese un numero')
 
 # Le asignamos a variables la informacion del usuario mediante los metodos creados anteriormente.
-
 
 def pedir_datos_basicos_sing_in():
     while True:
@@ -141,7 +144,7 @@ def pedir_datos_basicos_sing_in():
     fec_alta = datetime.datetime.today().strftime('%d/%m/%Y')
     return dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta
 
-# Con las variables del metodo anterior anadimos a nuestra "base de datos" al usuario creado.
+# Con las variables del metodo anterior anadimos a nuestra "base de datos" al usuario del cliente creado.
 
 def sign_in_cliente(lista_clientes):
     dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta = pedir_datos_basicos_sing_in()
@@ -158,6 +161,9 @@ def buscar_usuario(lista, dni, contra):
         if persona.dni == dni and persona.contra == contra:
             return persona
     return None
+
+# Esta funcion nos permite realizarle al log in a un usuario sin saber que tipo de usuario es. Lueo de esta forma le vamos a mostrar
+# el menu indicado segun el tipo de usuario.
 
 def log_in(lista_clientes, lista_administrativo, lista_mantenimiento, lista_limpieza, hotel):
     dni = pedir_dni()

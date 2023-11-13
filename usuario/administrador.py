@@ -42,7 +42,10 @@ class Administrador(Personal):
     # empleaedos administrativos. Si lo encuentra le cambia el atributo de fecha de baja por hoy y lo agrega a el txt de ex-personal.
     # Luego lo borra de la lista de empleados administrativos y del set con usuarios.
     def despedir_administrativo(self, lista_administrativo):
-        dni = input('Ingrese DNI del administrativo a dar de baja: ').strip()
+        while True:
+            dni = input('Ingrese DNI del administrativo a dar de baja: ').strip()
+            if flisi.check_dni(dni):
+                break
         i = 0
         for administrativo in lista_administrativo:
             if administrativo.dni == dni:

@@ -10,7 +10,7 @@ def menu_administrador(administrador, hotel, lista_administrativo, lista_cliente
                     g. Cambiar contrasena
                     h. Log out
                     
-                    ''')
+                    ''').strip().lower()
         match opcion:
             case 'a':
                 administrador.porcentaje_ocupacion(hotel)

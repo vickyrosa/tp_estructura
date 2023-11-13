@@ -11,6 +11,10 @@ from hotel.habitacion import Habitacion
 from hotel.reservas import Reserva
 from collections import deque
 
+# Las funciones download se encargan de leer los archivos txt donde esta la informacion de corridas previas del codigo, de tal forma
+# que dicha informacion se guarda en distintas estructuras de datos (segun sea mas conveniente para cada caso) para poder modificarla,
+# leerla o realizar la operacion necesaria. De esta forma tambien evitamos estar constantemente abriendo y cerrando los archivos txt
+# obteniendo un codigo mas eficiente.
 
 def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
@@ -34,7 +38,7 @@ def download_ingresos():
             archivo_aux.write(f'{fecha_hoy},0')
         return 0
 
-def download_administrador():
+def download_administrador():   
     with open('txt/administrador.txt', 'r') as archivo_administrador:
         info_administrador = archivo_administrador.readlines()
     tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = info_administrador[0].strip().split(',')
@@ -108,13 +112,15 @@ def download_reservas_activas(lista_clientes, lista_habitaciones):
                 habitacion = hab
                 break
         # Verificamos si la reserva ya caduco o si sigue activa
+        # Si caduco se agrega al txt de historico general de reservas, si es una reserva activa se agrega a la lista enlazada.
         if datetime.datetime.strptime(fec_checkout, '%d/%m/%Y') < datetime.datetime.today():
             pila_reservas.append(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
         else:
             lista_reservas.agregar_reserva(Reserva(nroreserva, cliente, habitacion, fec_checkin, fec_checkout))
     historico_general_reservas(pila_reservas)
     return lista_reservas
-    
+
+# Extrae la informacion de la pila y la almacena en el txt   
 def historico_general_reservas(pila_reservas):
     historico_gral_reservas = open('txt/historico_gral_reservas.txt', 'a')
     while pila_reservas:
@@ -122,11 +128,15 @@ def historico_general_reservas(pila_reservas):
         historico_gral_reservas.write(f'{reserva.nroreserva},{reserva.cliente.dni},{reserva.habitacion.numero},{reserva.fec_checkin},{reserva.fec_checkout}\n')
     historico_gral_reservas.close()
 
+# Las funciones load se encargan de actualizar o sobreescribir (dependiendo el caso) los archivos txt, que en un principio de codigo
+# leimos para obtener la informacion, para que todos los cambios realizados perduren en el tiempo.
+
 def load_hotel(hotel):
     load_reservas_activas(hotel)
     load_habitaciones(hotel)
     load_administrador(hotel)
-    
+
+# Carga al archivo txt de reservas activas la informacion de las reservas almacenadas en la lista enlazada    
 def load_reservas_activas(hotel):
     lista_reservas_activas = hotel.lista_reservas_activas
     reserva_movil = lista_reservas_activas.cabeza
@@ -149,7 +159,6 @@ def load_administrador(hotel):
     archivo_administrador.write(f'{admin.tipo_usuario},{admin.dni},{admin.nombre},{admin.contra},{admin.fec_nac},{admin.genero},{admin.tel},{admin.mail},{admin.domicilio},{admin.fec_alta},{admin.fec_baja},{admin.cuil},{admin.sueldo}')  
 
 def load_clientes(lista_clientes):
-    # Una vez que cerramos el programa, cargo todos los datos, lo agrego a la base de datos
     archivo_clientes = open('txt/clientes.txt', 'w')
     for cliente in lista_clientes:
         archivo_clientes.write(f'{cliente.tipo_usuario},{cliente.dni},{cliente.nombre},{cliente.contra},{cliente.fec_nac},{cliente.genero},{cliente.tel},{cliente.mail},{cliente.domicilio},{cliente.fec_alta},{cliente.historico_gastos}\n')    

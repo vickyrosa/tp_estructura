@@ -9,7 +9,7 @@ def menu_cliente(cliente, hotel):
                     f. Cambiar contraseña
                     g. Log out
                         
-                    ''')
+                    ''').strip().lower()
         match opcion:
             case 'a':
                 cliente.reservar(hotel)
