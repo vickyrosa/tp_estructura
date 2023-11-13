@@ -24,7 +24,7 @@ def download_hotel(lista_clientes):
     hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas, ingresos_diarios)
     return hotel
 
-def download_ingresos():
+def download_ingresos(): #Devuelve la cantidad de ingresos diarios o 0, dependiendo de si hubo ingresos para la fecha actual.
     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
     with open('txt/ingresos_diarios_aux.txt', 'r') as archivo_aux:
         lista_info_ingresos = archivo_aux.readlines()
@@ -38,7 +38,7 @@ def download_ingresos():
             archivo_aux.write(f'{fecha_hoy},0')
         return 0
 
-def download_administrador():   
+def download_administrador():  #Devuelve la informacion del administrador contenida en el .txt. 
     with open('txt/administrador.txt', 'r') as archivo_administrador:
         info_administrador = archivo_administrador.readlines()
     tipo_usuario, dni, nombre, contra, fec_nac, genero, tel, mail, domicilio, fec_alta, fec_baja, cuil, sueldo = info_administrador[0].strip().split(',')
@@ -87,7 +87,7 @@ def download_limpieza():    #Devuelve una lista con toda la informacion del pers
         lista_limpieza.append(Limpieza(tipo_usuario, dni, nombre, contra, fec_nac, genero, telefono, mail, domicilio, fec_alta, fec_baja, cuil, sueldo, disponibilidad, fichar))
     return lista_limpieza
 
-def download_habitaciones():
+def download_habitaciones():    #Devuelve una lista con toda la informacion de la habitacion contenida en el .txt.
     lista_habitaciones = list()
     with open('txt/habitaciones.txt', 'r') as archivo_habitaciones:
         lista_info_habitaciones = archivo_habitaciones.readlines()
@@ -146,6 +146,7 @@ def load_reservas_activas(hotel):
         reserva_movil = reserva_movil.prox
     archivo_reservas.close()
 
+# Carga al archivo txt de habitaciones todas las habitaciones de la lista
 def load_habitaciones(hotel):
     lista_habitaciones = hotel.lista_habitaciones
     archivo_habitaciones = open('txt/habitaciones.txt', 'w')
@@ -153,11 +154,13 @@ def load_habitaciones(hotel):
         archivo_habitaciones.write(f'{habitacion.numero},{habitacion.capacidad_max},{habitacion.tipo},{habitacion.precio_noche},{habitacion.bano_privado},{habitacion.ventana_balcon}\n')
     archivo_habitaciones.close()
 
+# Carga al archivo txt de administrador los datos del mismo.
 def load_administrador(hotel):
     admin = hotel.admin
     archivo_administrador = open('txt/administrador.txt', 'w')
     archivo_administrador.write(f'{admin.tipo_usuario},{admin.dni},{admin.nombre},{admin.contra},{admin.fec_nac},{admin.genero},{admin.tel},{admin.mail},{admin.domicilio},{admin.fec_alta},{admin.fec_baja},{admin.cuil},{admin.sueldo}')  
 
+# Carga al archivo txt de clientes todos los clientes de la lista
 def load_clientes(lista_clientes):
     archivo_clientes = open('txt/clientes.txt', 'w')
     for cliente in lista_clientes:
