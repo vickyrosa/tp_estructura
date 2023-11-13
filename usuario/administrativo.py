@@ -1,5 +1,4 @@
 from usuario.personal import Personal
-import funciones.funciones_auxiliares as fa
 from hotel.reservas import Reserva 
 import funciones.funciones_log_in_y_sign_in as flisi
 from usuario.limpieza import Limpieza
@@ -181,7 +180,7 @@ class Administrativo(Personal):
                     ex_personal.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo}\n')
                 del(lista_mantenimiento[i])
                 Usuario.set_dni.discard(mantenimiento.dni)
-                Usuario.set_cuil.discard(mantenimiento.cuil)
+                Personal.set_cuil.discard(mantenimiento.cuil)
                 print(f'{mantenimiento.nombre}, personal de Mantenimiento ha sido despedido correctamente')
                 return
             i += 1
@@ -193,7 +192,7 @@ class Administrativo(Personal):
                     ex_personal.write(f'{limpieza.tipo_usuario},{limpieza.dni},{limpieza.nombre},{limpieza.contra},{limpieza.fec_nac},{limpieza.genero},{limpieza.tel},{limpieza.mail},{limpieza.domicilio},{limpieza.fec_alta},{limpieza.fec_baja},{limpieza.cuil},{limpieza.sueldo}\n')
                 del(lista_limpieza[i])
                 Usuario.set_dni.discard(limpieza.dni)
-                Usuario.set_cuil.discard(limpieza.cuil)
+                Personal.set_cuil.discard(limpieza.cuil)
                 print(f'{limpieza.nombre}, personal de Limpieza ha sido despedido correctamente')
                 return
             i += 1

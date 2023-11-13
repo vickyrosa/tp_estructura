@@ -54,7 +54,7 @@ class Administrador(Personal):
                     ex_personal.write(f'{administrativo.tipo_usuario},{administrativo.dni},{administrativo.nombre},{administrativo.contra},{administrativo.fec_nac},{administrativo.genero},{administrativo.tel},{administrativo.mail},{administrativo.domicilio},{administrativo.fec_alta},{administrativo.fec_baja},{administrativo.cuil},{administrativo.sueldo}\n')
                 del(lista_administrativo[i])
                 Usuario.set_dni.discard(administrativo.dni)
-                Usuario.set_cuil.discard(administrativo.cuil)
+                Personal.set_cuil.discard(administrativo.cuil)
                 print(f'{administrativo.nombre} ha sido despedido correctamente')
                 return
             i += 1

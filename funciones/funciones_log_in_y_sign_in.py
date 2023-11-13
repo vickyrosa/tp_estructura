@@ -2,6 +2,7 @@
 import datetime
 from usuario.usuario import Usuario
 from usuario.cliente import Cliente
+from usuario.personal import Personal
 
 # Verifica que el usuario no ingrese un parametro vacio
 def longitud(parametro):
@@ -109,7 +110,7 @@ def pedir_cuil():
                         raise ValueError("El CUIL debe tener caracteres numéricos.")
                 if len(cuil) < 11:
                         raise ValueError("El CUIL debe contener al menos 11 digitos")
-                if cuil in Usuario.set_cuil:
+                if cuil in Personal.set_cuil:
                     raise ValueError("El CUIL ingresado ya existe. Por favor ingrese otro CUIL.")
                 return cuil
             except ValueError as e:
