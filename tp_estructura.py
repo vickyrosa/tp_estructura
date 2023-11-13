@@ -6,7 +6,6 @@ import funciones.menu_administrativo as menu_administrativo
 import funciones.menu_limpieza as menu_limpieza
 import funciones.menu_mantenimiento as menu_mantenimiento
 import funciones.menu_administrador as menu_administrador
-import funciones.costos_diarios as Costos
 
 if __name__ == '__main__':
     lista_clientes = fa.download_clientes()

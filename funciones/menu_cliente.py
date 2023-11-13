@@ -15,7 +15,7 @@ def menu_cliente(cliente, hotel):
             case 'b':
                 cliente.cancelar_reserva(hotel)
             case 'c':
-                cliente.ordenar_del_buffet()
+                cliente.ordenar_del_buffet(hotel)
             case 'd':
                 cliente.ver_categoria()
             case 'e':

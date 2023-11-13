@@ -1,6 +1,6 @@
 import datetime
 
-def metodo_de_pago(gasto):
+def metodo_de_pago(hotel, ingreso):
     while True:
         opcion = input('''Seleccione un metodo de pago:
                     a. Efectivo
@@ -10,12 +10,12 @@ def metodo_de_pago(gasto):
         match opcion:
             case 'a':
                 efectivo()
-                cargar_gastos(gasto)
+                load_ingresos(hotel, ingreso)
                 break
             case 'b':
                 if ingresar_tarjeta():
                     print('Pago realizado con exito.')
-                    cargar_gastos(gasto)
+                    load_ingresos(hotel, ingreso)
                     break
                 else:
                     pass
@@ -48,8 +48,19 @@ def ingresar_tarjeta():
         print('La tarjeta esta vencida, por favor seleccione otro metodo de pago o ingrese otra tarjeta')
         return False
     return True
-
-def cargar_gastos(gasto):
+        
+def load_ingresos(hotel, ingreso):
+    ingreso = int(ingreso)
     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
-    with open('txt/gastos_diarios_aux.txt', 'a') as gastos_aux:
-        gastos_aux.write(f'{fecha_hoy},{gasto}\n')
+    with open('txt/ingresos_diarios_aux.txt', 'r') as archivo_aux:
+        fecha = archivo_aux.read(10)
+    if fecha_hoy == fecha:
+        hotel.ingresos_diarios += ingreso
+        with open('txt/ingresos_diarios_aux.txt', 'w') as archivo_aux:
+            archivo_aux.write(f"{fecha_hoy},{hotel.ingresos_diarios}")
+    else:
+        with open('txt/ingresos_diarios.txt', 'a') as archivo_ingresos:
+            archivo_ingresos.write(f"Fecha: {fecha} - Ingresos Totales: {hotel.ingresos_diarios}\n\n")
+        hotel.ingresos_diarios = ingreso
+        with open('txt/ingresos_diarios_aux.txt', 'w') as archivo_aux:
+            archivo_aux.write(f"{fecha_hoy},{hotel.ingresos_diarios}")

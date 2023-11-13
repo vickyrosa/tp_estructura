@@ -132,14 +132,14 @@ class Cliente(Usuario):
                         if conbano == hab.tiene_bano_privado() and conventana == hab.tiene_ventana_balcon():
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
+                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales, hotel)
                                 self.historico_gastos += hab.precio_noche*dias_totales
                                 return True
                     else:
                         if conbano == hab.tiene_bano_privado():
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
+                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales, hotel)
                                 self.historico_gastos += hab.precio_noche*dias_totales
                                 return True
                 else:
@@ -147,18 +147,18 @@ class Cliente(Usuario):
                         if conventana == hab.tiene_ventana_balcon():
                             if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                                 hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
-                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
+                                Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales, hotel)
                                 self.historico_gastos += hab.precio_noche*dias_totales
                                 return True
                     else:
                         if Reserva.disponibilidad(fec_checkin,fec_checkout,hab, hotel):
                             hotel.lista_reservas_activas.agregar_reserva(Reserva(numero_reserva, self, hab, fec_checkin, fec_checkout))
-                            Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales)
+                            Reserva.confirmacion_reserva(numero_reserva, self, hab, fec_checkin, fec_checkout, dias_totales, hotel)
                             self.historico_gastos += hab.precio_noche*dias_totales
                             return True
         print('No se encontro una habitacion disponible en las fechas con sus preferencias, por favor realize una nueva reserva cambiando los parametros y/o fechas')
     
-    def ordenar_del_buffet(self):
+    def ordenar_del_buffet(self, hotel):
         total = 0
         cola_pedidos = deque()
         buffet = Buffet()
@@ -178,7 +178,7 @@ class Cliente(Usuario):
                 print("Comando incorrecto. Por favor, elija un plato del menu o salir.")
         
         print(f'Precio total: ${total}')
-        mp.metodo_de_pago(total)
+        mp.metodo_de_pago(hotel, total)
         buffet.procesar_pedidos(cola_pedidos)
         self.historico_gastos += total
         

@@ -18,31 +18,23 @@ def download_hotel(lista_clientes):
     lista_habitaciones = download_habitaciones()
     lista_reservas_activas = download_reservas_activas(lista_clientes, lista_habitaciones)
     admin = download_administrador()
-    download_ingresos()
-    hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas)
+    ingresos_diarios = download_ingresos()
+    hotel = Hotel(admin, lista_habitaciones, lista_reservas_activas, ingresos_diarios)
     return hotel
 
 def download_ingresos():
-    with open('txt/gastos_diarios_aux', 'r') as gastos_aux:
-        lista_info_gastos = gastos_aux.readlines()
     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
-    # Verificamos que la fecha del primer gasto registrado de la lista sea de la fecha de hoy
-    # Cuando esto no suceda significa que paso de dia, por ende ya podemos asegurar que las compras totales del dia previo estan todas.
-    if fecha_hoy == lista_info_gastos[0][:10]:
-        pass
+    with open('txt/ingresos_diarios_aux.txt', 'r') as archivo_aux:
+        lista_info_ingresos = archivo_aux.readlines()
+    fecha, ingresos_diarios = lista_info_ingresos[0].strip().split(',')
+    if fecha_hoy == fecha:
+        return ingresos_diarios
     else:
-        with open('txt/gastos_diarios_aux', 'w') as gastos_aux:
-            gastos_aux.write('')
-        gasto_total = 0
-        for i in range(len(lista_info_gastos)):
-            fecha, gasto = lista_info_gastos[i].strip().split(',')
-            if fecha != fecha_hoy:
-                gasto_total += gasto
-            else:
-                with open('txt/gastos_diarios_aux', 'a') as gastos_aux:
-                    gastos_aux.write(f'{fecha},{gasto}\n')
-        with open('txt/gastos_diarios.txt', 'a') as gastos_diarios:
-            gastos_diarios.write(f'Fecha: {lista_info_gastos[0][:10]} - Recaudacion Total: {gasto_total}\n\n')
+        with open('txt/ingresos_diarios.txt', 'a') as archivo_ingresos:
+            archivo_ingresos.write(f'Fecha: {fecha} - Ingresos Totales: {ingresos_diarios}\n\n')
+        with open('txt/ingresos_diarios_aux.txt', 'w') as archivo_aux:
+            archivo_aux.write(f'{fecha_hoy},0')
+        return 0
 
 def download_administrador():
     with open('txt/administrador.txt', 'r') as archivo_administrador:
@@ -187,23 +179,3 @@ def load_mantenimiento(lista_mantenimiento):
     for mantenimiento in lista_mantenimiento:
         archivo_mantenimiento.write(f'{mantenimiento.tipo_usuario},{mantenimiento.dni},{mantenimiento.nombre},{mantenimiento.contra},{mantenimiento.fec_nac},{mantenimiento.genero},{mantenimiento.tel},{mantenimiento.mail},{mantenimiento.domicilio},{mantenimiento.fec_alta},{mantenimiento.fec_baja},{mantenimiento.cuil},{mantenimiento.sueldo},{mantenimiento.disponibilidad}\n')
     archivo_mantenimiento.close()
-
-# def load_historico_gastos(hotel, costo):
-#     # Gastos diarios aux: Sirve para quedarme con el ultimo hotel.ingresos diarios del dia.
-#     # Gastos diarios: Sirve para quedarse con el ultimo hotel.ingresos diarios de todos los dias
-#     # Recaudacion: Sirve para dejar cada transaccion hecha en el hotel
-#     # Paso la fecha de hoy a formato deseado (primero a str y despues devuelta a fecha)
-#     fecha_hoy = datetime.datetime.now().strftime('%d/%m/%Y')
-#     with open('txt/gastos_diarios_aux.txt', 'r') as archivo_aux:
-#         fecha = archivo_aux.read(10)
-#     if fecha_hoy == fecha:
-#         hotel.ingresos_diarios += costo
-#     else:
-#         with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_diaria:
-#             archivo_recaudacion_diaria.write(f"Fecha: {fecha}, Recaudacion Total: {hotel.ingresos_diarios}\n")
-#         hotel.ingresos_diarios = costo
-#     with open('txt/recaudacion.txt', 'a') as archivo_recaudacion_total:
-#         archivo_recaudacion_total.write(f"Fecha: {fecha_hoy}, Gasto: {costo}\n")
-#     with open('txt/gastos_diarios_aux.txt', 'w') as archivo_aux:
-#         archivo_aux.write(f"{fecha_hoy},{hotel.ingresos_diarios}\n")
-#     return fecha_hoy

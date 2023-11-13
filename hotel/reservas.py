@@ -20,7 +20,7 @@ class Reserva:
         else:
             return False
     
-    def confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales):
+    def confirmacion_reserva(numero_reserva, usuario, hab, fec_checkin, fec_checkout, dias_totales, hotel):
         print(f'''La reserva fue efectuada correctamente.
 NUMERO DE RESERVA: {numero_reserva}
 
@@ -35,7 +35,7 @@ TOTAL DIAS: {dias_totales}
 
 COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
 ''')
-        mp.metodo_de_pago(hab.precio_noche*dias_totales)
+        mp.metodo_de_pago(hotel, hab.precio_noche*dias_totales)
     
     def lista_reservas_actuales(habitacion, hotel):
         listareservas = []
