@@ -1,6 +1,6 @@
 Nombre          DNI       Telefono    Mail
 Tomas Rodriguez  12345678  123  t@r.com
-Prueba  44111222  123123123  prueba@hotmail.com
+Jeronimo Puebla  44111222  123123123  prueba@hotmail.com
 Felipe Oyarazbal  44448967  1123267550  foyarzabal@itba.edu.ar
 Maria Perez  38446789  1145326598  mperez@yahoo.com.ar
 Juan Capo  44789456  1159868587  hola@yahoo.com

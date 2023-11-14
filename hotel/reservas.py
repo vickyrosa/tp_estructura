@@ -58,19 +58,20 @@ COSTO TOTAL: ${hab.precio_noche*dias_totales} (${hab.precio_noche} por noche)
         lista_reservas_x_hab = Reserva.lista_reservas_actuales(habitacion, hotel)
         if len(lista_reservas_x_hab) == 0:
             return True
-        # Se fija si la fecha de check-out de la reserva es anterior a la primera fecha de checkin.
-        if fecha_checkout < lista_reservas_x_hab[0]:
+        # Se fija si la fecha de check-out de la reserva es anterior o igual a la primera fecha de checkin (pues consideramos que el
+        # check-out se realiza temprano y el check in seguido a el).
+        if fecha_checkout <= lista_reservas_x_hab[0]:
             return True
         i = 2
-        # Se fija si la fecha de check-in de la reserva actual es posterior a la fecha de check-out de la reserva anterior y la fecha
-        # de check-out de la reserva actual es anterior a la fecha de check-in de la siguiente reserva, entonces la habitación está disponible.
+        # Se fija si la fecha de check-in de la reserva actual es posterior o igual a la fecha de check-out de la reserva anterior y la fecha
+        # de check-out de la reserva actual es anterior o igual a la fecha de check-in de la siguiente reserva, entonces la habitación está disponible.
         # Esto es posible porque la lista de resevas x habitacion está ordenada.
         while i < len(lista_reservas_x_hab):
-            if fecha_checkin > lista_reservas_x_hab[i-1] and fecha_checkout < lista_reservas_x_hab[i]:
+            if fecha_checkin >= lista_reservas_x_hab[i-1] and fecha_checkout <= lista_reservas_x_hab[i]:
                 return True
             i += 2
-        # Si la fecha de check-in es posterior a la fecha de check-out de la última reserva en la lista, entonces está disponible.
-        if fecha_checkin > lista_reservas_x_hab[i-1]:
+        # Si la fecha de check-in es posterior o igual a la fecha de check-out de la última reserva en la lista, entonces está disponible.
+        if fecha_checkin >= lista_reservas_x_hab[i-1]:
             return True
         return False
     

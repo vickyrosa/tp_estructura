@@ -1,1 +1,1 @@
-Administrador,11222333,Jefe,a,01/01/1960,M,123456,jefe@hotel.com,a1,01/01/1990,None,12345678911,10000
+Administrador,11222333,Jefe,a,01/01/1960,M,1123456789,jefe@hotel.com,a1,01/01/1990,None,12345678911,10000
